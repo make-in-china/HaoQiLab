@@ -2,14 +2,19 @@
 import React from 'react-ex';
 import Antd from 'antd-min';
 import CircularText from '../../Components/CircularText';
-import '../assert/index.css';
+// import '../assert/index.css';
+
+const logo = require('../assert/logo.png');
 const { Header } = Antd.Layout;
 
 @React.eclass({
     logo: [
         'f-gray fb float'.split(' '),
         {
-            ' .logo': ['wem-6 hem-6 inline memt-2'.split(' ')],
+            ' .logo': [
+                `background-image:url(${logo});background-size:100%;`,
+                'wem-6 hem-6 inline memt-2'.split(' ')
+            ],
             ' span': ['vertical-align:top;', 'meml_-5 inline'.split(' ')]
         }
     ]
