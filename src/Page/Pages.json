@@ -15,7 +15,12 @@
         "reactex.html"
     ],
     [
-        "仿antd文档",
+        "jquery",
+        "ReactJquery",
+        "reactJquery.html"
+    ],
+    [
+        "antd",
         "Document",
         "document.html",
         true

@@ -1,6 +1,7 @@
 
 import React from 'react-ex';
-import CPNLoader from '../Components/CPNLoader';
+
+import CPNLoader from '../Components/CPNLoader'; 
 import '../index.css';
 import CSSClassRule from '../CSS/CSSClassRule';
 const pages = require('./Pages.json');
