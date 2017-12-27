@@ -34,7 +34,7 @@ module.exports = {
         })(config, env);
 
 
-
+        // region 二次修改webpack.config.js的结果
         const entry = {};
 
         //获取后缀名
@@ -209,8 +209,8 @@ module.exports = {
                 addHtmlWebpackPlugin(['Lib/Antd.Base', "Page/" + pages[i][1] + '/Index' + prod], pages[i][2])
             }
         }
-
-        console.log(entry);
+        // endregion
+        console.dir(entry);
 
         return config;
     },
@@ -222,7 +222,7 @@ module.exports = {
             for (var i = 0; i < pages.length; i++) {
                 rewrites.push({ from: new RegExp(`^\/` + pages[i][2].replace('.', '\\.')), to: '/' + pages[i][2] })
             }
-            console.log(rewrites);
+            console.dir(rewrites);
             result.historyApiFallback.rewrites = rewrites;
 
             return result
