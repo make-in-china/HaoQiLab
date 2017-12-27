@@ -69,6 +69,7 @@ module.exports = {
             });
         }
         function addEntry(keyAndPath, min, ext) {
+
             if (min) {
                 entry[keyAndPath] = [
                     require.resolve("./src/" + keyAndPath + ext),
@@ -77,7 +78,7 @@ module.exports = {
 
                 if (env === 'production') {
                     entry[keyAndPath] = [
-                        require.resolve('./config/polyfills'),
+                        require.resolve('react-scripts-ts/config/polyfills'),
                         require.resolve("./src/" + keyAndPath + ext),
                     ]
                 } else {
