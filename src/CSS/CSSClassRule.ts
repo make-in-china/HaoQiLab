@@ -177,6 +177,10 @@ const rule1: any = {
     attrtext: `content: attr(Text);`,
 
     float: `float:left;`,
+    floatl: `float:left;`,
+    // region 2017年12月28日, AM 08:41:22
+    floatr: `float:right;`,
+    // endregion
 
     shadowless: `-webkit-box-shadow: inset 0 0 1px #000,.125em .125em 1em rgba(0,0,0,.2);box-shadow:inset 0 0 1px #000,.125em .125em 1em rgba(0,0,0,.2);`,
     shadowless2: `-webkit-box-shadow: .125em .125em 1em rgba(0,0,0,.2);box-shadow:.125em .125em 1em rgba(0,0,0,.2);`,
