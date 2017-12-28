@@ -5,48 +5,111 @@ namespace ReactEx {
     let renderCSSClass: cssClassNS.CSSClass = CSS.instance;
     let isHookCreateElement = false;
     let createElementReactNodes: {
-        type: JSX.Element|string,
+        type: JSX.Element | string,
         props: EClassProps & { className?: string, children?: React.ReactNode[] } | undefined,
 
     }[] = [];
     const _ReactcreateElement = _React.createElement;
-    Object.defineProperty(_React, 'createElement', {
-        value: function (
-            type: JSX.Element|string,
-            props?: EClassProps & { className?: string },
-            ...children: React.ReactNode[]) {
-            if (isHookCreateElement) {
-                createElementReactNodes.push({
-                    type: type,
-                    props: { ...props, children },
-                });
-            }
-            if (props) {
-                if (props.EClass !== undefined && props.EClass.trim() !== '') {
-                    const clses = renderCSSClass.parse(props.EClass);
-                    if (props.className === undefined) {
-                        props.className = clses.join(' ');
-                    } else {
-                        props.className += ' ' + clses.join(' ');
-                    }
-                    delete props.EClass;
-                }
-                for (const v in cssClassNS.cssClassSelectorMap) {
-                    const vEClass = props['EClass-' + v];
-                    if (vEClass) {
-                        const clses = renderCSSClass.parse(vEClass, v as any);
+    function isString(a: any): a is string {
+        return '[object String]' === Object.prototype.toString.call(a);
+    }
+    // function isObject(a: any): a is string {
+    //     return '[object Object]' === Object.prototype.toString.call(a);
+    // }
+    function createElement(type: JSX.Element | string, props?: Record<string, any>, ...children: React.ReactNode[]) {
+        if (isHookCreateElement) {
+            createElementReactNodes.push({
+                type: type,
+                props: { ...props, children },
+            });
+        }
+        if (props) {
+            const eClass: string | AsyncEClass = props.EClass;
+            if (eClass !== undefined) {
+                const css = renderCSSClass;
+                if (isString(eClass)) {
+                    if (eClass.trim() !== '') {
+                        const clses = css.parse(eClass);
                         if (props.className === undefined) {
                             props.className = clses.join(' ');
                         } else {
                             props.className += ' ' + clses.join(' ');
                         }
-                        delete props['EClass-' + v];
+                        delete props.EClass;
                     }
+                } else if ('setClass' in eClass) {
+                    // 加ref
+                    let oldRef: Function | undefined = undefined;
+                    if ('ref' in props) {
+                        oldRef = props.ref;
+                    }
+                    props.ref = function (instance: HTMLElement | null) {
+                        // 在ref里设置instance
+                        eClass.instance = instance;
+                        if (oldRef) {
+                            oldRef(instance);
+                        }
+                    };
+
+                    let oldList: string[] | undefined;
+                    eClass.onChange = function (newEClass: string) {
+                        const elem = eClass.instance;
+                        let clsList: string[] | undefined = undefined;
+                        if (elem) {
+                            clsList = css.parse(newEClass);
+                            const lst = elem.classList;
+                            if (oldList) {
+                                for (let i = 0; i < oldList.length; i++) {
+                                    if (lst.contains(oldList[i])) {
+                                        lst.remove(oldList[i]);
+                                    }
+                                }
+                            }
+                            for (let i = 0; i < clsList.length; i++) {
+                                if (!lst.contains(clsList[i])) {
+                                    lst.add(clsList[i]);
+                                }
+                            }
+                        }
+                        oldList = clsList;
+                    };
+                    if (eClass.fixedClass.trim() !== '') {
+                        const fixedClsList = css.parse(eClass.fixedClass);
+                        if (props.className === undefined) {
+                            props.className = fixedClsList.join(' ');
+                        } else {
+                            props.className += ' ' + fixedClsList.join(' ');
+                        }
+                    }
+                    if (eClass.defaultClass.trim() !== '') {
+                        oldList = css.parse(eClass.defaultClass);
+                        if (props.className === undefined) {
+                            props.className = oldList.join(' ');
+                        } else {
+                            props.className += ' ' + oldList.join(' ');
+                        }
+                    }
+                    delete props.EClass;
+
+                }
+
+            }
+            for (const v in cssClassNS.cssClassSelectorMap) {
+                const vEClass = props['EClass-' + v];
+                if (vEClass) {
+                    const clses = renderCSSClass.parse(vEClass, v as any);
+                    if (props.className === undefined) {
+                        props.className = clses.join(' ');
+                    } else {
+                        props.className += ' ' + clses.join(' ');
+                    }
+                    delete props['EClass-' + v];
                 }
             }
-            return _ReactcreateElement.apply(_React, arguments);
         }
-    });
+        return _ReactcreateElement.apply(_React, arguments);
+    }
+    Object.defineProperty(_React, 'createElement', { value: createElement });
     export interface EClassProps {
         EClass?: string;
         ['EClass-bf']?: string;
@@ -94,6 +157,17 @@ namespace ReactEx {
             }
         };
     }
+    export class AsyncEClass {
+        instance: HTMLElement | null;
+        onChange?: (this: AsyncEClass, newClass: string) => void;
+        constructor(public fixedClass: string, public defaultClass: string) { }
+        setClass(newClass: string) {
+            if (this.onChange) {
+                this.onChange(newClass);
+            }
+
+        }
+    }
     /**
      * 注册eclass
      * @param rule 
@@ -133,6 +207,7 @@ namespace ReactEx {
             result: reactNode
         };
     }
+
     export class Component<P = {}, S = {}> extends _React.Component<P, S> {
         static cssClass?: cssClassNS.CSSClass;
         static renderReactNode(fn: (this: void) => React.ReactNode) {

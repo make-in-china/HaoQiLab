@@ -2440,8 +2440,13 @@ declare namespace React {
 
         [propertyName: string]: any;
     }
+
     interface TurtleAttributes<T> {
-        EClass?: string;
+        EClass?: string | {
+            instance: HTMLElement | null;
+            onChange?: (newClass: string) => void;
+            setClass(newClass: string): void;
+        };
         ['EClass-bf']?: string;
         ['EClass-af']?: string;
         ['EClass-ac']?: string;
