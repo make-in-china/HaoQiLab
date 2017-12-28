@@ -1,5 +1,3 @@
-import '../../index.css';
+import './Index.prod';
 import registerServiceWorker from '../../Helper/registerServiceWorker';
-import init from '../../Helper/Init';
-init('ReactJQuery');
 registerServiceWorker();
