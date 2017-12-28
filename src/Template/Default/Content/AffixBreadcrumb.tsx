@@ -4,13 +4,14 @@ import { observable } from 'mobx';
 import Antd from 'antd-min';
 import BreadcrumbItems from './BreadcrumbItems';
 import Clock from '../../../Components/Clock';
+const logo = require('../../assert/logo.png');
 @React.eclass({
     box: [{
         '.Affix': 'float:left;',
         '.Affix .Breadcrumb .BreadcrumbItem,.Affix .Breadcrumb .BreadcrumbItem a': React.calcStyle({ transition: 'color .3s' })
     }],
     box1: [{
-        '.Affix .logo': ['mdip-5 wem-3 hem-2 float'.split(' ')],
+        '.Affix .logo': [`background-image:url(${logo});background-size:100%;`, 'mdip-5 wem-3 hem-2 float'.split(' ')],
         '.Affix': 'padding-left:25px;',
         '.Affix .Breadcrumb': 'float:left;margin:8px 0;',
         '.Affix .ant-affix': 'left:0 !important;background-color:rgba(0,0,0,0.75);border-bottom-right-radius:1em;',

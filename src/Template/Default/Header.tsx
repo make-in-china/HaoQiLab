@@ -2,7 +2,6 @@
 import React from 'react-ex';
 import Antd from 'antd-min';
 import CircularText from '../../Components/CircularText';
-// import '../assert/index.css';
 
 const logo = require('../assert/logo.png');
 const { Header } = Antd.Layout;
