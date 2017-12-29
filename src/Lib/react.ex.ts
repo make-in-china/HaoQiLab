@@ -135,7 +135,7 @@ namespace ReactEx {
         ReactDOM.render(
             _React.createElement('div', {
                 // tslint:disable-next-line:typedef
-                ref: function (elem) {
+                ref: function (elem: HTMLElement | null) {
                     str = elem!.style.cssText;
                 },
                 style: style

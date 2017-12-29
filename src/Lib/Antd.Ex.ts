@@ -16,6 +16,8 @@ import _Slider from 'antd/es/slider';
 import _Col from 'antd/es/col';
 import _Radio from 'antd/es/radio';
 import _Switch from 'antd/es/switch';
+import _InputNumber from 'antd/es/input-number';
+import _Rate from 'antd/es/rate';
 
 (function (that: any) {
     that.Switch = _Switch;
@@ -35,4 +37,6 @@ import _Switch from 'antd/es/switch';
     that.Progress = _Progress;
     that.Table = _Table;
     that.Tooltip = _Tooltip;
-})( (window as any).Antd || ( (window as any).Antd = {}));
+    that.InputNumber = _InputNumber;
+    that.Rate = _Rate;
+})((window as any).Antd || ((window as any).Antd = {}));

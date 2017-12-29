@@ -78,8 +78,8 @@ export namespace cssClassNS {
     };
     export type CSSRule = CSSRuleBase[] | CSSRuleCallBack<any> | string;
     export type CSSRuleEx = (CSSRuleBase | CSSRuleBaseEx)[] | CSSRuleCallBack<any> | string | CSSRuleBaseEx;
-    // const classNameRuleRE = /^(([\w_]+)(-(bf|af|ac|hv|in|bfac|afac|bfhv|afhv|inbf|inaf|inac|inhv|inbfac|inbfhv|inafhv))?(-(\d+))?(-([\w\_\#][\.\w\_\#\d]*))?)$/;
-    const classNameRuleRE = /^(([\w_]+)(-(bf|af|ac|hv|in|bfac|afac|bfhv|afhv|inbf|inaf|inac|inhv|inbfac|inbfhv|inafhv))?(-(\d+))?(-([\w\_\#][\.\w\_\#\d]*))?)$/;
+    // const classNameRuleRE = /^(([\w_]+)(-(bf|af|ac|hv|chd|bfac|afac|bfhv|afhv|chdbf|chdaf|chdac|chdhv|chdbfac|chdbfhv|chdafhv))?(-(\d+))?(-([\w\_\#][\.\w\_\#\d]*))?)$/;
+    const classNameRuleRE = /^(([\w_]+)(-(bf|af|ac|hv|chd|bfac|afac|bfhv|afhv|chdbf|chdaf|chdac|chdhv|chdbfac|chdbfhv|chdafhv))?(-(\d+))?(-([\w\_\#][\.\w\_\#\d]*))?)$/;
     export interface CSSClassInfo {
         input: string; /* eclassname */
         name: string; /* 纯名字 */

@@ -25,7 +25,7 @@ export default class App extends React.Component {
             )
             ,
             (
-                <div style={{ height: '200px', overflowY: 'scroll' }} ref={(node) => { this.container = node; }}>
+                <div style={{ height: '200px', overflowY: 'scroll' }} ref={(node: HTMLElement) => { this.container = node; }}>
                     <div style={{ paddingTop: '60px', height: '400px' }}>
                         <Antd.Affix>
                             <Antd.Button type="primary">Affix top</Antd.Button>

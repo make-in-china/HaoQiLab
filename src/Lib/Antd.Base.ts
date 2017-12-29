@@ -8,7 +8,6 @@
 // import _Form from 'antd/es/form';
 // import _Select from 'antd/es/select';
 // import _Input from 'antd/es/input';
-// import _InputNumber from 'antd/es/input-number';
 // import _notification from 'antd/es/notification';
 // import _Pagination from 'antd/es/pagination';
 // import _Radio from 'antd/es/radio';
@@ -43,7 +42,6 @@ import _Layout from 'antd/es/layout';
 // import _LocaleProvider from 'antd/es/locale-provider';
 import _Menu from 'antd/es/menu';
 // import _Modal from 'antd/es/modal';
-// import _Rate from 'antd/es/rate';
 import _Spin from 'antd/es/spin';
 // import _Steps from 'antd/es/steps';
 // import _Transfer from 'antd/es/transfer';

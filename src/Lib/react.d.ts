@@ -75,7 +75,7 @@ declare namespace React {
     type ComponentType<P = {}> = ComponentClass<P> | StatelessComponent<P>;
 
     type Key = string | number;
-    type Ref<T> = string | { bivarianceHack(instance: HTMLElement | null): any }["bivarianceHack"];
+    type Ref<T> = string | { bivarianceHack(instance: ReactInstance | null): any }["bivarianceHack"];
 
     // tslint:disable-next-line:interface-over-type-literal
     type ComponentState = {};

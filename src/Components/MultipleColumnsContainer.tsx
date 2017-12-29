@@ -1,43 +1,63 @@
 import React from 'react-ex';
-import ColumnContainer from './ColumnContainer';
+import ContentList from './ContentList';
 export default class MultipleColumnsContainer
     extends React.Component<{
         datas: JSX.Element[]
         cols?: number
+        permissibleHeightGaps?: number
     }> {
-    cols = (this.props.cols && this.props.cols > this.props.datas.length ? this.props.datas.length : this.props.cols) || 2;
-    containers: ColumnContainer[] = [];
-    index: number = -1;
-
-    onRef = (elem: HTMLElement | null) => {
-        if (elem === null) {
-            return;
+    cols: number;
+    containers: ContentList[];
+    index: number;
+    permissibleHeightGaps: number;
+    componentWillReceiveProps(props: this['props']) {
+        this.cols = (props.cols && props.cols > props.datas.length ? props.datas.length : props.cols) || 2;
+        this.permissibleHeightGaps = props.permissibleHeightGaps !== undefined ? props.permissibleHeightGaps : 0;
+        if (this.containers) {
+            this.containers.forEach(item => item.clear());
         }
+        this.containers = [];
+        this.index = -1;
+
+    }
+    componentWillMount() {
+        this.componentWillReceiveProps(this.props);
+    }
+    componentDidMount() {
         this.pushElements();
     }
-
     render() {
         let ccs: JSX.Element[] = [];
         for (let i = 0; i < this.cols; i++) {
-            ccs.push(<ColumnContainer width={100 / this.cols} onDidMount={this.onColumnContainerDidMount} onDidUpdate={this.onColumnContainerDidUpdate} />);
+            ccs.push(
+                <div ref={String(i)} style={{ width: 100 / this.cols + '%', verticalAlign: 'top' }} EClass="inline pdiplr-8">
+                    <ContentList onDidMount={this.onColumnContainerDidMount} onDidUpdate={this.onColumnContainerDidUpdate} />
+                </div>
+            );
         }
         return ccs;
     }
-    private onColumnContainerDidMount = (cc: ColumnContainer) => {
-        this.containers.push(cc);
+
+    private onColumnContainerDidMount = (cc: ContentList) => {
+        this.onColumnContainerDidUpdate(cc);
+    }
+    private onColumnContainerDidUpdate = (cc: ContentList) => {
+        // if (this.containers.indexOf(cc) === -1) {
+        //     this.containers.push(cc);
+        // }
+        if (this.containers.length < this.cols) {
+            this.containers.push(cc);
+        }
         if (this.containers.length === this.cols) {
-            this.pushElements();
+            window.setTimeout(() => this.pushElements(), 10);
         }
     }
-    private onColumnContainerDidUpdate = (cc: ColumnContainer) => {
-        this.pushElements();
-    }
-    private getMinHeightColumnContainer() {
-        let minHeight = 0x7fffffff;
+    private getMinHeightColumnContainer(): ContentList | undefined {
+        let minHeight = 0x7f000000;
         let minIndex = -1;
-        this.containers.forEach((value, index) => {
-            const scrollHeight = value.elem.scrollHeight;
-            if (scrollHeight < minHeight) {
+        this.containers.forEach((item, index) => {
+            const scrollHeight = (this.refs[String(index)] as HTMLElement).scrollHeight;
+            if (scrollHeight < minHeight-this.permissibleHeightGaps) {
                 minHeight = scrollHeight;
                 minIndex = index;
             }
@@ -49,8 +69,10 @@ export default class MultipleColumnsContainer
             return;
         }
         const minHeightCC = this.getMinHeightColumnContainer();
-        this.index++;
-        const data = this.props.datas[this.index];
-        minHeightCC.add(data);
+        if (minHeightCC) {
+            this.index++;
+            const data = this.props.datas[this.index];
+            minHeightCC.add(data);
+        }
     }
 }
