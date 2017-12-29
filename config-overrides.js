@@ -149,18 +149,61 @@ module.exports = {
                     if (oneOfRule.test) {
                         if (oneOfRule.test.source === '\\.(ts|tsx)$') {
                             oneOfRule.loader = require.resolve('awesome-typescript-loader');
-                        } else if (oneOfRule.test.options) {
-                            oneOfRule.test.options.name = vdir + oneOfRule.test.options.name;
-                        // }else if (oneOfRule.test.source === '\\.css$') {
-                        //     console.log(oneOfRule);
-                        //     throw new Error('xxxxxxxxxxxxxxxxxxxxxx')
+                        } else if (oneOfRule.test.source === '\\.css$') {
+                            // console.log(
+                            //     ExtractTextPlugin.extract(
+                            //         Object.assign(
+                            //             {
+                            //                 fallback: require.resolve('style-loader'),
+                            //                 use: [
+                            //                     {
+                            //                         loader: require.resolve('css-loader'),
+                            //                         options: {
+                            //                             importLoaders: 1,
+                            //                             minimize: true,
+                            //                             sourceMap: true,
+                            //                         },
+                            //                     },
+                            //                     {
+                            //                         loader: require.resolve('postcss-loader'),
+                            //                         options: {
+                            //                             // Necessary for external CSS imports to work
+                            //                             // https://github.com/facebookincubator/create-react-app/issues/2677
+                            //                             ident: 'postcss',
+                            //                             plugins: () => [
+                            //                                 require('postcss-flexbugs-fixes'),
+                            //                                 autoprefixer({
+                            //                                     browsers: [
+                            //                                         '>1%',
+                            //                                         'last 4 versions',
+                            //                                         'Firefox ESR',
+                            //                                         'not ie < 9', // React doesn't support IE8 anyway
+                            //                                     ],
+                            //                                     flexbox: 'no-2009',
+                            //                                 }),
+                            //                             ],
+                            //                         },
+                            //                     },
+                            //                 ],
+                            //             },
+                            //             { publicPath: Array(vdir + 'static/css/[name].[contenthash:8].css'.split('/').length).join('../') }
+                            //         )
+                            //     )
+
+                            // )
+                            // console.log(oneOfRule.use);
                         }
+                    }
+                    if (oneOfRule.options && oneOfRule.options.name!==undefined) {
+                        oneOfRule.options.name = vdir + oneOfRule.options.name;
+                        // console.log(oneOfRule.options.name);
                     }
 
                 }
                 break;
             }
         }
+        // throw new Error('xxxxxxxxxxxxxxxxxxxxxx')
         config.resolve.plugins.push(new TsConfigPathsPlugin());
         const plugins = config.plugins;
         let plugin;
@@ -181,14 +224,14 @@ module.exports = {
             }
             plugin = null;
         }
-        for (var ii=0; ii < plugins.length; ii++) {
+        for (var ii = 0; ii < plugins.length; ii++) {
             const plugin2 = plugins[index];
             if (plugin2 instanceof ExtractTextPlugin) {
                 plugin.options.filename = vdir + plugin.options.filename;
-                
+
             }
         }
-        
+
         function addHtmlWebpackPlugin(chunk, filename) {
             const prop = {
                 inject: true,
