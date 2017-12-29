@@ -3,6 +3,7 @@ const tsImportPluginFactory = require('ts-import-plugin')
 const { getLoader } = require("react-app-rewired");
 const rewireLess = require('react-app-rewire-less');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const theme = require('./theme.config.js');
 const { TsConfigPathsPlugin } = require('awesome-typescript-loader');
 const pages = require('./src/Page/Pages.json');
@@ -115,11 +116,12 @@ module.exports = {
         addEntrys("Page/Document/Content");
         addEntrys("Page/ReactEx/Content");
 
+        const vdir = 'HaoQiLab/';
 
         config.entry = entry;
         config.output.libraryTarget = 'umd';
-        config.output.filename = 'static/js/[name].js';
-        config.output.chunkFilename = 'static/js/[name].js';
+        config.output.filename = vdir + 'static/js/[name].js';
+        config.output.chunkFilename = vdir + 'static/js/[name].js';
 
 
         config.externals = {
@@ -144,9 +146,16 @@ module.exports = {
             if (oneOf) {
                 for (var k = 0; k < oneOf.length; k++) {
                     const oneOfRule = oneOf[k];
-                    if (oneOfRule.test && oneOfRule.test.source === '\\.(ts|tsx)$') {
-                        oneOfRule.loader = require.resolve('awesome-typescript-loader');
-                    };
+                    if (oneOfRule.test) {
+                        if (oneOfRule.test.source === '\\.(ts|tsx)$') {
+                            oneOfRule.loader = require.resolve('awesome-typescript-loader');
+                        } else if (oneOfRule.test.options) {
+                            oneOfRule.test.options.name = vdir + oneOfRule.test.options.name;
+                        // }else if (oneOfRule.test.source === '\\.css$') {
+                        //     console.log(oneOfRule);
+                        //     throw new Error('xxxxxxxxxxxxxxxxxxxxxx')
+                        }
+                    }
 
                 }
                 break;
@@ -172,6 +181,14 @@ module.exports = {
             }
             plugin = null;
         }
+        for (var ii=0; ii < plugins.length; ii++) {
+            const plugin2 = plugins[index];
+            if (plugin2 instanceof ExtractTextPlugin) {
+                plugin.options.filename = vdir + plugin.options.filename;
+                
+            }
+        }
+        
         function addHtmlWebpackPlugin(chunk, filename) {
             const prop = {
                 inject: true,

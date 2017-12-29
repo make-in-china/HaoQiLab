@@ -77,7 +77,7 @@ export default class CPNLoader
 
         const script = document.createElement('script');
         // script.setAttribute('key', props.src);
-        script.src = '/static/js/' + props.src + '.js';
+        script.src = '/HaoQiLab/static/js/' + props.src + '.js';
         script.onload = this.makeOnLoad(props);
         document.head.appendChild(script);
         this.map[props.src] = null;
