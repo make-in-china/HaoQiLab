@@ -9,7 +9,7 @@ export default class App
     }> {
     largeThenList: number[] = [];
     lessThenAndEqualList: number[] = [];
-    destList: string[] = [];
+    destList: string[];
     static makeArrByTemplate(template: string) {
         let arr: number[] = [];
         for (let i = 0; i < template.length; i++) {
@@ -46,7 +46,7 @@ export default class App
     }
     // 多次计算
     calcMain(str: string) {
-
+        this.destList = [];
         let strDest1 = '';
         let strDest2 = str;
         while (strDest2 !== strDest1) {
@@ -68,14 +68,13 @@ export default class App
         }
         return str;
     }
-
     render() {
 
         // 这里的○○会两边扩散（原题目里的小于5并连续的数字的简化模型）
         let source = this.calcStringMap(this.props.source);
         if (this.lessThenAndEqualList.length >= this.largeThenList.length) {
             return (
-                <div EClass="pdip-5 ladip shadowless2 mdip-5 rdip-5 uofauto">
+                <div EClass="nowrap-chd bd-14-gray pdip-5 ladip mdip-8 rdip-5 uofauto">
                     <div>原值：{JSON.stringify(this.props.source)}</div>
                     <div>原图：{source}</div>
                     <div style={{ color: '#f00' }}>连续特异值过多，无法完全扩散</div>
@@ -85,8 +84,8 @@ export default class App
         this.calcMain(source);
 
         return (
-            <div EClass="pdip-5 ladip mdip-5 rdip-5 uofauto">
-                <div>原值：{JSON.stringify(this.props.source)}</div>
+            <div EClass="pdip-5 bd-14-gray ladip mdip-8 rdip-5 uofauto">
+                <div EClass="nowrap">原值：{JSON.stringify(this.props.source)}</div>
                 <View
                     source={this.props.source}
                     sourceMap={source}

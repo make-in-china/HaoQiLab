@@ -6,6 +6,9 @@ const w = {
     wkboxh: 'display:-webkit-box;-webkit-box-orient:horizontal;'
 };
 const rule1: any = {
+    // region 2017年12月28日, PM 02:34:32
+    nowrap: `white-space:nowrap;`,
+    // endregion
     // region 2017年12月13日, PM 02:02:53
     uofauto: `overflow:auto;`,
     clr: `clear:both`,
@@ -247,11 +250,6 @@ const rule1: any = {
     rdipl(idx: number) { return this.rdiplt(idx) + this.rdiplb(idx); },
     rdipr(idx: number) { return this.rdiprt(idx) + this.rdiprb(idx); },
 
-    // 颜色系列
-    bg(idx: number, moreInfo: string) { return `background-color:${getColorByEClass(idx, moreInfo!)};`; },
-    bd(idx: number, moreInfo: string) { return `border-color:${getColorByEClass(idx, moreInfo!)};`; },
-    f(idx: number, moreInfo: string) { return `color:${getColorByEClass(idx, moreInfo!)};`; },
-
     // 锁定后缀系列
     click2: [/* "color:#000;",  */{
         bfac(this: any) { return `content:" ";background-color: rgba(0,0,0,0.1);` + this.full() + this.pointer; },
@@ -260,9 +258,17 @@ const rule1: any = {
     //     inbfac(this: any) { return this.click2.bfac() },
     // }
 };
+
+/* 覆盖rule1 */
 const rule2: any = {
     uhide: `display:none !important;`,
     abs: `position:absolute;`,
+
+    // 颜色系列
+    bg(idx: number, moreInfo: string) { return `background-color:${getColorByEClass(idx, moreInfo!)};`; },
+    bd(idx: number, moreInfo: string) { return `border-color:${getColorByEClass(idx, moreInfo!)};`; },
+    f(idx: number, moreInfo: string) { return `color:${getColorByEClass(idx, moreInfo!)};`; },
+
 };
 function rightString(str: string, count: number) {
     return str.substr(str.length - count, count);

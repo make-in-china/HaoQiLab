@@ -207,7 +207,51 @@ namespace ReactEx {
             result: reactNode
         };
     }
+    // region 待测
+    /* function isArray(a: any): a is Array<any> {
+        const type = Object.prototype.toString.call(a);
+        return '[object Array]' === type || ('[object Object]' === type && a.length !== undefined);
+    }
+    function isStringNumberBoolean(a: any): a is boolean | number | string {
+        switch (Object.prototype.toString.call(a)) {
+            case '[object String]':
+                return true;
+            case '[object Number]':
+                return true;
+            case '[object Boolean]':
+                return true;
+            default:
+                return false;
+        }
+    }
+    export function cloneReactNode(chd: React.ReactNode): React.ReactNode {
 
+        if (chd) {
+            if (isArray(chd)) {
+                const clone: React.ReactNode[] = [];
+                for (let i = 0; i < chd.length; i++) {
+                    const itm = chd[i];
+                    clone.push(cloneReactNode(itm));
+                }
+                return clone;
+            } else if (isStringNumberBoolean(chd)) {
+                return chd;
+            } else {
+                const node: any = chd;
+                if (node.props && node.props.children) {
+
+                    let props = node.props;
+                    return {
+                        ...node, ...{ props: { ...props, ...{ chilren: cloneReactNode(node.props.children) } } }
+                    };
+                } else {
+                    return { ...node };
+                }
+            }
+        }
+        return chd;
+    } */
+    // endregion
     export class Component<P = {}, S = {}> extends _React.Component<P, S> {
         static cssClass?: cssClassNS.CSSClass;
         static renderReactNode(fn: (this: void) => React.ReactNode) {

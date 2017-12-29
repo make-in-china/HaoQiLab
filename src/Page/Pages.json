@@ -28,7 +28,8 @@
     [
         "玩乐场",
         "Play",
-        "play.html"
+        "play.html",
+        true
     ],
     [
         "我",
