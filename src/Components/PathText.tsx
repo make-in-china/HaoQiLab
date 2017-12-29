@@ -6,7 +6,11 @@ import React from 'react-ex';
         ' text': 'font-size:2em;'
     }]
 })
-export default class PathText extends React.Component<{ path: string, text: string, fill?: string }> {
+export default class PathText
+    extends React.Component<{
+        path: string
+        fill?: string
+    }> {
     key = PathText.cssClass!.key;
     onRef = (instance: HTMLElement | null) => {
         if (!instance) {
@@ -20,7 +24,7 @@ export default class PathText extends React.Component<{ path: string, text: stri
             <div EClass="box">
                 <svg viewBox="0 0 100 100">
                     <path d={this.props.path} id={this.key + 'path'} />
-                    <text fill={this.props.fill ? this.props.fill : '#ffffff'}><textPath ref={this.onRef}>{this.props.text}</textPath></text>
+                    <text fill={this.props.fill ? this.props.fill : '#ffffff'}><textPath ref={this.onRef}>{this.props.children}</textPath></text>
                 </svg>
             </div >
         );
