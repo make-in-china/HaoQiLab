@@ -196,14 +196,12 @@ module.exports = {
                     }
                     if (oneOfRule.options && oneOfRule.options.name!==undefined) {
                         oneOfRule.options.name = vdir + oneOfRule.options.name;
-                        // console.log(oneOfRule.options.name);
                     }
 
                 }
                 break;
             }
         }
-        // throw new Error('xxxxxxxxxxxxxxxxxxxxxx')
         config.resolve.plugins.push(new TsConfigPathsPlugin());
         const plugins = config.plugins;
         let plugin;
@@ -225,13 +223,13 @@ module.exports = {
             plugin = null;
         }
         for (var ii = 0; ii < plugins.length; ii++) {
-            const plugin2 = plugins[index];
-            if (plugin2 instanceof ExtractTextPlugin) {
-                plugin.options.filename = vdir + plugin.options.filename;
-
+            const plugin2 = plugins[ii];
+            if (plugin2.constructor.name==='ExtractTextPlugin') {
+                plugin2.filename = vdir + plugin2.filename;
             }
         }
 
+        // throw new Error('\n\n\n\n\nxxxxxxxxxxxxxxxxxxxxxx')
         function addHtmlWebpackPlugin(chunk, filename) {
             const prop = {
                 inject: true,
