@@ -65,7 +65,7 @@ export default class App
             (
                 <div>
                     <div>渲染结果</div>
-                    <div EClass="box2" className="ant-col-24">{this.props.children}</div>
+                    <div EClass="box2">{this.props.children}</div>
                 </div>
             )
         ];
