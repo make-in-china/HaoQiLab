@@ -216,7 +216,12 @@ const reset = {
                 inject: true,
                 chunks: chunk,
                 template: 'public/index.html',
-                hash: true
+                hash: true,
+                chunksSortMode: function (chunk1, chunk2) {
+                    var order1 = chunk.indexOf(chunk1.names[0]);
+                    var order2 = chunk.indexOf(chunk2.names[0]);
+                    return order1 - order2;  
+                }
             }
             if (filename !== undefined) {
                 prop.filename = filename
@@ -247,7 +252,7 @@ const reset = {
         }
         for (i = 0; i < pages.length; i++) {
             if (pages[i][3]) {
-                addHtmlWebpackPlugin(['Lib/Antd.Base', 'Lib/Mobx', 'Lib/Antd.Ex', "Page/" + pages[i][1] + '/Index' + prod], pages[i][2])
+                addHtmlWebpackPlugin(['Lib/Antd.Base', 'Lib/Antd.Ex', 'Lib/Mobx', "Page/" + pages[i][1] + '/Index' + prod], pages[i][2])
             } else {
                 addHtmlWebpackPlugin(['Lib/Antd.Base', 'Lib/Mobx', "Page/" + pages[i][1] + '/Index' + prod], pages[i][2])
             }
