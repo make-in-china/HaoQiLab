@@ -11,9 +11,75 @@ const fs = require("fs");
 const path = require("path");
 
 const vdir = 'HaoQiLab/';
+//获取后缀名
+function getFileExt(url) {
+    var arr = url.split('.');
+    var len = arr.length;
+    return arr[len - 1];
+}
+//读取文件目录
+function readDir(filePath, fileExt, fn) {
+    var files = fs.readdirSync(filePath);
 
-const reset={
-    tsloader(config, env){
+    var count = files.length;
+    var results = {};
+    files.forEach(function (filename) {
+        //filePath+"/"+filename不能用/直接连接，Unix系统是”/“，Windows系统是”\“
+        var stats = fs.statSync(path.join(filePath, filename));
+
+        if (fileExt === "**") {
+            if (!stats.isFile()) {
+                fn(filename, filePath);
+            }
+        } else {
+            if (stats.isFile()) {
+                var ext = getFileExt(filename);
+                if (fileExt === '*' || ext === fileExt) {
+                    fn(filename, filePath, ext);
+                }
+            }
+        }
+
+    });
+}
+function makeNewEntry(config, env) {
+
+    const entry = config.entry = {};
+    const helper = {
+        addEntry(keyAndPath, min, ext) {
+
+            if (min) {
+                entry[keyAndPath] = [
+                    require.resolve("./src/" + keyAndPath + ext),
+                ]
+            } else {
+
+                if (env === 'production') {
+                    entry[keyAndPath] = [
+                        require.resolve('react-scripts-ts/config/polyfills'),
+                        require.resolve("./src/" + keyAndPath + ext),
+                    ]
+                } else {
+                    entry[keyAndPath] = [
+                        require.resolve('react-scripts-ts/config/polyfills'),
+                        require.resolve('react-dev-utils/webpackHotDevClient'),
+                        require.resolve("./src/" + keyAndPath + ext),
+                    ]
+                }
+            }
+
+        },
+        addEntrys(keyAndPath) {
+            readDir('src/' + keyAndPath, 'tsx', function (name, basepath, ext) {
+                helper.addEntry(keyAndPath + '/' + name.replace('.' + ext, ''), true, '.tsx');
+            });
+        }
+    }
+    return helper;
+
+}
+const reset = {
+    tsloader(config, env) {
         const tsLoader = getLoader(
             config.module.rules,
             rule =>
@@ -36,102 +102,41 @@ const reset={
         })(config, env);
         return config;
     },
-    output(config){
+    output(config) {
 
         config.output.libraryTarget = 'umd';
         config.output.filename = vdir + 'static/js/[name].js';
         config.output.chunkFilename = vdir + 'static/js/[name].js';
         return config;
     },
-    entrys(config, env){
-        
+    entrys(config, env) {
+
         // region 二次修改webpack.config.js的结果
-        const entry = {};
-
-        //获取后缀名
-        function getFileExt(url) {
-            var arr = url.split('.');
-            var len = arr.length;
-            return arr[len - 1];
-        }
-        //读取文件目录
-        function readDir(filePath, fileExt, fn) {
-            var files = fs.readdirSync(filePath);
-
-            var count = files.length;
-            var results = {};
-            files.forEach(function (filename) {
-                //filePath+"/"+filename不能用/直接连接，Unix系统是”/“，Windows系统是”\“
-                var stats = fs.statSync(path.join(filePath, filename));
-
-                if (fileExt === "**") {
-                    if (!stats.isFile()) {
-                        fn(filename, filePath);
-                    }
-                } else {
-                    if (stats.isFile()) {
-                        var ext = getFileExt(filename);
-                        if (fileExt === '*' || ext === fileExt) {
-                            fn(filename, filePath, ext);
-                        }
-                    }
-                }
-
-            });
-        }
-        function addEntry(keyAndPath, min, ext) {
-
-            if (min) {
-                entry[keyAndPath] = [
-                    require.resolve("./src/" + keyAndPath + ext),
-                ]
-            } else {
-
-                if (env === 'production') {
-                    entry[keyAndPath] = [
-                        require.resolve('react-scripts-ts/config/polyfills'),
-                        require.resolve("./src/" + keyAndPath + ext),
-                    ]
-                } else {
-                    entry[keyAndPath] = [
-                        require.resolve('react-scripts-ts/config/polyfills'),
-                        require.resolve('react-dev-utils/webpackHotDevClient'),
-                        require.resolve("./src/" + keyAndPath + ext),
-                    ]
-                }
-            }
-
-        }
-        function addEntrys(keyAndPath) {
-            readDir('src/' + keyAndPath, 'tsx', function (name, basepath, ext) {
-                addEntry(keyAndPath + '/' + name.replace('.' + ext, ''), true, '.tsx');
-            });
-        }
 
         let prod = '';
         if (env === 'production') {
             prod = '.prod';
         }
-
-        addEntry("Lib/Antd.Base", false, '.ts')
-        addEntry("Lib/Antd.Ex", true, '.ts')
-        addEntry("Template/Default/App", true, '.tsx')
+        const helper = makeNewEntry(config, env);
+        helper.addEntry("Lib/Antd.Base", false, '.ts');
+        helper.addEntry("Lib/Antd.Ex", true, '.ts');
+        helper.addEntry("Lib/Mobx", true, '.ts');
+        helper.addEntry("Template/Default/App", true, '.tsx');
 
         //根据json注册入口
         for (var i = 0; i < pages.length; i++) {
-            addEntry("Page/" + pages[i][1] + '/Index' + prod, true, '.ts')
+            helper.addEntry("Page/" + pages[i][1] + '/Index' + prod, true, '.ts');
         }
 
-
-        addEntrys("Page/Document/Content");
-        addEntrys("Page/ReactEx/Content");
-        config.entry = entry;
-        console.dir(entry);
+        helper.addEntrys("Page/Document/Content");
+        helper.addEntrys("Page/ReactEx/Content");
+        console.dir(config.entry);
         return config;
     },
-    externals(config){
+    externals(config) {
         config.externals = {
             "antd": "Antd",
+            'Mobx': "Mobx",
             react: {
                 amd: 'react',
                 root: 'React',
@@ -147,10 +152,10 @@ const reset={
         }
         return config;
     },
-    module(config){
+    module(config) {
         const rules = config.module.rules;
-        
-        
+
+
         for (var j = 0; j < rules.length; j++) {
             const rule = rules[j];
             const oneOf = rule.oneOf;
@@ -160,11 +165,11 @@ const reset={
                     if (oneOfRule.test) {
                         if (oneOfRule.test.source === '\\.(ts|tsx)$') {
                             oneOfRule.loader = require.resolve('awesome-typescript-loader');
-                        // } else if (oneOfRule.test.source === '\\.css$') {
-                            
+                            // } else if (oneOfRule.test.source === '\\.css$') {
+
                         }
                     }
-                    if (oneOfRule.options && oneOfRule.options.name!==undefined) {
+                    if (oneOfRule.options && oneOfRule.options.name !== undefined) {
                         oneOfRule.options.name = vdir + oneOfRule.options.name;
                     }
 
@@ -174,11 +179,11 @@ const reset={
         }
         return config;
     },
-    resolve(config){
+    resolve(config) {
         config.resolve.plugins.push(new TsConfigPathsPlugin());
         return config;
     },
-    plugins(config, env){
+    plugins(config, env) {
         const plugins = config.plugins;
         let plugin;
         var index = 0;
@@ -200,7 +205,7 @@ const reset={
         }
         for (var ii = 0; ii < plugins.length; ii++) {
             const plugin2 = plugins[ii];
-            if (plugin2.constructor.name==='ExtractTextPlugin') {
+            if (plugin2.constructor.name === 'ExtractTextPlugin') {
                 plugin2.filename = vdir + plugin2.filename;
             }
         }
@@ -242,9 +247,9 @@ const reset={
         }
         for (i = 0; i < pages.length; i++) {
             if (pages[i][3]) {
-                addHtmlWebpackPlugin(['Lib/Antd.Base', 'Lib/Antd.Ex', "Page/" + pages[i][1] + '/Index' + prod], pages[i][2])
+                addHtmlWebpackPlugin(['Lib/Antd.Base', 'Lib/Mobx', 'Lib/Antd.Ex', "Page/" + pages[i][1] + '/Index' + prod], pages[i][2])
             } else {
-                addHtmlWebpackPlugin(['Lib/Antd.Base', "Page/" + pages[i][1] + '/Index' + prod], pages[i][2])
+                addHtmlWebpackPlugin(['Lib/Antd.Base', 'Lib/Mobx', "Page/" + pages[i][1] + '/Index' + prod], pages[i][2])
             }
         }
         return config;
@@ -253,19 +258,19 @@ const reset={
 module.exports = {
     webpack: function override(config, env) {
 
-        config=reset.tsloader(config, env);
-        
-        config=reset.entrys(config, env);
+        config = reset.tsloader(config, env);
 
-        config=reset.output(config);
+        config = reset.entrys(config, env);
 
-        config=reset.externals(config);
-        
-        config=reset.module(config);
-        
-        config=reset.resolve(config);
+        config = reset.output(config);
 
-        config=reset.plugins(config, env);
+        config = reset.externals(config);
+
+        config = reset.module(config);
+
+        config = reset.resolve(config);
+
+        config = reset.plugins(config, env);
 
 
         return config;
