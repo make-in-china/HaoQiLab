@@ -21,6 +21,7 @@
     "paths":{
       "antd-min":["src/Lib/antd.min.ts"],
       "antd-more":["src/Lib/antd.more.ts"],
+      "mobx-index":["src/Lib/mobx.index.ts"],
       "react-ex":["src/Lib/react.ex.ts"],
       "react":["src/Lib/react.d.ts"],
       "react/index.d.ts":["src/Lib/react.d.ts"]
