@@ -9,10 +9,11 @@ const { TsConfigPathsPlugin } = require('awesome-typescript-loader');
 const pages = require('./src/Page/Pages.json');
 const fs = require("fs");
 const path = require("path");
-module.exports = {
-    webpack: function override(config, env) {
 
+const vdir = 'HaoQiLab/';
 
+const reset={
+    tsloader(config, env){
         const tsLoader = getLoader(
             config.module.rules,
             rule =>
@@ -33,8 +34,17 @@ module.exports = {
         config = rewireLess.withLoaderOptions({
             modifyVars: {/*  "@primary-color":"#1DA57A" */ },
         })(config, env);
+        return config;
+    },
+    output(config){
 
-
+        config.output.libraryTarget = 'umd';
+        config.output.filename = vdir + 'static/js/[name].js';
+        config.output.chunkFilename = vdir + 'static/js/[name].js';
+        return config;
+    },
+    entrys(config, env){
+        
         // region 二次修改webpack.config.js的结果
         const entry = {};
 
@@ -115,15 +125,11 @@ module.exports = {
 
         addEntrys("Page/Document/Content");
         addEntrys("Page/ReactEx/Content");
-
-        const vdir = 'HaoQiLab/';
-
         config.entry = entry;
-        config.output.libraryTarget = 'umd';
-        config.output.filename = vdir + 'static/js/[name].js';
-        config.output.chunkFilename = vdir + 'static/js/[name].js';
-
-
+        console.dir(entry);
+        return config;
+    },
+    externals(config){
         config.externals = {
             "antd": "Antd",
             react: {
@@ -139,7 +145,12 @@ module.exports = {
                 commonjs2: 'react-dom'
             }
         }
+        return config;
+    },
+    module(config){
         const rules = config.module.rules;
+        
+        
         for (var j = 0; j < rules.length; j++) {
             const rule = rules[j];
             const oneOf = rule.oneOf;
@@ -149,49 +160,8 @@ module.exports = {
                     if (oneOfRule.test) {
                         if (oneOfRule.test.source === '\\.(ts|tsx)$') {
                             oneOfRule.loader = require.resolve('awesome-typescript-loader');
-                        } else if (oneOfRule.test.source === '\\.css$') {
-                            // console.log(
-                            //     ExtractTextPlugin.extract(
-                            //         Object.assign(
-                            //             {
-                            //                 fallback: require.resolve('style-loader'),
-                            //                 use: [
-                            //                     {
-                            //                         loader: require.resolve('css-loader'),
-                            //                         options: {
-                            //                             importLoaders: 1,
-                            //                             minimize: true,
-                            //                             sourceMap: true,
-                            //                         },
-                            //                     },
-                            //                     {
-                            //                         loader: require.resolve('postcss-loader'),
-                            //                         options: {
-                            //                             // Necessary for external CSS imports to work
-                            //                             // https://github.com/facebookincubator/create-react-app/issues/2677
-                            //                             ident: 'postcss',
-                            //                             plugins: () => [
-                            //                                 require('postcss-flexbugs-fixes'),
-                            //                                 autoprefixer({
-                            //                                     browsers: [
-                            //                                         '>1%',
-                            //                                         'last 4 versions',
-                            //                                         'Firefox ESR',
-                            //                                         'not ie < 9', // React doesn't support IE8 anyway
-                            //                                     ],
-                            //                                     flexbox: 'no-2009',
-                            //                                 }),
-                            //                             ],
-                            //                         },
-                            //                     },
-                            //                 ],
-                            //             },
-                            //             { publicPath: Array(vdir + 'static/css/[name].[contenthash:8].css'.split('/').length).join('../') }
-                            //         )
-                            //     )
-
-                            // )
-                            // console.log(oneOfRule.use);
+                        // } else if (oneOfRule.test.source === '\\.css$') {
+                            
                         }
                     }
                     if (oneOfRule.options && oneOfRule.options.name!==undefined) {
@@ -202,7 +172,13 @@ module.exports = {
                 break;
             }
         }
+        return config;
+    },
+    resolve(config){
         config.resolve.plugins.push(new TsConfigPathsPlugin());
+        return config;
+    },
+    plugins(config, env){
         const plugins = config.plugins;
         let plugin;
         var index = 0;
@@ -260,6 +236,10 @@ module.exports = {
         }
 
 
+        let prod = '';
+        if (env === 'production') {
+            prod = '.prod';
+        }
         for (i = 0; i < pages.length; i++) {
             if (pages[i][3]) {
                 addHtmlWebpackPlugin(['Lib/Antd.Base', 'Lib/Antd.Ex', "Page/" + pages[i][1] + '/Index' + prod], pages[i][2])
@@ -267,8 +247,26 @@ module.exports = {
                 addHtmlWebpackPlugin(['Lib/Antd.Base', "Page/" + pages[i][1] + '/Index' + prod], pages[i][2])
             }
         }
-        // endregion
-        console.dir(entry);
+        return config;
+    }
+}
+module.exports = {
+    webpack: function override(config, env) {
+
+        config=reset.tsloader(config, env);
+        
+        config=reset.entrys(config, env);
+
+        config=reset.output(config);
+
+        config=reset.externals(config);
+        
+        config=reset.module(config);
+        
+        config=reset.resolve(config);
+
+        config=reset.plugins(config, env);
+
 
         return config;
     },
