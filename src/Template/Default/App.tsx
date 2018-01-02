@@ -1,7 +1,6 @@
 /// <reference path="../../.d.ts"/>
 import React from 'react-ex';
-import { observer, } from 'mobx-react';
-import { observable } from 'mobx';
+import { observer, observable } from 'mobx-index';
 import Antd from 'antd-min';
 import Header from './Header';
 import Content from './Content';

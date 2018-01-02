@@ -1,7 +1,6 @@
 import React from 'react-ex';
 import Antd from 'antd-more';
-import { observer } from 'mobx-react';
-import { observable } from 'mobx';
+import { observer , observable } from 'mobx-index';
 @React.eclass({
     box: ['pdip-5 rdip-5 mdipt-10 ladip uof bd-12-gray minhem-15'.split(' ')],
     boxbig: ['box abs zidx-2 shadowless2 left-15 right-15'.split(' ')],

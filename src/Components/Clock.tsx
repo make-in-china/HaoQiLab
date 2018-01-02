@@ -1,6 +1,5 @@
 import React from 'react-ex';
-import { observer, } from 'mobx-react';
-import { observable } from 'mobx';
+import { observer , observable } from 'mobx-index';
 @observer
 export default class App extends React.Component {
     @observable date = new Date();

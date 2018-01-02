@@ -1,6 +1,5 @@
 import React from 'react-ex';
-// import { observer, } from 'mobx-react';
-// import { observable } from 'mobx';
+
 import Antd from 'antd-min';
 import BreadcrumbItems from './BreadcrumbItems';
 import Clock from '../../../Components/Clock';

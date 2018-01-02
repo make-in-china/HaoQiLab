@@ -6,8 +6,7 @@ import CircularText from 'src/Components/CircularText';
 import BurrowBox from './Component/BurrowBox';
 import Animation from '../../Components/Animation';
 import Antd from 'antd-more';
-import { observer } from 'mobx-react';
-import { observable } from 'mobx';
+import { observer , observable } from 'mobx-index';
 const RadioGroup = Antd.Radio.Group;
 const RadioButton = Antd.Radio.Button;
 @React.eclass({

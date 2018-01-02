@@ -1,8 +1,6 @@
 import React from 'react-ex';
 import Antd from 'antd-min';
-
-import { observer } from 'mobx-react';
-import { observable } from 'mobx';
+import { observer , observable } from 'mobx-index';
 @React.eclass(
     {
         box: [React.calcStyle({ position: 'absolute', left: 0, top: '40%', right: 0, textAlign: 'center' })]

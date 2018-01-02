@@ -5,6 +5,8 @@
   "Lib/Antd.Base.js.map": "HaoQiLab/static/js/Lib/Antd.Base.js.map",
   "Lib/Antd.Ex.js": "HaoQiLab/static/js/Lib/Antd.Ex.js",
   "Lib/Antd.Ex.js.map": "HaoQiLab/static/js/Lib/Antd.Ex.js.map",
+  "Lib/Mobx.js": "HaoQiLab/static/js/Lib/Mobx.js",
+  "Lib/Mobx.js.map": "HaoQiLab/static/js/Lib/Mobx.js.map",
   "Page/Document/Content/Affix.js": "HaoQiLab/static/js/Page/Document/Content/Affix.js",
   "Page/Document/Content/Affix.js.map": "HaoQiLab/static/js/Page/Document/Content/Affix.js.map",
   "Page/Document/Content/BackTop.js": "HaoQiLab/static/js/Page/Document/Content/BackTop.js",
