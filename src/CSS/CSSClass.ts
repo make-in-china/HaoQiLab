@@ -1,6 +1,65 @@
 declare var window: {
     CSSClass?: typeof cssClassNS.CSSClass;
 } & Window;
+export const enum ECSSRuleSelector {
+    Before = 1,
+    After = 2,
+    Active = 4,
+    Hover = 8,
+    Child = 16
+}
+export interface SelectorMap {
+    [index: string]: number;
+    bf: number;
+    af: number;
+    ac: number;
+    hv: number;
+    bfac: number;
+    afac: number;
+    bfhv: number;
+    afhv: number;
+
+    chd: number;
+
+    chdbf: number;
+    chdaf: number;
+    chdac: number;
+    chdhv: number;
+    chdbfac: number;
+    chdafac: number;
+    chdbfhv: number;
+    chdafhv: number;
+
+}
+
+export interface CSSRuleCallBack<T> {
+    (this: T, index?: number, moreInfo?: string): string;
+}
+
+export type CSSRuleBase = CSSRuleCallBack<any> | (string[]) | string;
+export type CSSRuleBaseEx = {
+    [P in keyof SelectorMap]?: CSSRuleEx
+};
+export type CSSRule = CSSRuleBase[] | CSSRuleCallBack<any> | string;
+export type CSSRuleEx = (CSSRuleBase | CSSRuleBaseEx)[] | CSSRuleCallBack<any> | string | CSSRuleBaseEx;
+// const classNameRuleRE = /^(([\w_]+)(-(bf|af|ac|hv|chd|bfac|afac|bfhv|afhv|chdbf|chdaf|chdac|chdhv|chdbfac|chdbfhv|chdafhv))?(-(\d+))?(-([\w\_\#][\.\w\_\#\d]*))?)$/;
+const classNameRuleRE = /^(([\w_]+)(-(bf|af|ac|hv|chd|bfac|afac|bfhv|afhv|chdbf|chdaf|chdac|chdhv|chdbfac|chdbfhv|chdafhv))?(-(\d+))?(-([\w\_\#][\.\w\_\#\d]*))?)$/;
+export interface CSSClassInfo {
+    input: string; /* eclassname */
+    name: string; /* 纯名字 */
+    selector?: keyof SelectorMap; /* 选择器 */
+    index?: number; /* 计数参数 */
+    moreInfo?: string; /* 更多参数 */
+}
+export interface CSSClassData {
+    textNode: Text;
+    /* 选择器数组 */
+    selectors: string[];
+    /* 选择器映射表 */
+    selectorsMap: Record<string, null>;
+    rule: string;
+}
+
 export namespace cssClassNS {
     function isFunction(a: any): a is Function {
         return '[object Function]' === Object.prototype.toString.call(a);
@@ -18,37 +77,6 @@ export namespace cssClassNS {
     function createDictionaryObject<T>(): Record<string, T> {
         return Object.create(null);
     }
-    export const enum ECSSRuleSelector {
-        Before = 1,
-        After = 2,
-        Active = 4,
-        Hover = 8,
-        Child = 16
-    }
-    export interface SelectorMap {
-        [index: string]: number;
-        bf: number;
-        af: number;
-        ac: number;
-        hv: number;
-        bfac: number;
-        afac: number;
-        bfhv: number;
-        afhv: number;
-
-        chd: number;
-
-        chdbf: number;
-        chdaf: number;
-        chdac: number;
-        chdhv: number;
-        chdbfac: number;
-        chdafac: number;
-        chdbfhv: number;
-        chdafhv: number;
-
-    }
-
     export const cssClassSelectorMap: SelectorMap = {
         bf: ECSSRuleSelector.Before,
         af: ECSSRuleSelector.After,
@@ -68,34 +96,6 @@ export namespace cssClassNS {
         chdbfhv: ECSSRuleSelector.Before + ECSSRuleSelector.Hover + ECSSRuleSelector.Child,
         chdafhv: ECSSRuleSelector.After + ECSSRuleSelector.Hover + ECSSRuleSelector.Child
     };
-    export interface CSSRuleCallBack<T> {
-        (this: T, index?: number, moreInfo?: string): string;
-    }
-
-    export type CSSRuleBase = CSSRuleCallBack<any> | (string[]) | string;
-    export type CSSRuleBaseEx = {
-        [P in keyof SelectorMap]?: CSSRuleEx
-    };
-    export type CSSRule = CSSRuleBase[] | CSSRuleCallBack<any> | string;
-    export type CSSRuleEx = (CSSRuleBase | CSSRuleBaseEx)[] | CSSRuleCallBack<any> | string | CSSRuleBaseEx;
-    // const classNameRuleRE = /^(([\w_]+)(-(bf|af|ac|hv|chd|bfac|afac|bfhv|afhv|chdbf|chdaf|chdac|chdhv|chdbfac|chdbfhv|chdafhv))?(-(\d+))?(-([\w\_\#][\.\w\_\#\d]*))?)$/;
-    const classNameRuleRE = /^(([\w_]+)(-(bf|af|ac|hv|chd|bfac|afac|bfhv|afhv|chdbf|chdaf|chdac|chdhv|chdbfac|chdbfhv|chdafhv))?(-(\d+))?(-([\w\_\#][\.\w\_\#\d]*))?)$/;
-    export interface CSSClassInfo {
-        input: string; /* eclassname */
-        name: string; /* 纯名字 */
-        selector?: keyof SelectorMap; /* 选择器 */
-        index?: number; /* 计数参数 */
-        moreInfo?: string; /* 更多参数 */
-    }
-    export interface CSSClassData {
-        textNode: Text;
-        /* 选择器数组 */
-        selectors: string[];
-        /* 选择器映射表 */
-        selectorsMap: Record<string, null>;
-        rule: string;
-    }
-
     export class CSSClass {
         static global: CSSClass[] = [];
         static private: CSSClass[] = [];
@@ -307,13 +307,32 @@ export namespace cssClassNS {
          * @param info 
          */
         updateSelector(info: CSSClassInfo) {
-            return this.addSelector(info, true);
+            const name = this.getNameByInfo(info, false);
+            if (name in this.list) {
+                const item = this.list[name];
+                delete this.list[name];
+                if (isArray(item)) {
+                    for (const innerItem of item) {
+                        innerItem.textNode.remove();
+                    }
+                } else {
+                    item.textNode.remove();
+                }
+            }
+            return this.create(info);
+        }
+        getCSSClassDataByName(name: string) {
+            const info = this.parseInfo(name);
+            if (!info) {
+                return null;
+            }
+            return this.list[this.getNameByInfo(info, false)];
         }
         /**
          * 添加更多选择器
          * @param info 
          */
-        addSelector(info: CSSClassInfo, isUpdate: boolean = false) {
+        addSelector(info: CSSClassInfo) {
             const item = this.list[this.getNameByInfo(info, false)];
             if (isArray(item)) {
                 for (const innerItem of item) {
@@ -331,29 +350,7 @@ export namespace cssClassNS {
         makeStyleString(item: CSSClassData) {
             item.textNode.data = `${item.selectors.join(',')}{${item.rule}}`;
         }
-        getRule(ruleName: string) {
-            let rule = this.rule[ruleName];
-            let map = this.rule;
-            let thatCssClass: CSSClass = this;
-            if (!rule && !this.isNoExtendsGlobal) {
-                for (const cssClass of CSS.global) {
-                    if (cssClass !== this) {
-                        rule = cssClass.rule[ruleName];
-                        map = cssClass.rule;
-                        thatCssClass = cssClass;
-                        if (rule) {
-                            break;
-                        }
-                    }
-                }
-            }
 
-            return {
-                map: map,
-                rule: rule,
-                cssClass: thatCssClass
-            };
-        }
         getRuleString(rule: CSSRuleBase, ruleMap: Record<string, CSSRule>, info: { index?: number, moreInfo?: string }) {
             let strRule: string;
             if (isArray(rule)) {
@@ -446,6 +443,29 @@ export namespace cssClassNS {
         add(elem: HTMLElement, ...clses: string[]) {
             this.addArray(elem, clses);
         }
+        getRule(ruleName: string) {
+            let rule = this.rule[ruleName];
+            let map = this.rule;
+            let thatCssClass: CSSClass = this;
+            if (!rule && !this.isNoExtendsGlobal) {
+                for (const cssClass of CSS.global) {
+                    if (cssClass !== this) {
+                        rule = cssClass.rule[ruleName];
+                        map = cssClass.rule;
+                        thatCssClass = cssClass;
+                        if (rule) {
+                            break;
+                        }
+                    }
+                }
+            }
+
+            return {
+                map: map,
+                rule: rule,
+                cssClass: thatCssClass
+            };
+        }
         private registerOneRule(name: string, rule: CSSRuleEx) {
             // if (name in this.rule) {
             //     console.log(name + ' be replaced by ' + JSON.stringify(rule));
@@ -533,7 +553,7 @@ export namespace cssClassNS {
          * 添加更多选择器或更新内容
          * @param info 
          */
-        private doAddSelector(item: CSSClassData, info: CSSClassInfo, isUpdate: boolean = false) {
+        private doAddSelector(item: CSSClassData, info: CSSClassInfo) {
             const className = this.getClassNameByInfo(info);
             if (!(className in item.selectorsMap)) {
                 // 如果未添加此selector,先添加;
@@ -541,8 +561,6 @@ export namespace cssClassNS {
                 item.selectorsMap[className] = null;
                 this.classMap[info.input] = null;
                 this.makeStyleString(item);
-            } else if (isUpdate) {
-                // this.makeStyleString(item);
             }
         }
         private createByArrayItemNoObject(map: Record<string, CSSRuleEx>, rule: CSSRuleBase | CSSRuleBaseEx, info: CSSClassInfo, items: CSSClassData[]) {

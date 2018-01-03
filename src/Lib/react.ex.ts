@@ -1,5 +1,5 @@
 import * as _React from 'react';
-import { CSS, cssClassNS } from '../CSS/CSSClass';
+import { CSS, cssClassNS, CSSRuleEx } from '../CSS/CSSClass';
 import * as ReactDOM from 'react-dom';
 namespace ReactEx {
     let renderCSSClass: cssClassNS.CSSClass = CSS.instance;
@@ -148,7 +148,7 @@ namespace ReactEx {
     }
     /* 注册私有eclass并立即写入到style */
     export function estyle(
-        rule: Record<string, cssClassNS.CSSRuleEx>,
+        rule: Record<string, CSSRuleEx>,
         isNoExtendsGlobal: boolean = false/* false 不从全局继承rule ;true 继承*/) {
         const cssClass = new cssClassNS.CSSClass(undefined, true, isNoExtendsGlobal, true, rule);
         return function (ctor: any) {
@@ -176,14 +176,19 @@ namespace ReactEx {
      * @param isGlobalName 
      */
     export function eclass(
-        rule: Record<string, cssClassNS.CSSRuleEx>,
+        rule: Record<string, CSSRuleEx>,
         isPrivate: boolean = true/* true 不允许被继承 ; false 允许*/,
         isNoExtendsGlobal: boolean = false/* false 不从全局继承rule ;true 继承*/,
         isGlobalName: boolean = false/* false 不加名字前缀 ; true 加*/) {
         const cssClass = new cssClassNS.CSSClass(undefined, isPrivate, isNoExtendsGlobal, isGlobalName, rule);
-        return function (ctor: any) {
+        return function <T extends
+            {
+                prototype: {
+                    render(): React.ReactNode
+                }
+            }>(ctor: T) {
             const render = ctor.prototype.render;
-            ctor.cssClass = cssClass;
+            // (ctor as any).cssClass = cssClass;
             ctor.prototype.render = function () {
                 const oldcssClass = renderCSSClass;
                 renderCSSClass = cssClass;
@@ -191,6 +196,11 @@ namespace ReactEx {
                 renderCSSClass = oldcssClass;
                 return result;
             };
+            return function (props: any) {
+                const ret = new (ctor as any)(props);
+                ret.cssClass = cssClass;
+                return ret;
+            } as any;
         };
     }
     export interface CreateElementHookCallBack {
@@ -253,8 +263,9 @@ namespace ReactEx {
     } */
     // endregion
     export class Component<P = {}, S = {}> extends _React.Component<P, S> {
-        static cssClass?: cssClassNS.CSSClass;
-        static renderReactNode(fn: (this: void) => React.ReactNode) {
+        // static cssClass?: cssClassNS.CSSClass;
+        cssClass?: cssClassNS.CSSClass;
+        renderReactNode(fn: (this: void) => React.ReactNode) {
             if (this.cssClass) {
                 const oldcssClass = renderCSSClass;
                 renderCSSClass = this.cssClass;

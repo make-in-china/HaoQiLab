@@ -18,8 +18,11 @@ import _Radio from 'antd/es/radio';
 import _Switch from 'antd/es/switch';
 import _InputNumber from 'antd/es/input-number';
 import _Rate from 'antd/es/rate';
+import _Input from 'antd/es/input';
+import _Checkbox from 'antd/es/checkbox';
 
 (function (that: any) {
+    that.Checkbox = _Checkbox;
     that.Switch = _Switch;
     that.Radio = _Radio;
     that.Row = _Row;
@@ -39,4 +42,5 @@ import _Rate from 'antd/es/rate';
     that.Tooltip = _Tooltip;
     that.InputNumber = _InputNumber;
     that.Rate = _Rate;
+    that.Input = _Input;
 })((window as any).Antd || ((window as any).Antd = {}));

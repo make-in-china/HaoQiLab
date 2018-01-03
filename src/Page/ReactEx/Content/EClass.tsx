@@ -12,7 +12,7 @@ import AddEntryComponent from '../../EntryComponent';
     })
 export default class App extends React.Component {
     playGroundData = React.hookCreateElement(() => {
-        return App.renderReactNode(() => (
+        return this.renderReactNode(() => (
             <div EClass="box">{/* 动态样式 */}
                 <div>如果</div>
                 <div>,</div>

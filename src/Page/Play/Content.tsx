@@ -7,6 +7,9 @@ import BurrowBox from './Component/BurrowBox';
 import Animation from '../../Components/Animation';
 import Antd from 'antd-more';
 import { observer , observable } from 'mobx-index';
+import Logo from 'src/Template/Default/Logo';
+import SkinBox from 'src/Page/Play/Component/SkinBox';
+import SketchPicker from 'src/Components/SketchPicker';
 const RadioGroup = Antd.Radio.Group;
 const RadioButton = Antd.Radio.Button;
 @React.eclass({
@@ -14,7 +17,7 @@ const RadioButton = Antd.Radio.Button;
 })
 @observer
 export default class App extends React.Component {
-    @observable cols = 3;
+    @observable cols = 2;
     @observable permissibleHeightGaps = 250;
     timeID: number;
     onChange: Antd.Rate['props']['onChange'] = (value) => {
@@ -42,15 +45,12 @@ export default class App extends React.Component {
                     permissibleHeightGaps={this.permissibleHeightGaps}
                     datas={[
                         (
-                            <BurrowBox title="扩散算法">
-                                <div EClass="scrollx">
-                                    <div>无聊写的小算法，把○○（2个小于等于5的数）扩散开去，不允许连续</div>
-                                    <Diffusion source={Diffusion.makeArrByTemplate('___00000000000000000_0_0__0_0_0_0___')} splitNumber={5} />
-                                    <Diffusion
-                                        source={Diffusion.makeArrByTemplate('__00__00__0____0__0__0_0_000__00000000000_0___0_0__0______00_00___')}
-                                        splitNumber={5}
-                                    />
-                                </div>
+                            <BurrowBox title="取色器">
+                                <SketchPicker/>
+                            </BurrowBox>
+                        ), (
+                            <BurrowBox title="样式设计器">
+                                <SkinBox/>
                             </BurrowBox>
                         ), (
                             <BurrowBox title="逆序文字">
@@ -70,13 +70,21 @@ export default class App extends React.Component {
                                 </div>
                             </BurrowBox>
                         ), (
-                            <BurrowBox title="广告位3，虚席以待" >
-                                <div EClass="hem-20">
-                                    长短不一的广告
-                            </div>
+                            <BurrowBox title="Logo组件" >
+                                default theme的Logo
+                                <Logo fill="#555"/>
                             </BurrowBox>
                         ), (
-                            <BurrowBox title="广告位4，虚席以待" />
+                            <BurrowBox title="扩散算法">
+                                <div EClass="scrollx">
+                                    <div>无聊写的小算法，把○○（2个小于等于5的数）扩散开去，不允许连续</div>
+                                    <Diffusion source={Diffusion.makeArrByTemplate('___00000000000000000_0_0__0_0_0_0___')} splitNumber={5} />
+                                    <Diffusion
+                                        source={Diffusion.makeArrByTemplate('__00__00__0____0__0__0_0_000__00000000000_0___0_0__0______00_00___')}
+                                        splitNumber={5}
+                                    />
+                                </div>
+                            </BurrowBox>
                         ), (
                             <BurrowBox title="广告位5，虚席以待">
                                 <div EClass="hem-15">

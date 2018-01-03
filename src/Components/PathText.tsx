@@ -11,19 +11,18 @@ export default class PathText
         path: string
         fill?: string
     }> {
-    key = PathText.cssClass!.key;
     onRef = (instance: HTMLElement | null) => {
         if (!instance) {
             return;
         }
         var xlinkNS = 'http://www.w3.org/1999/xlink';
-        instance.setAttributeNS(xlinkNS, 'xlink:href', `#${this.key}path`);
+        instance.setAttributeNS(xlinkNS, 'xlink:href', `#${this.cssClass!.key}path`);
     }
     render() {
         return (
             <div EClass="box">
                 <svg viewBox="0 0 100 100">
-                    <path d={this.props.path} id={this.key + 'path'} />
+                    <path d={this.props.path} id={this.cssClass!.key + 'path'} />
                     <text fill={this.props.fill ? this.props.fill : '#ffffff'}><textPath ref={this.onRef}>{this.props.children}</textPath></text>
                 </svg>
             </div >

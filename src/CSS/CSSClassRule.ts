@@ -1,11 +1,11 @@
-import { cssClassNS  } from './CSSClass';
+import { cssClassNS } from './CSSClass';
 
 const px1 = 0.0625;
 const w = {
     wkbox: 'display:-webkit-box;',
     wkboxh: 'display:-webkit-box;-webkit-box-orient:horizontal;'
 };
-const rule1: any = {
+const rule1 = {
     // region 2017年12月28日, PM 02:34:32
     nowrap: `white-space:nowrap;`,
     // endregion
@@ -77,48 +77,48 @@ const rule1: any = {
     pemr(idx: number) { return `padding-right:${idx}em;`; },
     pemt(idx: number) { return `padding-top:${idx}em;`; },
     pemb(idx: number) { return `padding-bottom:${idx}em;`; },
-    pemlr(this: any, idx: number) { return this.peml(idx) + this.pemr(idx); },
-    pemtb(this: any, idx: number) { return this.pemt(idx) + this.pemb(idx); },
+    pemlr(this: any, idx: number) { return rule1.peml(idx) + rule1.pemr(idx); },
+    pemtb(this: any, idx: number) { return rule1.pemt(idx) + rule1.pemb(idx); },
 
     pdip(idx: number) { return `padding:${idx! * px1}em;`; },
     pdipl(idx: number) { return `padding-left:${idx! * px1}em;`; },
     pdipr(idx: number) { return `padding-right:${idx! * px1}em;`; },
     pdipt(idx: number) { return `padding-top:${idx! * px1}em;`; },
     pdipb(idx: number) { return `padding-bottom:${idx! * px1}em;`; },
-    pdiplr(idx: number) { return this.pdipl(idx) + this.pdipr(idx); },
-    pdiptb(idx: number) { return this.pdipt(idx) + this.pdipb(idx); },
+    pdiplr(idx: number) { return rule1.pdipl(idx) + rule1.pdipr(idx); },
+    pdiptb(idx: number) { return rule1.pdipt(idx) + rule1.pdipb(idx); },
 
     mem(idx: number) { return `margin:${idx}em;`; },
     meml(idx: number) { return `margin-left:${idx}em;`; },
     memr(idx: number) { return `margin-right:${idx}em;`; },
     memt(idx: number) { return `margin-top:${idx}em;`; },
     memb(idx: number) { return `margin-bottom:${idx}em;`; },
-    memlr(idx: number) { return this.meml(idx) + this.memr(idx); },
-    memtb(idx: number) { return this.memt(idx) + this.memb(idx); },
+    memlr(idx: number) { return rule1.meml(idx) + rule1.memr(idx); },
+    memtb(idx: number) { return rule1.memt(idx) + rule1.memb(idx); },
 
     mem_(idx: number) { return `margin:-${idx}em;`; },
     meml_(idx: number) { return `margin-left:-${idx}em;`; },
     memr_(idx: number) { return `margin-right:-${idx}em;`; },
     memt_(idx: number) { return `margin-top:-${idx}em;`; },
     memb_(idx: number) { return `margin-bottom:-${idx}em;`; },
-    memlr_(idx: number) { return this.meml_(idx) + this.memr_(idx); },
-    memtb_(idx: number) { return this.memt_(idx) + this.memb_(idx); },
+    memlr_(idx: number) { return rule1.meml_(idx) + rule1.memr_(idx); },
+    memtb_(idx: number) { return rule1.memt_(idx) + rule1.memb_(idx); },
 
     mdip(idx: number) { return `margin:${idx! * px1}em;`; },
     mdipl(idx: number) { return `margin-left:${idx! * px1}em;`; },
     mdipr(idx: number) { return `margin-right:${idx! * px1}em;`; },
     mdipt(idx: number) { return `margin-top:${idx! * px1}em;`; },
     mdipb(idx: number) { return `margin-bottom:${idx! * px1}em;`; },
-    mdiplr(idx: number) { return this.mdipl(idx) + this.mdipr(idx); },
-    mdiptb(idx: number) { return this.mdipt(idx) + this.mdipb(idx); },
+    mdiplr(idx: number) { return rule1.mdipl(idx) + rule1.mdipr(idx); },
+    mdiptb(idx: number) { return rule1.mdipt(idx) + rule1.mdipb(idx); },
 
     mdip_(idx: number) { return `margin:-${idx! * px1}em;`; },
     mdipl_(idx: number) { return `margin-left:-${idx! * px1}em;`; },
     mdipr_(idx: number) { return `margin-right:-${idx! * px1}em;`; },
     mdipt_(idx: number) { return `margin-top:-${idx! * px1}em;`; },
     mdipb_(idx: number) { return `margin-bottom:-${idx! * px1}em;`; },
-    mdiplr_(idx: number) { return this.mdipl_(idx) + this.mdipr_(idx); },
-    mdiptb_(idx: number) { return this.mdipt_(idx) + this.mdipb_(idx); },
+    mdiplr_(idx: number) { return rule1.mdipl_(idx) + rule1.mdipr_(idx); },
+    mdiptb_(idx: number) { return rule1.mdipt_(idx) + rule1.mdipb_(idx); },
 
     tl_under: `text-decoration:undeline;`,
     tl_through: `text-decoration:line-through;`,
@@ -131,36 +131,36 @@ const rule1: any = {
     right(idx: number = 0) { return `right:${idx! * px1}em;`; },
     top(idx: number = 0) { return `top:${idx! * px1}em;`; },
     bottom(idx: number = 0) { return `bottom:${idx! * px1}em;`; },
-    leftright(idx: number = 0) { return this.left(idx) + this.right(idx); },
-    topbottom(idx: number = 0) { return this.top(idx) + this.bottom(idx); },
-    lrtb(idx: number = 0) { return this.leftright(idx) + this.topbottom(idx); },
+    leftright(idx: number = 0) { return rule1.left(idx) + rule1.right(idx); },
+    topbottom(idx: number = 0) { return rule1.top(idx) + rule1.bottom(idx); },
+    lrtb(idx: number = 0) { return rule1.leftright(idx) + rule1.topbottom(idx); },
 
     left_(idx: number = 0) { return `left:-${idx! * px1}em;`; },
     right_(idx: number = 0) { return `right:-${idx! * px1}em;`; },
     top_(idx: number = 0) { return `top:-${idx! * px1}em;`; },
     bottom_(idx: number = 0) { return `bottom:-${idx! * px1}em;`; },
-    leftright_(idx: number = 0) { return this.left_(idx) + this.right_(idx); },
-    topbottom_(idx: number = 0) { return this.top_(idx) + this.bottom_(idx); },
-    lrtb_(idx: number = 0) { return this.leftright_(idx) + this.topbottom_(idx); },
+    leftright_(idx: number = 0) { return rule1.left_(idx) + rule1.right_(idx); },
+    topbottom_(idx: number = 0) { return rule1.top_(idx) + rule1.bottom_(idx); },
+    lrtb_(idx: number = 0) { return rule1.leftright_(idx) + rule1.topbottom_(idx); },
 
     leftem(idx: number = 0) { return `left:${idx}em;`; },
     rightem(idx: number = 0) { return `right:${idx}em;`; },
     topem(idx: number = 0) { return `top:${idx}em;`; },
     bottomem(idx: number = 0) { return `bottom:${idx}em;`; },
-    leftrightem(idx: number = 0) { return this.leftem(idx) + this.rightem(idx); },
-    topbottomem(idx: number = 0) { return this.topem(idx) + this.bottomem(idx); },
-    lrtbem(idx: number = 0) { return this.leftrightem(idx) + this.topbottomem(idx); },
+    leftrightem(idx: number = 0) { return rule1.leftem(idx) + rule1.rightem(idx); },
+    topbottomem(idx: number = 0) { return rule1.topem(idx) + rule1.bottomem(idx); },
+    lrtbem(idx: number = 0) { return rule1.leftrightem(idx) + rule1.topbottomem(idx); },
 
     leftem_(idx: number = 0) { return `left:-${idx}em;`; },
     rightem_(idx: number = 0) { return `right:-${idx}em;`; },
     topem_(idx: number = 0) { return `top:-${idx}em;`; },
     bottomem_(idx: number = 0) { return `bottom:-${idx}em;`; },
-    leftrightem_(idx: number = 0) { return this.leftem_(idx) + this.rightem_(idx); },
-    topbottomem_(idx: number = 0) { return this.topem_(idx) + this.bottomem_(idx); },
-    lrtbem_(idx: number = 0) { return this.leftrightem_(idx) + this.topbottomem_(idx); },
+    leftrightem_(idx: number = 0) { return rule1.leftem_(idx) + rule1.rightem_(idx); },
+    topbottomem_(idx: number = 0) { return rule1.topem_(idx) + rule1.bottomem_(idx); },
+    lrtbem_(idx: number = 0) { return rule1.leftrightem_(idx) + rule1.topbottomem_(idx); },
 
     // @ts-ignore
-    full() { return this.abs + this.lrtb(0); },
+    full() { return rule2.abs + rule1.lrtb(0); },
 
     op(idx: number) { return `opacity:${idx! * 0.1};`; },
 
@@ -187,22 +187,21 @@ const rule1: any = {
 
     shadowless: `-webkit-box-shadow: inset 0 0 1px #000,.125em .125em 1em rgba(0,0,0,.2);box-shadow:inset 0 0 1px #000,.125em .125em 1em rgba(0,0,0,.2);`,
     shadowless2: `-webkit-box-shadow: .125em .125em 1em rgba(0,0,0,.2);box-shadow:.125em .125em 1em rgba(0,0,0,.2);`,
-
     // border
     llpx(idx: number = 1, moreInfo: string = 'solid') { return `border-left:${idx}px #808080 ${moreInfo};`; },
     lrpx(idx: number = 1, moreInfo: string = 'solid') { return `border-right:${idx}px #808080 ${moreInfo};`; },
     ltpx(idx: number = 1, moreInfo: string = 'solid') { return `border-top:${idx}px #808080 ${moreInfo};`; },
     lbpx(idx: number = 1, moreInfo: string = 'solid') { return `border-bottom:${idx}px #808080 ${moreInfo};`; },
-    llrpx(idx: number, moreInfo: string) { return this.llpx(idx, moreInfo) + this.lrpx(idx, moreInfo); },
-    ltbpx(idx: number, moreInfo: string) { return this.ltpx(idx, moreInfo) + this.lbpx(idx, moreInfo); },
+    llrpx(idx: number, moreInfo: string) { return rule1.llpx(idx, moreInfo) + rule1.lrpx(idx, moreInfo); },
+    ltbpx(idx: number, moreInfo: string) { return rule1.ltpx(idx, moreInfo) + rule1.lbpx(idx, moreInfo); },
     lapx(idx: number = 1, moreInfo: string = 'solid') { return `border:${idx}px #808080 ${moreInfo};`; },
 
     lldip(idx: number = 1, moreInfo: string = 'solid') { return `border-left:${idx! * px1}em #808080 ${moreInfo};`; },
     lrdip(idx: number = 1, moreInfo: string = 'solid') { return `border-right:${idx! * px1}em #808080 ${moreInfo};`; },
     ltdip(idx: number = 1, moreInfo: string = 'solid') { return `border-top:${idx! * px1}em #808080 ${moreInfo};`; },
     lbdip(idx: number = 1, moreInfo: string = 'solid') { return `border-bottom:${idx! * px1}em #808080 ${moreInfo};`; },
-    llrdip(idx: number, moreInfo: string) { return this.llpx(idx, moreInfo) + this.lrpx(idx, moreInfo); },
-    ltbdip(idx: number, moreInfo: string) { return this.ltpx(idx, moreInfo) + this.lbpx(idx, moreInfo); },
+    llrdip(idx: number, moreInfo: string) { return rule1.llpx(idx, moreInfo) + rule1.lrpx(idx, moreInfo); },
+    ltbdip(idx: number, moreInfo: string) { return rule1.ltpx(idx, moreInfo) + rule1.lbpx(idx, moreInfo); },
     ladip(idx: number = 1, moreInfo: string = 'solid') { return `border:${idx! * px1}em #808080 ${moreInfo};`; },
 
     bdw(idx: number) { return `border-width:${idx}%;`; },
@@ -218,8 +217,8 @@ const rule1: any = {
     bdsr(idx: number, moreInfo: string) { return `border-right-style:${moreInfo};`; },
     bdst(idx: number, moreInfo: string) { return `border-top-style:${moreInfo};`; },
     bdsb(idx: number, moreInfo: string) { return `border-bottom-style:${moreInfo};`; },
-    bdslr(idx: number, moreInfo: string) { return this.bdsl(idx, moreInfo) + this.bdsr(idx, moreInfo); },
-    bdstb(idx: number, moreInfo: string) { return this.bdst(idx, moreInfo) + this.bdsb(idx, moreInfo); },
+    bdslr(idx: number, moreInfo: string) { return rule1.bdsl(idx, moreInfo) + rule1.bdsr(idx, moreInfo); },
+    bdstb(idx: number, moreInfo: string) { return rule1.bdst(idx, moreInfo) + rule1.bdsb(idx, moreInfo); },
 
     bdbox: `box-sizing:border-box;`,
 
@@ -232,35 +231,35 @@ const rule1: any = {
     remlb(idx: number) { return `-webkit-border-bottom-left-radius:${idx}em;border-bottom-left-radius:${idx}em;`; },
     remrb(idx: number) { return `-webkit-border-bottom-right-radius:${idx}em;border-bottom-right-radius:${idx}em;`; },
 
-    remt(idx: number) { return this.remlt(idx) + this.remrt(idx); },
-    remb(idx: number) { return this.remlb(idx) + this.remrb(idx); },
+    remt(idx: number) { return rule1.remlt(idx) + rule1.remrt(idx); },
+    remb(idx: number) { return rule1.remlb(idx) + rule1.remrb(idx); },
 
-    reml(idx: number) { return this.remlt(idx) + this.remlb(idx); },
-    remr(idx: number) { return this.remrt(idx) + this.remrb(idx); },
+    reml(idx: number) { return rule1.remlt(idx) + rule1.remlb(idx); },
+    remr(idx: number) { return rule1.remrt(idx) + rule1.remrb(idx); },
 
-    rdiplt(idx: number) { return this.remlt(idx! * px1); },
-    rdiprt(idx: number) { return this.remrt(idx! * px1); },
+    rdiplt(idx: number) { return rule1.remlt(idx! * px1); },
+    rdiprt(idx: number) { return rule1.remrt(idx! * px1); },
 
-    rdiplb(idx: number) { return this.remlb(idx! * px1); },
-    rdiprb(idx: number) { return this.remrb(idx! * px1); },
+    rdiplb(idx: number) { return rule1.remlb(idx! * px1); },
+    rdiprb(idx: number) { return rule1.remrb(idx! * px1); },
 
-    rdipt(idx: number) { return this.rdiplt(idx) + this.rdiprt(idx); },
-    rdipb(idx: number) { return this.rdiplb(idx) + this.rdiprb(idx); },
+    rdipt(idx: number) { return rule1.rdiplt(idx) + rule1.rdiprt(idx); },
+    rdipb(idx: number) { return rule1.rdiplb(idx) + rule1.rdiprb(idx); },
 
-    rdipl(idx: number) { return this.rdiplt(idx) + this.rdiplb(idx); },
-    rdipr(idx: number) { return this.rdiprt(idx) + this.rdiprb(idx); },
+    rdipl(idx: number) { return rule1.rdiplt(idx) + rule1.rdiplb(idx); },
+    rdipr(idx: number) { return rule1.rdiprt(idx) + rule1.rdiprb(idx); },
 
     // 锁定后缀系列
     click2: [/* "color:#000;",  */{
-        bfac(this: any) { return `content:" ";background-color: rgba(0,0,0,0.1);` + this.full() + this.pointer; },
+        bfac(): string { return `content:" ";background-color: rgba(0,0,0,0.1);` + rule1.full() + rule1.pointer; },
     }]
     // ['click2-in']: {
-    //     inbfac(this: any) { return this.click2.bfac() },
+    //     inbfac(this: any) { return rule1.click2.bfac() },
     // }
 };
 
 /* 覆盖rule1 */
-const rule2: any = {
+const rule2 = {
     uhide: `display:none !important;`,
     abs: `position:absolute;`,
 
@@ -269,6 +268,10 @@ const rule2: any = {
     bd(idx: number, moreInfo: string) { return `border-color:${getColorByEClass(idx, moreInfo!)};`; },
     f(idx: number, moreInfo: string) { return `color:${getColorByEClass(idx, moreInfo!)};`; },
 
+    shadow(idx: number, moreInfo: string = 'black') {
+        const v = `0em 0em ${idx / 2 + 0.25}em ${idx * px1}em ${getColorByEClass(8, moreInfo!)}`;
+        return `-webkit-box-shadow:${v};box-shadow:${v};`;
+    },
 };
 function rightString(str: string, count: number) {
     return str.substr(str.length - count, count);
@@ -337,6 +340,10 @@ function getColorByEClass(idx: number | undefined, moreInfo: string) {
     let clr1: string;
     let clr2: string;
     switch (name) {
+        case 'black':
+            clr1 = '000000';
+            clr2 = 'ffffff';
+            break;
         case 'gray':
             clr1 = 'ffffff';
             clr2 = '000000';
@@ -405,7 +412,7 @@ function setMax(moreInfo: string | undefined) {
 }
 export default {
     register() {
-        cssClassNS.CSSClass.instance.registerClassRule(rule1);
+        cssClassNS.CSSClass.instance.registerClassRule(rule1 as any);
         new cssClassNS.CSSClass(undefined, false, false, true).registerClassRule(rule2);
     }
 };
