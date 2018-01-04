@@ -1,4 +1,4 @@
-import { cssClassNS } from './CSSClass';
+import { cssClassNS, getColorByArea } from './CSSClass';
 
 const px1 = 0.0625;
 const w = {
@@ -273,39 +273,6 @@ const rule2 = {
         return `-webkit-box-shadow:${v};box-shadow:${v};`;
     },
 };
-function rightString(str: string, count: number) {
-    return str.substr(str.length - count, count);
-}
-function getColor(color1: string, color2: string, index: number, max: number): string {
-    const color1Int = Number('0x' + color1);
-    const color2Int = Number('0x' + color2);
-    const persent = index / max;
-
-    // const color1AlphaInt=0xFF000000&color1Int;
-    const color1RedInt = 0x00FF0000 & color1Int;
-    const color1GreenInt = 0xFF00 & color1Int;
-    const color1BlueInt = 0xFF & color1Int;
-
-    // const color2AlphaInt=0xFF000000&color2Int;
-    const color2RedInt = 0xFF0000 & color2Int;
-    const color2GreenInt = 0xFF00 & color2Int;
-    const color2BlueInt = 0xFF & color2Int;
-
-    // let color3AlphaInt=(color2AlphaInt-color1AlphaInt)*persent/0x1000000;
-    // color3AlphaInt&=0xff;
-    let color3RedInt = (((color2RedInt - color1RedInt) * persent) + color1RedInt) / 0x10000;
-    color3RedInt &= 0xff;
-    let color3GreenInt = ((color2GreenInt - color1GreenInt) * persent + color1GreenInt) / 0x100;
-    color3GreenInt &= 0xff;
-    let color3BlueInt = ((color2BlueInt - color1BlueInt) * persent + color1BlueInt);
-    color3BlueInt &= 0xff;
-
-    const ret =
-        rightString('0' + color3RedInt.toString(16), 2) +
-        rightString('0' + color3GreenInt.toString(16), 2) +
-        rightString('0' + color3BlueInt.toString(16), 2);
-    return '#' + rightString('00000' + ret, 6);
-}
 
 // function getColorRGBA(color1: string, color2: string, index: number, max: number): string {
 //     const color1Int = Number('0x' + color1);
@@ -395,7 +362,7 @@ function getColorByEClass(idx: number | undefined, moreInfo: string) {
     if (idx === undefined) {
         idx = max;
     }
-    return getColor(clr2, clr1, idx, max);
+    return getColorByArea(clr2, clr1, idx, max);
 }
 function setMax(moreInfo: string | undefined) {
     let maxCount: number;

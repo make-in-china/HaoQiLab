@@ -69,7 +69,66 @@ export interface CSSClassData {
     selectorsMap: Record<string, null>;
     rule: string;
 }
-
+function rightString(str: string, count: number) {
+    return str.substr(str.length - count, count);
+}
+export interface RGB {
+    R: number;
+    G: number;
+    B: number;
+}
+export interface RGBA extends RGB {
+    A: number;
+}
+export function getRGBA(color: string): RGBA {
+    const colorInt = Number('0x' + color);
+    const colorAlphaInt = (0xFF000000 & colorInt) / 0xFF000000;
+    const colorRedInt = (0xFF0000 & colorInt) / 0x10000;
+    const colorGreenInt = (0xFF00 & colorInt) / 0x100;
+    const colorBlueInt = 0xFF & colorInt;
+    return { R: colorRedInt, G: colorGreenInt, B: colorBlueInt, A: colorAlphaInt };
+}
+export function getRGB(color: string): RGB {
+    const colorInt = Number('0x' + color);
+    const colorRedInt = (0xFF0000 & colorInt) / 0x10000;
+    const colorGreenInt = (0xFF00 & colorInt) / 0x100;
+    const colorBlueInt = 0xFF & colorInt;
+    return { R: colorRedInt, G: colorGreenInt, B: colorBlueInt };
+}
+export function getRGBByArea(color1: RGB, color2: RGB, index: number, max: number): RGB {
+    const persent = index / max;
+    let colorRedInt = (((color2.R - color1.R) * persent) + color1.R) & 0xFF;
+    let colorGreenInt = ((color2.G - color1.G) * persent + color1.G) & 0xFF;
+    let colorBlueInt = ((color2.B - color1.B) * persent + color1.B) & 0xFF;
+    return { R: colorRedInt, G: colorGreenInt, B: colorBlueInt };
+}
+export function getRGBAByArea(color1: RGBA, color2: RGBA, index: number, max: number): RGBA {
+    const persent = index / max;
+    let colorRedInt = (((color2.R - color1.R) * persent) + color1.R) & 0xFF;
+    let colorGreenInt = ((color2.G - color1.G) * persent + color1.G) & 0xFF;
+    let colorBlueInt = ((color2.B - color1.B) * persent + color1.B) & 0xFF;
+    let colorAlphaInt = (((color2.A - color1.A) * persent + color1.A) & 0xFF) / 255;
+    return { R: colorRedInt, G: colorGreenInt, B: colorBlueInt, A: colorAlphaInt };
+}
+export function getRGBAColorByArea(color1: string, color2: string, index: number, max: number): string {
+    const color1RGBA = getRGBA(color1);
+    const color2RGBA = getRGBA(color2);
+    const color3RGBA = getRGBAByArea(color1RGBA, color2RGBA, index, max);
+    return `rgba(${color3RGBA.R},${color3RGBA.G},${color3RGBA.B},${color3RGBA.A})`;
+}
+export function getRGBString(color: RGB) {
+    const ret =
+        rightString('0' + color.R.toString(16), 2) +
+        rightString('0' + color.G.toString(16), 2) +
+        rightString('0' + color.B.toString(16), 2);
+    return '#' + rightString('00000' + ret, 6);
+}
+export function getColorByArea(color1: string, color2: string, index: number, max: number): string {
+    const color1RGB = getRGB(color1);
+    const color2RGB = getRGB(color2);
+    const color3RGB = getRGBByArea(color1RGB, color2RGB, index, max);
+    return getRGBString(color3RGB);
+}
 export namespace cssClassNS {
     function isFunction(a: any): a is Function {
         return '[object Function]' === Object.prototype.toString.call(a);
@@ -267,6 +326,14 @@ export namespace cssClassNS {
                 className = this.create(info);
             }
             return className;
+        }
+        updateRule(ruleList: Record<string, CSSRuleEx>) {
+            for (const key in ruleList) {
+                const rule = ruleList[key];
+                const oldRule = this.getRule(key);
+                oldRule.map[key] = rule;
+                this.updateClass(key);
+            }
         }
         updateClass(name: string) {
             const info = this.parseInfo(name);

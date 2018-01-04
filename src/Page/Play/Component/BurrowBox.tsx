@@ -5,7 +5,7 @@ import { observer, observable } from 'mobx-index';
     box: [
         'pdip-5 rdip-5 mdipt-10 ladip uof bd-12-gray minhem-15'.split(' '),
         {
-            hv: ['bd-8-gray'.split(' ')]
+            hv: ['bd-10-gray'.split(' ')]
         }
     ],
     boxbig: ['box abs zidx-2 shadowless2 left-15 right-15'.split(' ')],

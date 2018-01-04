@@ -58,7 +58,7 @@ export default class MultipleColumnsContainer
         this.containers.forEach((item, index) => {
             const elem = (this.refs[String(index)] as HTMLElement | undefined);
             if (!elem) {
-                throw new Error('something wrong');
+                return ;
             }
             const scrollHeight = elem.scrollHeight;
             if (scrollHeight < minHeight - this.permissibleHeightGaps) {
@@ -73,7 +73,7 @@ export default class MultipleColumnsContainer
             return;
         }
         const minHeightCC = this.getMinHeightColumnContainer();
-        if (minHeightCC) {
+        if (minHeightCC!==undefined) {
             this.index++;
             const data = this.props.datas[this.index];
             minHeightCC.add(data);

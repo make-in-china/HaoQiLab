@@ -110,7 +110,7 @@ export default class SkinBox extends React.Component {
         this.borderRadius = 5;
         this.shadow = 0;
     }
-    private onRaiseChange = (onChange: (text: string) => void) => {
+    private onRaiseChange: RenderData['props']['onRaiseChange'] = (onChange) => {
         this.onStyleTextChange = onChange;
     }
     private displayOnChange = (value: string) => {
@@ -170,6 +170,7 @@ export default class SkinBox extends React.Component {
         }
         this.skinRule.map.skin = arr2;
         this.cssClass!.updateClass('skin');
+
         let style = this.cssClass!.getStyleByName('skin')!;
         const re = /(\/\*.*?\*\/)/g;
         style = style.replace(/((-[a-z]+?-)?[a-z]+?\-?[a-z]+?:)/g, '<span style="color:red;">$1</span>');

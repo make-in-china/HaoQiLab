@@ -6,7 +6,7 @@ import CircularText from 'src/Components/CircularText';
 import BurrowBox from './Component/BurrowBox';
 import Animation from '../../Components/Animation';
 import Antd from 'antd-more';
-import { observer , observable } from 'mobx-index';
+import { observer, observable } from 'mobx-index';
 import Logo from 'src/Template/Default/Logo';
 import SkinBox from 'src/Page/Play/Component/SkinBox';
 import SketchPicker from 'src/Components/SketchPicker';
@@ -45,12 +45,15 @@ export default class App extends React.Component {
                     permissibleHeightGaps={this.permissibleHeightGaps}
                     datas={[
                         (
-                            <BurrowBox title="取色器">
-                                <SketchPicker/>
+                            <BurrowBox title="选色器">
+                                <div EClass="pdip-5">
+                                    <SketchPicker color={{ R: 255, G: 0, B: 255, A: 0.99 }} />
+                                    {/* <SketchPicker color={{ R: 190, G: 179, B: 190, A: 0.8 }} /> */}
+                                </div>
                             </BurrowBox>
                         ), (
                             <BurrowBox title="样式设计器">
-                                <SkinBox/>
+                                <SkinBox />
                             </BurrowBox>
                         ), (
                             <BurrowBox title="逆序文字">
@@ -72,7 +75,7 @@ export default class App extends React.Component {
                         ), (
                             <BurrowBox title="Logo组件" >
                                 default theme的Logo
-                                <Logo fill="#555"/>
+                                <Logo fill="#555" />
                             </BurrowBox>
                         ), (
                             <BurrowBox title="扩散算法">
