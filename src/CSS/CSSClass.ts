@@ -6,18 +6,25 @@ export const enum ECSSRuleSelector {
     After = 2,
     Active = 4,
     Hover = 8,
-    Child = 16
+    Target = 16,
+    Child = 32
 }
 export interface SelectorMap {
     [index: string]: number;
+
     bf: number;
     af: number;
+
     ac: number;
     hv: number;
+    tg: number;
+
     bfac: number;
     afac: number;
     bfhv: number;
     afhv: number;
+    bftg: number;
+    aftg: number;
 
     chd: number;
 
@@ -25,10 +32,13 @@ export interface SelectorMap {
     chdaf: number;
     chdac: number;
     chdhv: number;
+    chdtg: number;
     chdbfac: number;
     chdafac: number;
     chdbfhv: number;
     chdafhv: number;
+    chdbftg: number;
+    chdaftg: number;
 
 }
 
@@ -43,7 +53,7 @@ export type CSSRuleBaseEx = {
 export type CSSRule = CSSRuleBase[] | CSSRuleCallBack<any> | string;
 export type CSSRuleEx = (CSSRuleBase | CSSRuleBaseEx)[] | CSSRuleCallBack<any> | string | CSSRuleBaseEx;
 // const classNameRuleRE = /^(([\w_]+)(-(bf|af|ac|hv|chd|bfac|afac|bfhv|afhv|chdbf|chdaf|chdac|chdhv|chdbfac|chdbfhv|chdafhv))?(-(\d+))?(-([\w\_\#][\.\w\_\#\d]*))?)$/;
-const classNameRuleRE = /^(([\w_]+)(-(bf|af|ac|hv|chd|bfac|afac|bfhv|afhv|chdbf|chdaf|chdac|chdhv|chdbfac|chdbfhv|chdafhv))?(-(\d+))?(-([\w\_\#][\.\w\_\#\d]*))?)$/;
+const classNameRuleRE = /^(([\w_]+)(-(bf|af|ac|hv|tg|chd|bfac|afac|bfhv|afhv|bftg|aftg|chdbf|chdaf|chdac|chdhv|chdtg|chdbfac|chdbfhv|chdafhv|chdbftg|chdaftg))?(-(\d+))?(-([\w\_\#][\.\w\_\#\d]*))?)$/;
 export interface CSSClassInfo {
     input: string; /* eclassname */
     name: string; /* 纯名字 */
@@ -80,23 +90,38 @@ export namespace cssClassNS {
     export const cssClassSelectorMap: SelectorMap = {
         bf: ECSSRuleSelector.Before,
         af: ECSSRuleSelector.After,
+
         ac: ECSSRuleSelector.Active,
         hv: ECSSRuleSelector.Hover,
+        tg: ECSSRuleSelector.Target,
+
         chd: ECSSRuleSelector.Child,
+
         bfac: ECSSRuleSelector.Before + ECSSRuleSelector.Active,
         afac: ECSSRuleSelector.After + ECSSRuleSelector.Active,
         bfhv: ECSSRuleSelector.Before + ECSSRuleSelector.Hover,
         afhv: ECSSRuleSelector.After + ECSSRuleSelector.Hover,
+        bftg: ECSSRuleSelector.Before + ECSSRuleSelector.Target,
+        aftg: ECSSRuleSelector.After + ECSSRuleSelector.Target,
+
         chdbf: ECSSRuleSelector.Before + ECSSRuleSelector.Child,
         chdaf: ECSSRuleSelector.After + ECSSRuleSelector.Child,
+
         chdac: ECSSRuleSelector.Active + ECSSRuleSelector.Child,
         chdhv: ECSSRuleSelector.Hover + ECSSRuleSelector.Child,
+        chdtg: ECSSRuleSelector.Target + ECSSRuleSelector.Child,
+
         chdbfac: ECSSRuleSelector.Before + ECSSRuleSelector.Active + ECSSRuleSelector.Child,
         chdafac: ECSSRuleSelector.After + ECSSRuleSelector.Active + ECSSRuleSelector.Child,
         chdbfhv: ECSSRuleSelector.Before + ECSSRuleSelector.Hover + ECSSRuleSelector.Child,
-        chdafhv: ECSSRuleSelector.After + ECSSRuleSelector.Hover + ECSSRuleSelector.Child
+        chdafhv: ECSSRuleSelector.After + ECSSRuleSelector.Hover + ECSSRuleSelector.Child,
+        chdbftg: ECSSRuleSelector.Before + ECSSRuleSelector.Target + ECSSRuleSelector.Child,
+        chdaftg: ECSSRuleSelector.After + ECSSRuleSelector.Target + ECSSRuleSelector.Child
     };
     export class CSSClass {
+        static regExp = {
+            keyName: /\.&/g
+        };
         static global: CSSClass[] = [];
         static private: CSSClass[] = [];
         static all: CSSClass[] = [];
@@ -374,10 +399,10 @@ export namespace cssClassNS {
                         const subRule = ruleInfo.rule;
                         const map = ruleInfo.map;
                         if (subRule) {
-                            strRule += '\n  /*' + subInfo.input + '*/\n  ' + this.getRuleString(subRule as any, map as any, subInfo);
+                            strRule += '\n  /*from ' + subInfo.input + '*/\n  ' + this.getRuleString(subRule as any, map as any, subInfo);
                         }
                     } else {
-                        strRule += '\n  /*' + rule + '*/\n\n';
+                        strRule += '\n  /*from ' + rule + '*/\n\n';
                         CSS.missingClass[rule] = null;
                     }
                 } else if (isArray(rule)) {
@@ -459,7 +484,6 @@ export namespace cssClassNS {
                     }
                 }
             }
-
             return {
                 map: map,
                 rule: rule,
@@ -499,7 +523,8 @@ export namespace cssClassNS {
          */
         private getSelectorSuffix<T extends keyof SelectorMap>(selector: T) {
             if (!(selector in cssClassSelectorMap)) {
-                const selectorList = selector.split(',');
+                const key = '.' + this.key;
+                const selectorList = selector.split(',').map(v => v.replace(CSSClass.regExp.keyName, key));
                 return selectorList;
             }
             const selectorEnum = cssClassSelectorMap[selector];
@@ -516,6 +541,10 @@ export namespace cssClassNS {
             if (selectorEnum & ECSSRuleSelector.Hover) {
                 // selectorName+='hv';
                 selectorSuffix += ':hover';
+            }
+            if (selectorEnum & ECSSRuleSelector.Target) {
+                // selectorName+='tg';
+                selectorSuffix += ':target';
             }
             if (selectorEnum & ECSSRuleSelector.Before) {
                 // selectorName+='bf';
