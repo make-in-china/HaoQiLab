@@ -11,21 +11,13 @@ import SkinTargets from 'src/Page/Play/Component/SkinTargets';
 import { ReactNode } from 'src/Lib/react';
 import SkinBoxSetupItem from 'src/Page/Play/Component/SkinBoxSetupItem';
 @React.eclass({
-    box: [
-        'nowrap-chd'.split(' '),
-        {
-            '>div': ['mdipt-5'.split(' ')],
-            '>div>span': ['text-align:right;', 'mdipr-10 wem-8 inline'.split(' ')],
-            '>div>input': ['wem-4 inline'.split(' ')]
-        }
-    ],
     view: [
         {
             'chd': ['mhem-5 w-50 uof inline alignTop bdbox pdip-5'.split(' ')]
         }
     ],
     frame: [
-        'rdip-5 ladip bd-12-gray'.split(' ')
+        'rdip-5 pdip-5 ladip bd-12-gray'.split(' ')
     ],
     skin: []
 })
@@ -70,36 +62,38 @@ export default class SkinBox extends React.Component {
         // // tslint:disable-next-line:no-unused-expression
         // void this.renderRandom;
         return (
-            <div EClass="box">
-                <SkinBoxSetupItem onChangeCheck={this.onChangeCheck} title="display" source={this.checkList}>
-                    <StringSelect defaultValue={this.display} data={['none', 'inline-block', 'block', 'inline-flex', 'flex', 'inline-grid', 'grid', 'inline-table', 'table', 'list-item', 'run-in', 'table-caption', 'table-cell', 'table-column', 'table-column-group', 'table-footer-group', 'table-header-group', 'table-row', 'table-row-group']} onChange={this.displayOnChange} />
-                </SkinBoxSetupItem>
-                <SkinBoxSetupItem onChangeCheck={this.onChangeCheck} title="margin" source={this.checkList}>
-                    <StepSlider defaultValue={this.margin} min={1} max={100} step={10} onChange={this.marginSliderOnChange} />
-                </SkinBoxSetupItem>
-                <SkinBoxSetupItem onChangeCheck={this.onChangeCheck} title="padding" source={this.checkList}>
-                    <StepSlider defaultValue={this.padding} min={1} max={100} step={10} onChange={this.paddingSliderOnChange} />
-                </SkinBoxSetupItem>
-                <SkinBoxSetupItem onChangeCheck={this.onChangeCheck} title="borderStyle" source={this.checkList}>
-                    <StringSelect defaultValue={this.borderStyle} data={['none', 'hidden', 'solid', 'dashed', 'dotted', 'ridge', 'inset', 'outset', 'groove', 'double']} onChange={this.borderStyleOnChange} />
-                </SkinBoxSetupItem>
-                <SkinBoxSetupItem onChangeCheck={this.onChangeCheck} title="borderWidth" source={this.checkList}>
-                    <StepSlider defaultValue={this.borderWidth} min={1} max={100} step={10} onChange={this.borderWidthSliderOnChange} />
-                </SkinBoxSetupItem>
-                <SkinBoxSetupItem onChangeCheck={this.onChangeCheck} title="borderRadius" source={this.checkList}>
-                    <StepSlider defaultValue={this.borderRadius} min={1} max={100} step={10} onChange={this.borderRadiusSliderOnChange} />
-                </SkinBoxSetupItem>
-                <SkinBoxSetupItem onChangeCheck={this.onChangeCheck} title="shadow" source={this.checkList}>
-                    <StepSlider defaultValue={this.shadow} min={1} max={20} step={2} onChange={this.shadowSliderOnChange} />
-                </SkinBoxSetupItem>
+            <div>
+                <div id="aaa" EClass="frame mdip-5">
+                    <SkinBoxSetupItem onChangeCheck={this.onChangeCheck} title="显示模式" keyName="display" source={this.checkList}>
+                        <StringSelect defaultValue={this.display} data={['none', 'inline-block', 'block', 'inline-flex', 'flex', 'inline-grid', 'grid', 'inline-table', 'table', 'list-item', 'run-in', 'table-caption', 'table-cell', 'table-column', 'table-column-group', 'table-footer-group', 'table-header-group', 'table-row', 'table-row-group']} onChange={this.displayOnChange} />
+                    </SkinBoxSetupItem>
+                    <SkinBoxSetupItem onChangeCheck={this.onChangeCheck} title="外边距" keyName="margin" source={this.checkList}>
+                        <StepSlider defaultValue={this.margin} min={1} max={100} step={10} onChange={this.marginSliderOnChange} />
+                    </SkinBoxSetupItem>
+                    <SkinBoxSetupItem onChangeCheck={this.onChangeCheck} title="内边距" keyName="padding" source={this.checkList}>
+                        <StepSlider defaultValue={this.padding} min={1} max={100} step={10} onChange={this.paddingSliderOnChange} />
+                    </SkinBoxSetupItem>
+                    <SkinBoxSetupItem onChangeCheck={this.onChangeCheck} title="边框风格" keyName="borderStyle" source={this.checkList}>
+                        <StringSelect defaultValue={this.borderStyle} data={['none', 'hidden', 'solid', 'dashed', 'dotted', 'ridge', 'inset', 'outset', 'groove', 'double']} onChange={this.borderStyleOnChange} />
+                    </SkinBoxSetupItem>
+                    <SkinBoxSetupItem onChangeCheck={this.onChangeCheck} title="边框宽度" keyName="borderWidth" source={this.checkList}>
+                        <StepSlider defaultValue={this.borderWidth} min={1} max={100} step={10} onChange={this.borderWidthSliderOnChange} />
+                    </SkinBoxSetupItem>
+                    <SkinBoxSetupItem onChangeCheck={this.onChangeCheck} title="边框圆角" keyName="borderRadius" source={this.checkList}>
+                        <StepSlider defaultValue={this.borderRadius} min={1} max={100} step={10} onChange={this.borderRadiusSliderOnChange} />
+                    </SkinBoxSetupItem>
+                    <SkinBoxSetupItem onChangeCheck={this.onChangeCheck} title="阴影" keyName="shadow" source={this.checkList}>
+                        <StepSlider defaultValue={this.shadow} min={1} max={20} step={2} onChange={this.shadowSliderOnChange} />
+                    </SkinBoxSetupItem>
+                </div>
                 <div EClass="view">
                     <div>
-                        <div EClass="frame">
+                        <div EClass="frame minhem-20">
                             <SkinTargets count={2} max={10} EClass="skin" />
                         </div>
                     </div>
                     <div>
-                        <pre EClass="frame">
+                        <pre EClass="frame minhem-20">
                             <RenderData data="" onRaiseChange={this.onRaiseChange} />
                         </pre>
                     </div>
@@ -172,7 +166,7 @@ export default class SkinBox extends React.Component {
             arr.push('shadow-' + this.shadow);
         }
         if (this.checkList.display) {
-            arr2.push(`display:${this.display};`);
+            arr2.unshift(`display:${this.display};`);
         }
         this.skinRule.map.skin = arr2;
         this.cssClass!.updateClass('skin');
