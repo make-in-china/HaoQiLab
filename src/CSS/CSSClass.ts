@@ -283,10 +283,10 @@ export namespace cssClassNS {
             nameOrRuleObject: string | Record<string, T>, rule?: CSSRule) {
             if (isObject(nameOrRuleObject)) {
                 for (const key in (nameOrRuleObject as Record<string, T>)) {
-                    this.registerOneRule(key, nameOrRuleObject[key]);
+                    this.registerClassRuleItem(key, nameOrRuleObject[key]);
                 }
             } else if (rule !== undefined) {
-                this.registerOneRule(nameOrRuleObject, rule);
+                this.registerClassRuleItem(nameOrRuleObject, rule);
             } else {
                 throw new Error('未提供rule参数！');
             }
@@ -564,7 +564,7 @@ export namespace cssClassNS {
                 cssClass: thatCssClass
             };
         }
-        private registerOneRule(name: string, rule: CSSRuleEx) {
+        registerClassRuleItem(name: string, rule: CSSRuleEx) {
             // if (name in this.rule) {
             //     console.log(name + ' be replaced by ' + JSON.stringify(rule));
             // }

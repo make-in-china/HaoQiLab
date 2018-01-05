@@ -3,6 +3,7 @@ import React from 'react-ex';
 import Antd from 'antd-min';
 import BreadcrumbItems from './BreadcrumbItems';
 import Clock from '../../../Components/Clock';
+import { G } from '../../../CSS/G';
 const logo = require('../../assert/logo.png');
 @React.eclass({
     box: [{
@@ -14,7 +15,7 @@ const logo = require('../../assert/logo.png');
         '.Affix': 'padding-left:25px;',
         '.Affix .Breadcrumb': 'float:left;margin:8px 0;',
         '.Affix .ant-affix': 'left:0 !important;height:2.5em;background-color:rgba(0,0,0,0.75);border-bottom-right-radius:1em;',
-        '.Affix,.Affix .Breadcrumb, .ant-breadcrumb-separator,.Affix .Breadcrumb .BreadcrumbItem,.Affix .Breadcrumb .BreadcrumbItem a': 'color:#fff;'
+        '.Affix,.Affix .Breadcrumb, .ant-breadcrumb-separator,.Affix .Breadcrumb .BreadcrumbItem,.Affix .Breadcrumb .BreadcrumbItem a': [[G.Class.map.clr_primary]]
     }],
     box2: [{
         ' .logo': ['uof'.split(' ')],
@@ -32,7 +33,7 @@ export default class AffixBreadcrumb
     > {
 
     eclassControl = new React.AsyncEClass('box', 'box2');
-    eclassControl2 = new React.AsyncEClass('mdiplr-50', 'mdiptb-16');
+    eclassControl2 = new React.AsyncEClass('mdiplr-50 floatr', 'mdiptb-16');
     onChange = (affixed: boolean) => {
         this.eclassControl.setClass('box' + (affixed ? '1' : '2'));
         this.eclassControl2.setClass('mdiptb-' + (affixed ? '8' : '16'));
@@ -53,7 +54,7 @@ export default class AffixBreadcrumb
                     </Antd.Affix>
                 </div>
             ), (
-                <div EClass={this.eclassControl2} style={{ float: 'right' }}><Clock /></div>
+                <div EClass={this.eclassControl2} className={G.Class.map.clr_primary}><Clock /></div>
             )
         ];
     }

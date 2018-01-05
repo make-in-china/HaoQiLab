@@ -1,6 +1,6 @@
 import * as _React from 'react';
 import { CSS, cssClassNS, CSSRuleEx } from '../CSS/CSSClass';
-import * as ReactDOM from 'react-dom';
+import { calcStyle } from 'src/CSS/CalcStyle';
 namespace ReactEx {
     let renderCSSClass: cssClassNS.CSSClass = CSS.instance;
     let isHookCreateElement = false;
@@ -130,22 +130,7 @@ namespace ReactEx {
         ['EClass-chdbfhv']?: string;
         ['EClass-chdafhv']?: string;
     }
-    export function calcStyle(style: React.CSSProperties) {
-        let str: string | null = null;
-        ReactDOM.render(
-            _React.createElement('div', {
-                // tslint:disable-next-line:typedef
-                ref: function (elem: HTMLElement | null) {
-                    str = elem!.style.cssText;
-                },
-                style: style
-            }),
-            document.createElement('div')
-        );
-        return function () {
-            return str ? str : '';
-        };
-    }
+
     // /* 注册私有eclass并立即写入到style */
     // export function estyle(
     //     rule: Record<string, CSSRuleEx>,
@@ -172,13 +157,13 @@ namespace ReactEx {
      * 注册eclass
      * @param rule 
      * @param isPrivate 
-     * @param isNoExtendsGlobal 
+     * @param isExtendsGlobal 
      * @param isGlobalName 
      */
     export function eclass(
         rule: Record<string, CSSRuleEx>,
         isPrivate: boolean = true/* true 不允许被继承 ; false 允许*/,
-        isNoExtendsGlobal: boolean = false/* false 不从全局继承rule ;true 继承*/,
+        isExtendsGlobal: boolean = false/* false 不从全局继承rule ;true 继承*/,
         isGlobalName: boolean = false/* false 不加名字前缀 ; true 加*/
     ) {
         return function <T extends
@@ -198,7 +183,7 @@ namespace ReactEx {
             };
             return function (props: any) {
                 const ret = new (ctor as any)(props);
-                ret.cssClass = new cssClassNS.CSSClass(undefined, isPrivate, isNoExtendsGlobal, isGlobalName, rule);
+                ret.cssClass = new cssClassNS.CSSClass(undefined, isPrivate, isExtendsGlobal, isGlobalName, rule);
                 return ret;
             } as any;
         };
@@ -290,7 +275,7 @@ namespace ReactEx {
         // }
     }
 }
-export default { ..._React, ...ReactEx };
+export default { ..._React, ...ReactEx, calcStyle: calcStyle };
 if (_React === undefined) {
     alert('未导入React');
 }

@@ -14,28 +14,29 @@ import { observer, observable } from 'mobx-index';
 export default class SkinBoxSetupItem
     extends React.Component<
     {
-        source: Record<string, boolean>
+        source: Record<string, boolean | undefined>
         keyName: string
         title: string
         onChangeCheck: () => void
     }> {
-    @observable private renderRandom = Math.random();
+    @observable private isCheck = this.props.source[this.props.keyName];
     onChange: Antd.Checkbox['props']['onChange'] = (e) => {
-        this.props.source[this.props.keyName] = e.target.checked;
+        this.isCheck = this.props.source[this.props.keyName] = e.target.checked;
         this.props.onChangeCheck();
-        this.renderRandom = Math.random();
+    }
+    componentWillUpdate(props: this['props']) {
+        this.isCheck = props.source[this.props.keyName];
     }
     render() {
-        // tslint:disable-next-line:no-unused-expression
-        void this.renderRandom;
+        const isCheck = this.isCheck;
         return (
-            <div EClass="line">
+            <div EClass={'line' + (isCheck ? '' : ' op-5')}>
                 <Antd.Tooltip placement="left" title={this.props.keyName}>
-                    <Antd.Checkbox onChange={this.onChange} checked={this.props.source[this.props.keyName]}>
+                    <Antd.Checkbox onChange={this.onChange} checked={isCheck}>
                         <span EClass="name" >{this.props.title} : </span>
                     </Antd.Checkbox>
                 </Antd.Tooltip>
-                {this.props.children}
+                <div EClass={isCheck ? 'inline' : 'inline noevent'}>{this.props.children}</div>
             </div>
         );
     }

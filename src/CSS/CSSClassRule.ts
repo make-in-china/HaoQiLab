@@ -192,16 +192,16 @@ const rule1 = {
     lrpx(idx: number = 1, moreInfo: string = 'solid') { return `border-right:${idx}px #808080 ${moreInfo};`; },
     ltpx(idx: number = 1, moreInfo: string = 'solid') { return `border-top:${idx}px #808080 ${moreInfo};`; },
     lbpx(idx: number = 1, moreInfo: string = 'solid') { return `border-bottom:${idx}px #808080 ${moreInfo};`; },
-    llrpx(idx: number, moreInfo: string) { return rule1.llpx(idx, moreInfo) + rule1.lrpx(idx, moreInfo); },
-    ltbpx(idx: number, moreInfo: string) { return rule1.ltpx(idx, moreInfo) + rule1.lbpx(idx, moreInfo); },
+    llrpx(idx: number, moreInfo?: string) { return rule1.llpx(idx, moreInfo) + rule1.lrpx(idx, moreInfo); },
+    ltbpx(idx: number, moreInfo?: string) { return rule1.ltpx(idx, moreInfo) + rule1.lbpx(idx, moreInfo); },
     lapx(idx: number = 1, moreInfo: string = 'solid') { return `border:${idx}px #808080 ${moreInfo};`; },
 
     lldip(idx: number = 1, moreInfo: string = 'solid') { return `border-left:${idx! * px1}em #808080 ${moreInfo};`; },
     lrdip(idx: number = 1, moreInfo: string = 'solid') { return `border-right:${idx! * px1}em #808080 ${moreInfo};`; },
     ltdip(idx: number = 1, moreInfo: string = 'solid') { return `border-top:${idx! * px1}em #808080 ${moreInfo};`; },
     lbdip(idx: number = 1, moreInfo: string = 'solid') { return `border-bottom:${idx! * px1}em #808080 ${moreInfo};`; },
-    llrdip(idx: number, moreInfo: string) { return rule1.llpx(idx, moreInfo) + rule1.lrpx(idx, moreInfo); },
-    ltbdip(idx: number, moreInfo: string) { return rule1.ltpx(idx, moreInfo) + rule1.lbpx(idx, moreInfo); },
+    llrdip(idx: number, moreInfo?: string) { return rule1.llpx(idx, moreInfo) + rule1.lrpx(idx, moreInfo); },
+    ltbdip(idx: number, moreInfo?: string) { return rule1.ltpx(idx, moreInfo) + rule1.lbpx(idx, moreInfo); },
     ladip(idx: number = 1, moreInfo: string = 'solid') { return `border:${idx! * px1}em #808080 ${moreInfo};`; },
 
     bdw(idx: number) { return `border-width:${idx}%;`; },
@@ -212,13 +212,13 @@ const rule1 = {
     bdwdip(idx: number) { return `border-width:${idx! * px1}em;`; },
     bdwem(idx: number) { return `border-width:${idx}em;`; },
 
-    bds(idx: number, moreInfo: string) { return `border-style:${moreInfo};`; },
-    bdsl(idx: number, moreInfo: string) { return `border-left-style:${moreInfo};`; },
-    bdsr(idx: number, moreInfo: string) { return `border-right-style:${moreInfo};`; },
-    bdst(idx: number, moreInfo: string) { return `border-top-style:${moreInfo};`; },
-    bdsb(idx: number, moreInfo: string) { return `border-bottom-style:${moreInfo};`; },
-    bdslr(idx: number, moreInfo: string) { return rule1.bdsl(idx, moreInfo) + rule1.bdsr(idx, moreInfo); },
-    bdstb(idx: number, moreInfo: string) { return rule1.bdst(idx, moreInfo) + rule1.bdsb(idx, moreInfo); },
+    bds(idx: number, moreInfo: string = 'solid') { return `border-style:${moreInfo};`; },
+    bdsl(idx: number, moreInfo: string = 'solid') { return `border-left-style:${moreInfo};`; },
+    bdsr(idx: number, moreInfo: string = 'solid') { return `border-right-style:${moreInfo};`; },
+    bdst(idx: number, moreInfo: string = 'solid') { return `border-top-style:${moreInfo};`; },
+    bdsb(idx: number, moreInfo: string = 'solid') { return `border-bottom-style:${moreInfo};`; },
+    bdslr(idx: number, moreInfo: string = 'solid') { return rule1.bdsl(idx, moreInfo) + rule1.bdsr(idx, moreInfo); },
+    bdstb(idx: number, moreInfo: string = 'solid') { return rule1.bdst(idx, moreInfo) + rule1.bdsb(idx, moreInfo); },
 
     bdbox: `box-sizing:border-box;`,
 
@@ -401,7 +401,7 @@ function setMax(moreInfo: string | undefined) {
 }
 export default {
     register() {
-        cssClassNS.CSSClass.instance.registerClassRule(rule1 as any);
+        cssClassNS.CSSClass.instance.registerClassRule(rule1);
         new cssClassNS.CSSClass(undefined, false, false, true).registerClassRule(rule2);
     }
 };

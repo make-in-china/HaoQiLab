@@ -23,8 +23,9 @@ export default class SketchPicker
     // #endregion
 
     // #region public property
-    @observable color: RGBA = this.color = this.props.color;
+    @observable color: RGBA = this.props.color;
     root: HTMLDivElement;
+    divBox: HTMLDivElement;
     div: HTMLDivElement;
     onChange: SketchPickerPanel['props']['onChange'] = (clr) => {
         this.color = clr;
@@ -34,17 +35,26 @@ export default class SketchPicker
     }
 
     onClick: MouseEventHandler<HTMLDivElement> = (e) => {
+        const divBox = this.divBox;
         const div = this.div;
         const pos = getOffset(this.root);
-        div.style.left = pos.x + 'px';
-        div.style.top = pos.y - this.root.scrollHeight + 'px';
-        document.body.appendChild(div);
+        let left = pos.x;
+        if (left < 0) {
+            left = 0;
+        }
+        divBox.style.left = left + 'px';
+        let top = pos.y - this.root.scrollHeight;
+
+        divBox.style.top = top + 'px';
+        document.body.appendChild(divBox);
 
         ReactDOM.render((
-            <div style={{ marginTop: '-100%' }}>
-                <SketchPickerPanel color={this.color} onChange={this.onChange} />
-            </div>
+            <SketchPickerPanel color={this.color} onChange={this.onChange} />
         ), div);
+        const pos2 = getOffset(div);
+        if (pos2.y < 5) {
+            divBox.style.top = top - pos2.y + 5 + 'px';
+        }
         document.body.addEventListener('click', this.closePanel);
     }
     onRef: Ref<HTMLDivElement> = (elem) => {
@@ -61,27 +71,31 @@ export default class SketchPicker
     // #endregion
 
     // #region public methods
-    /**
-     *
-     */
+
     constructor(props: SketchPicker['props']) {
         super(props);
-        const div = this.div = document.createElement('div');
         const eclass = cssClassNS.CSSClass.instance;
+        const divBox = this.divBox = document.createElement('div');
         eclass.registerClass('abs');
         eclass.registerClass('pdip-5');
         eclass.registerClass('zidx-8888');
-        div.className = 'abs pdip-5 zidx-8888';
-        div.addEventListener('click', function (e: Event) {
+        divBox.className = 'abs pdip-5 zidx-8888';
+        divBox.addEventListener('click', function (e: Event) {
             e.stopPropagation();
             e.preventDefault();
         });
+        const div = this.div = document.createElement('div');
+        div.style.marginTop = '-100%';
+        divBox.appendChild(div);
     }
     componentWillMount() {
-        this.init();
+        this.init(this.props);
     }
-    init() {
-        this.color = this.props.color;
+    componentWillReceiveProps(props: this['props']) {
+        this.init(props);
+    }
+    init(props: this['props']) {
+        this.color = props.color;
     }
     render() {
         const color = this.color;
@@ -98,7 +112,7 @@ export default class SketchPicker
     // #region private methods
     closePanel = () => {
         document.body.removeEventListener('click', this.closePanel);
-        this.div.remove();
+        this.divBox.remove();
     }
     // #endregion
 }

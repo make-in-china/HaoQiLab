@@ -68,7 +68,7 @@ export default class SketchPickerPanel
         }
         this.updateBaseColor();
         this.recalShowColor();
-        this.updateColor();
+        this.updateColor(this.props);
     });
     onAlpha = new TouchMove((e, target: HTMLElement) => {
         const pos = getPos(e, target);
@@ -82,7 +82,7 @@ export default class SketchPickerPanel
         alpha = Math.floor(alpha * 100) / 100;
         this.alpha = alpha;
         this.recalShowColor();
-        this.updateColor();
+        this.updateColor(this.props);
     });
     onColorBox = new TouchMove((e, target: HTMLElement) => {
         this.pos = getPos(e, target);
@@ -97,7 +97,7 @@ export default class SketchPickerPanel
             this.pos.y = 0;
         }
         this.recalShowColor();
-        this.updateColor();
+        this.updateColor(this.props);
     });
     private baseColor: RGB;
     private alpha: number;
@@ -118,9 +118,13 @@ export default class SketchPickerPanel
             A: 0
         };
     }
-
-    init() {
-        const propsColor = this.props.color;
+    
+    componentWillReceiveProps(props: this['props']) {
+        this.init(props);
+        this.updateColor(this.props);
+    }
+    init(props: this['props']) {
+        const propsColor = props.color;
 
         let high = propsColor.R;
         if (propsColor.G > high) {
@@ -238,14 +242,14 @@ export default class SketchPickerPanel
         const color = getRGBByArea(this.baseColor, { R: 255, G: 255, B: 255 }, colorWidth - this.pos.x, colorWidth);
         this.showColor = getRGBByArea(color, { R: 0, G: 0, B: 0 }, this.pos.y, colorHeight);
 
-        this.alpha = this.props.color.A;
+        this.alpha = props.color.A;
 
         this.alphaslidepos = colorSlideWidth * this.alpha;
 
     }
     componentWillMount() {
-        this.init();
-        this.updateColor();
+        this.init(this.props);
+        this.updateColor(this.props);
     }
     updateBaseColor() {
         const persent = this.colorslidepos / colorSlideWidth;
@@ -269,7 +273,7 @@ export default class SketchPickerPanel
             this.baseColor = getRGBByArea({ R: 255, G: 0, B: 255 }, { R: 255, G: 0, B: 0 }, persent - 0.83, 0.17);
         }
     }
-    updateColor() {
+    updateColor(props: this['props']) {
 
         const alpha = `linear-gradient(to right, rgba(${this.showColor.R},${this.showColor.G},${this.showColor.B},0) 0%, rgb(${this.showColor.R},${this.showColor.G},${this.showColor.B}) 100%);`;
         const rgba = { ...this.showColor, A: this.alpha };
@@ -289,12 +293,13 @@ export default class SketchPickerPanel
                 this.onStyleTextChange(strRGBA);
             }
         }
-        if (this.props.onChange) {
-            this.props.onChange(rgba);
+        if (props.onChange) {
+            props.onChange(rgba);
         }
 
     }
     render() {
+        debugger;
         return (
             <div EClass="box">
                 <div EClass="colorbox colorboxbg" onMouseDown={this.onColorBox.autoDown}>

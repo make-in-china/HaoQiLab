@@ -1,11 +1,14 @@
 
 import React from 'react-ex';
 
-import CPNLoader from '../Components/CPNLoader'; 
+import CPNLoader from '../Components/CPNLoader';
 import '../index.css';
 import CSSClassRule from '../CSS/CSSClassRule';
+import { G } from '../CSS/G';
+
 const pages = require('./Pages.json');
 CSSClassRule.register();
+G.Class.register();
 export default abstract class BaseApp
     extends React.Component
     <

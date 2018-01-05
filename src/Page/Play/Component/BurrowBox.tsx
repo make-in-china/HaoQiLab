@@ -1,6 +1,7 @@
 import React from 'react-ex';
 import Antd from 'antd-more';
 import { observer, observable } from 'mobx-index';
+import { G } from 'src/CSS/G';
 @React.eclass({
     box: [
         'pdip-5 rdip-5 mdipt-10 ladip uof bd-12-gray minhem-15'.split(' '),
@@ -13,10 +14,9 @@ import { observer, observable } from 'mobx-index';
     content: ['pdip-3 mdip-2 mdipt-5 uof'.split(' ')]
 })
 @observer
-export default class App extends React.Component<{ title?: string, style?: { backgroundColor?: string } }> {
+export default class App extends React.Component<{ title?: string }> {
     @observable max = false;
     @observable content = this.props.children;
-    backgroundColor = (this.props.style && this.props.style.backgroundColor) || '#ffffff';
     onRefresh: React.FormEventHandler<Antd.Button> = () => {
         this.content = this.props.children; // React.cloneReactNode(this.props.children);
     }
@@ -25,8 +25,8 @@ export default class App extends React.Component<{ title?: string, style?: { bac
     }
     render() {
         return (
-            <div style={{ backgroundColor: this.backgroundColor }} EClass={this.max ? 'boxbig' : 'box'}>
-                <div EClass="title" >
+            <div className={G.Class.map.clr_background3} EClass={this.max ? 'boxbig' : 'box'}>
+                <div EClass="title" className={G.Class.map.clr_primary}>
                     {this.props.title}
                     {this.max ? (
                         <Antd.Button size="small" shape="circle" icon="shrink" EClass="floatr" onClick={this.onChange} />
