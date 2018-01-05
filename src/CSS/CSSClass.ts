@@ -121,7 +121,14 @@ export function getRGBString(color: RGB) {
         rightString('0' + color.R.toString(16), 2) +
         rightString('0' + color.G.toString(16), 2) +
         rightString('0' + color.B.toString(16), 2);
-    return '#' + rightString('00000' + ret, 6);
+    return '#' + ret;
+}
+export function getRGBA2String(color: RGBA) {
+
+    return rightString('0' + Math.floor(color.A * 256).toString(16), 2) +
+        rightString('0' + color.R.toString(16), 2) +
+        rightString('0' + color.G.toString(16), 2) +
+        rightString('0' + color.B.toString(16), 2);
 }
 export function getColorByArea(color1: string, color2: string, index: number, max: number): string {
     const color1RGB = getRGB(color1);

@@ -146,17 +146,17 @@ namespace ReactEx {
             return str ? str : '';
         };
     }
-    /* 注册私有eclass并立即写入到style */
-    export function estyle(
-        rule: Record<string, CSSRuleEx>,
-        isNoExtendsGlobal: boolean = false/* false 不从全局继承rule ;true 继承*/) {
-        const cssClass = new cssClassNS.CSSClass(undefined, true, isNoExtendsGlobal, true, rule);
-        return function (ctor: any) {
-            for (const key in rule) {
-                cssClass.registerClass(key);
-            }
-        };
-    }
+    // /* 注册私有eclass并立即写入到style */
+    // export function estyle(
+    //     rule: Record<string, CSSRuleEx>,
+    //     isNoExtendsGlobal: boolean = false/* false 不从全局继承rule ;true 继承*/) {
+    //     const cssClass = new cssClassNS.CSSClass(undefined, true, isNoExtendsGlobal, true, rule);
+    //     return function (ctor: any) {
+    //         for (const key in rule) {
+    //             cssClass.registerClass(key);
+    //         }
+    //     };
+    // }
     export class AsyncEClass {
         instance: HTMLElement | null;
         onChange?: (this: AsyncEClass, newClass: string) => void;
@@ -179,8 +179,8 @@ namespace ReactEx {
         rule: Record<string, CSSRuleEx>,
         isPrivate: boolean = true/* true 不允许被继承 ; false 允许*/,
         isNoExtendsGlobal: boolean = false/* false 不从全局继承rule ;true 继承*/,
-        isGlobalName: boolean = false/* false 不加名字前缀 ; true 加*/) {
-        const cssClass = new cssClassNS.CSSClass(undefined, isPrivate, isNoExtendsGlobal, isGlobalName, rule);
+        isGlobalName: boolean = false/* false 不加名字前缀 ; true 加*/
+    ) {
         return function <T extends
             {
                 prototype: {
@@ -189,16 +189,16 @@ namespace ReactEx {
             }>(ctor: T) {
             const render = ctor.prototype.render;
             // (ctor as any).cssClass = cssClass;
-            ctor.prototype.render = function () {
+            ctor.prototype.render = function (this: Component) {
                 const oldcssClass = renderCSSClass;
-                renderCSSClass = cssClass;
+                renderCSSClass = this.cssClass!;
                 const result = render.call(this);
                 renderCSSClass = oldcssClass;
                 return result;
             };
             return function (props: any) {
                 const ret = new (ctor as any)(props);
-                ret.cssClass = cssClass;
+                ret.cssClass = new cssClassNS.CSSClass(undefined, isPrivate, isNoExtendsGlobal, isGlobalName, rule);
                 return ret;
             } as any;
         };

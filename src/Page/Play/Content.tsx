@@ -9,7 +9,7 @@ import Antd from 'antd-more';
 import { observer, observable } from 'mobx-index';
 import Logo from 'src/Template/Default/Logo';
 import SkinBox from 'src/Page/Play/Component/SkinBox';
-import SketchPicker from 'src/Components/SketchPicker';
+import SketchPickerPanel from 'src/Components/SketchPickerPanel';
 const RadioGroup = Antd.Radio.Group;
 const RadioButton = Antd.Radio.Button;
 @React.eclass({
@@ -47,7 +47,7 @@ export default class App extends React.Component {
                         (
                             <BurrowBox title="选色器">
                                 <div EClass="pdip-5">
-                                    <SketchPicker color={{ R: 255, G: 0, B: 255, A: 0.99 }} />
+                                    <SketchPickerPanel color={{ R: 255, G: 0, B: 255, A: 0.99 }} />
                                     {/* <SketchPicker color={{ R: 190, G: 179, B: 190, A: 0.8 }} /> */}
                                 </div>
                             </BurrowBox>

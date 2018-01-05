@@ -268,8 +268,30 @@ const rule2 = {
     bd(idx: number, moreInfo: string) { return `border-color:${getColorByEClass(idx, moreInfo!)};`; },
     f(idx: number, moreInfo: string) { return `color:${getColorByEClass(idx, moreInfo!)};`; },
 
-    shadow(idx: number, moreInfo: string = 'black') {
-        const v = `0em 0em ${idx / 2 + 0.25}em ${idx * px1}em ${getColorByEClass(8, moreInfo!)}`;
+    shadow(idx: number, moreInfo?: string) {
+        let color: string;
+        if (moreInfo) {
+            switch (moreInfo.length) {
+                case 3:
+                    color = '#' + moreInfo[0] + moreInfo[0] + moreInfo[1] + moreInfo[1] + moreInfo[2] + moreInfo[2];
+                    break;
+                case 6:
+                    color = '#' + moreInfo;
+                    break;
+                case 8:
+                    let alpha = parseInt(moreInfo.substr(0, 2), 16) / 256;
+                    let red = parseInt(moreInfo.substr(2, 2), 16);
+                    let green = parseInt(moreInfo.substr(4, 2), 16);
+                    let blue = parseInt(moreInfo.substr(6, 2), 16);
+                    color = `rgba(${red},${green},${blue},${alpha})`;
+                    break;
+                default:
+                    color = 'rgba(0,0,0,0.5)';
+            }
+        } else {
+            color = 'rgba(0,0,0,0.5)';
+        }
+        const v = `0em 0em ${idx / 2 + 0.25}em ${idx * px1}em ${color}`;
         return `-webkit-box-shadow:${v};box-shadow:${v};`;
     },
 };

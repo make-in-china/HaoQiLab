@@ -1,3 +1,5 @@
+
+//  从自己其他框架里拷贝过来的代码，临时修改一下，屏蔽了手指的部分
 import { TouchMoveEvent } from './TouchMoveEvent';
 import { SyntheticEvent } from 'src/Lib/react';
 /**
@@ -27,6 +29,8 @@ export class TouchMove<T extends HTMLElement> {
             const evt = new TouchMoveEvent(event, that.isTouch);
             that.target = evt.targetEvent.target;
             that.fn.call(this, evt, that.target);
+            event.preventDefault();
+            event.stopPropagation();
         };
         // this.down = function (event: SyntheticEvent<T>) {
         //     that.isTouch = true;
@@ -34,6 +38,7 @@ export class TouchMove<T extends HTMLElement> {
         // };
         this.up = function (event: SyntheticEvent<T>) {
             if (that.isTouch) {
+                // 全局总是引发的，判断一下
                 that.isTouch = false;
                 that.fn.call(this, new TouchMoveEvent(event, that.isTouch), that.target);
             }

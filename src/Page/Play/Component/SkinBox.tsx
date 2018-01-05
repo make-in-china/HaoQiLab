@@ -3,13 +3,14 @@
  */
 
 import React from 'react-ex';
-import { CSSRuleEx, cssClassNS } from '../../../CSS/CSSClass';
+import { CSSRuleEx, cssClassNS, RGBA, getRGBA2String } from '../../../CSS/CSSClass';
 import StepSlider from 'src/Page/Play/Component/StepSlider';
 import StringSelect from 'src/Page/Play/Component/StringSelect';
 import RenderData from '../../../Components/RenderData';
 import SkinTargets from 'src/Page/Play/Component/SkinTargets';
 import { ReactNode } from 'src/Lib/react';
 import SkinBoxSetupItem from 'src/Page/Play/Component/SkinBoxSetupItem';
+import SketchPicker from 'src/Components/SketchPicker';
 @React.eclass({
     view: [
         {
@@ -30,6 +31,7 @@ export default class SkinBox extends React.Component {
     borderWidth: number;
     borderRadius: number;
     shadow: number;
+    shadowColor: RGBA;
     skinRule: {
         map: Record<string, CSSRuleEx>;
         rule: CSSRuleEx;
@@ -46,6 +48,11 @@ export default class SkinBox extends React.Component {
     };
     private onStyleTextChange: ((data: ReactNode) => void);
     // @observable private renderRandom = Math.random();
+
+    onChange: SketchPicker['props']['onChange'] = (clr) => {
+        this.shadowColor = clr;
+        this.updateRule();
+    }
     componentDidMount() {
         this.skinRule = this.cssClass!.getRule('skin');
         this.updateRule();
@@ -84,6 +91,7 @@ export default class SkinBox extends React.Component {
                     </SkinBoxSetupItem>
                     <SkinBoxSetupItem onChangeCheck={this.onChangeCheck} title="阴影" keyName="shadow" source={this.checkList}>
                         <StepSlider defaultValue={this.shadow} min={1} max={20} step={2} onChange={this.shadowSliderOnChange} />
+                        <SketchPicker color={this.shadowColor} onChange={this.onChange} />
                     </SkinBoxSetupItem>
                 </div>
                 <div EClass="view">
@@ -101,6 +109,7 @@ export default class SkinBox extends React.Component {
             </div >
         );
     }
+    // #region private
     private init() {
         this.display = 'inline-block';
         this.margin = 15;
@@ -109,6 +118,7 @@ export default class SkinBox extends React.Component {
         this.borderWidth = 1;
         this.borderRadius = 5;
         this.shadow = 0;
+        this.shadowColor = { R: 0, G: 0, B: 0, A: 0.5 };
     }
     private onRaiseChange: RenderData['props']['onRaiseChange'] = (onChange) => {
         this.onStyleTextChange = onChange;
@@ -163,7 +173,8 @@ export default class SkinBox extends React.Component {
             arr.push('bds-' + this.borderStyle);
         }
         if (this.checkList.shadow) {
-            arr.push('shadow-' + this.shadow);
+            const shadowColor = getRGBA2String(this.shadowColor);
+            arr.push('shadow-' + this.shadow + '-' + shadowColor);
         }
         if (this.checkList.display) {
             arr2.unshift(`display:${this.display};`);
@@ -179,4 +190,5 @@ export default class SkinBox extends React.Component {
         style = style.replace(/\n\s*\n/g, '\n');
         this.onStyleTextChange(<code dangerouslySetInnerHTML={{ __html: style }} />);
     }
+    // #endregion
 }
