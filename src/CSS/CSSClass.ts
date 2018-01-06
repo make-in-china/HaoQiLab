@@ -1,3 +1,5 @@
+import { isArray, isObject, isString, isFunction } from "src/Lib/is";
+
 declare var window: {
     CSSClass?: typeof cssClassNS.CSSClass;
 } & Window;
@@ -137,19 +139,7 @@ export function getColorByArea(color1: string, color2: string, index: number, ma
     return getRGBString(color3RGB);
 }
 export namespace cssClassNS {
-    function isFunction(a: any): a is Function {
-        return '[object Function]' === Object.prototype.toString.call(a);
-    }
-    function isString(a: any): a is string {
-        return '[object String]' === Object.prototype.toString.call(a);
-    }
-    function isObject(a: any): a is Object {
-        let type = typeof a;
-        return type === 'function' || type === 'object' && !!a;
-    }
-    function isArray(a: any): a is Array<any> {
-        return '[object Array]' === Object.prototype.toString.call(a);
-    }
+
     function createDictionaryObject<T>(): Record<string, T> {
         return Object.create(null);
     }

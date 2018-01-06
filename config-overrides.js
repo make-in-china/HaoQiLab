@@ -283,7 +283,7 @@ module.exports = {
     devserver: function (config, env) {
         return function () {
             var result = config.apply(this, arguments);
-            var rewrites = [{ from: /^\/(index\.html)?/, to: '/index.html' }, { from: /^\//, to: '/default.html' }];
+            var rewrites = [{ from: /^\/(default\.html)?/, to: '/default.html' }];
 
             for (var i = 0; i < pages.length; i++) {
                 rewrites.push({ from: new RegExp(`^\/` + pages[i][2].replace('.', '\\.')), to: '/' + pages[i][2] })

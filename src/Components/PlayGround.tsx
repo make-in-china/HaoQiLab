@@ -1,9 +1,10 @@
 import React from 'react-ex';
 import { cssClassNS } from 'src/CSS/CSSClass';
+import { G } from '../CSS/G';
 
 @React.eclass({
     box: [
-        'rdip-5 mdip-5 ladip pdip-5 bd-12-gray'.split(' ')
+        'mdip-5 pdip-5 bd-12-gray'.split(' ')
     ],
     pre: [
         ['scrolly pdip-2 rdip-2'],
@@ -44,7 +45,7 @@ export default class App
             (
                 <div className="ant-col-12">
                     <div>createElement前</div>
-                    <div EClass="box">
+                    <div EClass="box" className={G.Class.map.frm_border}>
                         <pre EClass={this.previewEClass}>
                             {this.elemCodeSource}
                         </pre>
@@ -54,7 +55,7 @@ export default class App
             (
                 <div className="ant-col-12">
                     <div>createElement后</div>
-                    <div EClass="box">
+                    <div EClass="box" className={G.Class.map.frm_border}>
                         <pre EClass={this.previewEClass}>
                             {this.elemCodeDest}
                         </pre>

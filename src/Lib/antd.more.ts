@@ -1,7 +1,7 @@
 
-import * as Antd from 'antd';
-
-export default Antd;
+import * as _Antd from 'antd';
+export const Antd = _Antd;
+export default _Antd;
 if (Antd === undefined) {
     alert('未导入任何Antd组件');
 } else if (Antd.Affix === undefined) {

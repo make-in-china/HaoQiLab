@@ -4,12 +4,12 @@ import { observer, observable } from 'mobx-index';
 import { G } from 'src/CSS/G';
 @React.eclass({
     box: [
-        'pdip-5 rdip-5 mdipt-10 ladip uof bd-12-gray minhem-15'.split(' '),
+        'pdip-5 mdipt-10 uof bd-12-gray minhem-15'.split(' '),
         {
             hv: ['bd-10-gray'.split(' ')]
         }
     ],
-    boxbig: ['box abs zidx-2 shadowless2 left-15 right-15'.split(' ')],
+    boxbig: ['abs zidx-2 shadowless2 left-15 right-15'.split(' ')],
     title: ['lbdip-dashed pdip-3 mdip-2 mdipb-5 uof'.split(' ')],
     content: ['pdip-3 mdip-2 mdipt-5 uof'.split(' ')]
 })
@@ -25,7 +25,7 @@ export default class App extends React.Component<{ title?: string }> {
     }
     render() {
         return (
-            <div className={G.Class.map.clr_background3} EClass={this.max ? 'boxbig' : 'box'}>
+            <div className={G.Class.map.clr_background3 + ' ' + G.Class.map.frm_border} EClass = { this.max ? 'boxbig box' : 'box' } >
                 <div EClass="title" className={G.Class.map.clr_primary}>
                     {this.props.title}
                     {this.max ? (

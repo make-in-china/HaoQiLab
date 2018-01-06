@@ -12,8 +12,9 @@ export default class StringSelect
     @observable value = this.props.defaultValue;
     onClick: Antd.Menu['props']['onClick'] = (param) => {
         const key = param.key;
-        this.props.onChange(key);
-        this.value = key;
+        const value = this.props.data[key];
+        this.props.onChange(value);
+        this.value = value;
     }
     render() {
         return (
@@ -23,11 +24,11 @@ export default class StringSelect
                         (
                             <Antd.Menu onClick={this.onClick}>
                                 {
-                                    this.props.data.map(v => {
+                                    this.props.data.map((v, i) => {
                                         if (v === this.value) {
-                                            return (<Antd.Menu.Item key={v} disabled={true}>{v}</Antd.Menu.Item>);
+                                            return (<Antd.Menu.Item key={i} disabled={true}>{v === '' ? '空' : v}</Antd.Menu.Item>);
                                         } else {
-                                            return (<Antd.Menu.Item key={v}>{v}</Antd.Menu.Item>);
+                                            return (<Antd.Menu.Item key={i}>{v === '' ? '空' : v}</Antd.Menu.Item>);
                                         }
                                     })
                                 }
@@ -36,7 +37,7 @@ export default class StringSelect
                     }
                 >
                     <div>
-                        {this.value} <Antd.Icon type="down" />
+                        <span EClass="inline ctt minwem-6">{this.value === '' ? '空' : this.value}</span> <Antd.Icon type="down" />
                     </div>
                 </Antd.Dropdown>
             </div>

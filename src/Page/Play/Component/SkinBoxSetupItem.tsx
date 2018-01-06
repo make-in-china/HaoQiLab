@@ -35,8 +35,8 @@ export default class SkinBoxSetupItem
                     <Antd.Checkbox onChange={this.onChange} checked={isCheck}>
                         <span EClass="name" >{this.props.title} : </span>
                     </Antd.Checkbox>
+                    <div EClass={isCheck ? 'inline' : 'inline noevent'}>{this.props.children}</div>
                 </Antd.Tooltip>
-                <div EClass={isCheck ? 'inline' : 'inline noevent'}>{this.props.children}</div>
             </div>
         );
     }

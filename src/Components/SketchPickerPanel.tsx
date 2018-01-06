@@ -4,6 +4,7 @@ import { default as RenderData, OnChange } from 'src/Components/RenderData';
 import { TouchMove } from 'src/Lib/TouchMove';
 import ColorBooth from 'src/Components/ColorBooth';
 import { getPos } from 'src/Lib/getPos';
+import { G } from 'src/CSS/G';
 
 const white = 'linear-gradient(to right, #fff, rgba(255,255,255,0));';
 const black = 'linear-gradient(to top, #000, rgba(0,0,0,0));';
@@ -44,7 +45,7 @@ const colorHeight = 200;
     ],
     show: [
         'border-color:rgba(0,0,0,0.05);',
-        'wdip-26 hdip-26 mdipl-5 mdipt-4 ladip rdip-3'.split(' ')
+        'wdip-26 hdip-26 mdipl-5 mdipt-4'.split(' ')
     ],
     colorboxbg: [],
     showcolor: [],
@@ -323,7 +324,7 @@ export default class SketchPickerPanel
                         </div>
                     </div>
                     <div>
-                        <ColorBooth><div EClass="show showcolor" /></ColorBooth>
+                        <ColorBooth><div className={G.Class.map.frm_border2} EClass="show showcolor" /></ColorBooth>
                     </div>
                 </div>
                 <RenderData

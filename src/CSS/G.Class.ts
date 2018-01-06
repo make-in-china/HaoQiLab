@@ -5,10 +5,10 @@ declare var window: { ClassNS: Class } & Window;
 type CSSPropertie = Pick<React.CSSProperties, 'display' | 'margin' | 'padding' | 'borderStyle' | 'borderWidth' | 'borderRadius' | 'shadow' | 'color' | 'borderColor' | 'backgroundColor'>;
 export interface ClassItem {
     name: keyof Class['map'];
-    defaultRule: Partial<CSSPropertie>;
-    use: {
-        [P in keyof CSSPropertie]?: boolean
-    };
+    defaultValue: Partial<CSSPropertie>;
+    // use: {
+    //     [P in keyof CSSPropertie]?: boolean
+    // };
 }
 class Class {
     map = {
@@ -16,66 +16,86 @@ class Class {
         clr_background: 'clr_background',
         clr_background2: 'clr_background2',
         clr_background3: 'clr_background3',
-        frame: 'frame'
+        frm_border: 'frm_border',
+        frm_border2: 'frm_border2'
     };
     list: ClassItem[] = [
         {
             name: 'clr_background',
-            use: {
-                backgroundColor: true
-            },
-            defaultRule: {
+            // use: {
+            //     backgroundColor: true
+            // },
+            defaultValue: {
                 backgroundColor: '#f0f0f0'
             }
         }, {
             name: 'clr_background2',
-            use: {
-                backgroundColor: true
-            },
-            defaultRule: {
+            // use: {
+            //     backgroundColor: true
+            // },
+            defaultValue: {
                 backgroundColor: '#fff'
             }
         }, {
             name: 'clr_background3',
-            use: {
-                backgroundColor: true
-            },
-            defaultRule: {
+            // use: {
+            //     backgroundColor: true
+            // },
+            defaultValue: {
                 backgroundColor: '#fff'
             }
         }, {
             name: 'clr_primary',
-            use: {
-                color: true,
-            },
-            defaultRule: {
+            // use: {
+            //     color: true,
+            // },
+            defaultValue: {
                 color: '#555',
             }
         },
         {
-            name: 'frame',
-            use: {
-                display: true,
-                padding: true,
-                margin: true,
-                borderColor: true,
-                borderWidth: true,
-                borderRadius: true,
-                borderStyle: true,
-                shadow: true
-            },
-            defaultRule: {
-                borderColor: '#555',
-                borderWidth: '1px',
+            name: 'frm_border',
+            // use: {
+            //     display: true,
+            //     padding: true,
+            //     margin: true,
+            //     borderColor: true,
+            //     borderWidth: true,
+            //     borderRadius: true,
+            //     borderStyle: true,
+            //     shadow: true
+            // },
+            defaultValue: {
+                borderColor: '#ccc',
+                borderWidth: 1,
                 borderStyle: 'solid',
-                borderRadius: '5px'
+                borderRadius: 5
+            }
+        },
+        {
+            name: 'frm_border2',
+            // use: {
+            //     display: true,
+            //     padding: true,
+            //     margin: true,
+            //     borderColor: true,
+            //     borderWidth: true,
+            //     borderRadius: true,
+            //     borderStyle: true,
+            //     shadow: true
+            // },
+            defaultValue: {
+                borderColor: '#ccc',
+                borderWidth: 1,
+                borderStyle: 'solid',
+                borderRadius: 3
             }
         }
     ];
     register() {
         const css = cssClassNS.CSSClass.instance;
         for (const item of this.list) {
-            css.registerClassRuleItem(item.name, calcStyle(item.defaultRule));
+            css.registerClassRuleItem(item.name, calcStyle(item.defaultValue));
             css.registerClass(item.name);
         }
     }

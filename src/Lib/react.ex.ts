@@ -1,6 +1,7 @@
 import * as _React from 'react';
 import { CSS, cssClassNS, CSSRuleEx } from '../CSS/CSSClass';
 import { calcStyle } from 'src/CSS/CalcStyle';
+import { isString } from 'src/Lib/is';
 namespace ReactEx {
     let renderCSSClass: cssClassNS.CSSClass = CSS.instance;
     let isHookCreateElement = false;
@@ -10,9 +11,6 @@ namespace ReactEx {
 
     }[] = [];
     const _ReactcreateElement = _React.createElement;
-    function isString(a: any): a is string {
-        return '[object String]' === Object.prototype.toString.call(a);
-    }
     // function isObject(a: any): a is string {
     //     return '[object Object]' === Object.prototype.toString.call(a);
     // }
