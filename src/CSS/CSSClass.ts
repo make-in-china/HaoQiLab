@@ -79,6 +79,11 @@ export interface RGB {
     G: number;
     B: number;
 }
+export interface HSL {
+    H: number;
+    S: number;
+    L: number;
+}
 export interface RGBA extends RGB {
     A: number;
 }
@@ -99,17 +104,17 @@ export function getRGB(color: string): RGB {
 }
 export function getRGBByArea(color1: RGB, color2: RGB, index: number, max: number): RGB {
     const persent = index / max;
-    let colorRedInt = (((color2.R - color1.R) * persent) + color1.R) & 0xFF;
-    let colorGreenInt = ((color2.G - color1.G) * persent + color1.G) & 0xFF;
-    let colorBlueInt = ((color2.B - color1.B) * persent + color1.B) & 0xFF;
+    let colorRedInt = (Math.floor((color2.R - color1.R) * persent + 0.5) + color1.R) & 0xFF;
+    let colorGreenInt = (Math.floor((color2.G - color1.G) * persent + 0.5) + color1.G) & 0xFF;
+    let colorBlueInt = (Math.floor((color2.B - color1.B) * persent + 0.5) + color1.B) & 0xFF;
     return { R: colorRedInt, G: colorGreenInt, B: colorBlueInt };
 }
 export function getRGBAByArea(color1: RGBA, color2: RGBA, index: number, max: number): RGBA {
     const persent = index / max;
-    let colorRedInt = (((color2.R - color1.R) * persent) + color1.R) & 0xFF;
-    let colorGreenInt = ((color2.G - color1.G) * persent + color1.G) & 0xFF;
-    let colorBlueInt = ((color2.B - color1.B) * persent + color1.B) & 0xFF;
-    let colorAlphaInt = (((color2.A - color1.A) * persent + color1.A) & 0xFF) / 255;
+    let colorRedInt = (Math.floor((color2.R - color1.R) * persent + 0.5) + color1.R) & 0xFF;
+    let colorGreenInt = (Math.floor((color2.G - color1.G) * persent + 0.5) + color1.G) & 0xFF;
+    let colorBlueInt = (Math.floor((color2.B - color1.B) * persent + 0.5) + color1.B) & 0xFF;
+    let colorAlphaInt = ((Math.floor((color2.A - color1.A) * persent + 0.5) + color1.A) & 0xFF) / 255;
     return { R: colorRedInt, G: colorGreenInt, B: colorBlueInt, A: colorAlphaInt };
 }
 export function getRGBAColorByArea(color1: string, color2: string, index: number, max: number): string {

@@ -1,5 +1,5 @@
 import React from 'react-ex';
-import { RGB, RGBA, getRGBByArea, getRGBString } from 'src/CSS/CSSClass';
+import { RGBA, getRGBString, HSL, RGB } from 'src/CSS/CSSClass';
 import { default as RenderData, OnChange } from 'src/Components/RenderData';
 import { TouchMove } from 'src/Lib/TouchMove';
 import ColorBooth from 'src/Components/ColorBooth';
@@ -8,7 +8,7 @@ import { G } from 'src/CSS/G';
 
 const white = 'linear-gradient(to right, #fff, rgba(255,255,255,0));';
 const black = 'linear-gradient(to top, #000, rgba(0,0,0,0));';
-const horizontal = 'linear-gradient(to right, #f00 0%, #ff0 17%, #0f0 33%, #0ff 50%, #00f 67%, #f0f 83%, #f00 100%);';
+const horizontal = 'linear-gradient(to right, #f00 0%, #ff0 16.3333%, #0f0 33.6666%, #0ff 50%, #00f 66.3333%, #f0f 83.6666%, #f00 100%);';
 const colorSlideWidth = 230;
 const colorWidth = 256;
 const colorHeight = 200;
@@ -59,7 +59,7 @@ export default class SketchPickerPanel
         color: RGBA
         onChange?: (color: RGBA) => void
     }> {
-    onColorSlide = new TouchMove((e, target: HTMLElement) => {
+    onH = new TouchMove((e, target: HTMLElement) => {
         const pos = getPos(e, target);
         this.colorslidepos = pos.x;
         if (this.colorslidepos > colorSlideWidth) {
@@ -67,9 +67,9 @@ export default class SketchPickerPanel
         } else if (this.colorslidepos < 0) {
             this.colorslidepos = 0;
         }
-        this.updateBaseColor();
-        this.recalShowColor();
+        this.baseColor.H = this.colorslidepos / colorSlideWidth;
         this.updateColor(this.props);
+        this.raiseChange();
     });
     onAlpha = new TouchMove((e, target: HTMLElement) => {
         const pos = getPos(e, target);
@@ -82,10 +82,11 @@ export default class SketchPickerPanel
         let alpha = this.alphaslidepos / colorSlideWidth;
         alpha = Math.floor(alpha * 100) / 100;
         this.alpha = alpha;
-        this.recalShowColor();
+
         this.updateColor(this.props);
+        this.raiseChange();
     });
-    onColorBox = new TouchMove((e, target: HTMLElement) => {
+    onSL = new TouchMove((e, target: HTMLElement) => {
         this.pos = getPos(e, target);
         if (this.pos.x > colorWidth) {
             this.pos.x = colorWidth;
@@ -97,12 +98,13 @@ export default class SketchPickerPanel
         } else if (this.pos.y < 0) {
             this.pos.y = 0;
         }
-        this.recalShowColor();
+        this.baseColor.S = this.pos.x / colorWidth;
+        this.baseColor.L = (1 - this.pos.y / colorHeight) * (2 - this.baseColor.S) / 2;
         this.updateColor(this.props);
+        this.raiseChange();
     });
-    private baseColor: RGB;
+    private baseColor: HSL;
     private alpha: number;
-    private showColor: RGB;
     private pos: {
         x: number
         y: number
@@ -119,191 +121,48 @@ export default class SketchPickerPanel
             A: 0
         };
     }
-    
+
     componentWillReceiveProps(props: this['props']) {
         this.init(props);
-        this.updateColor(this.props);
+        this.updateColor(props);
     }
     init(props: this['props']) {
-        const propsColor = props.color;
+        this.baseColor = this.rgbToHSL(props.color);
 
-        let high = propsColor.R;
-        if (propsColor.G > high) {
-            high = propsColor.G;
-        }
-        if (propsColor.B > high) {
-            high = propsColor.B;
-        }
-        const sub = 255 - high;
-        const highColor = {
-            R: propsColor.R + sub,
-            G: propsColor.G + sub,
-            B: propsColor.B + sub
-        };
-
-        let redThenElse = 2;
-        let greenThenElse = 2;
-        let blueThenElse = 2;
-
-        if (propsColor.G > propsColor.R) {
-            redThenElse--;
-        }
-        if (propsColor.B > propsColor.R) {
-            redThenElse--;
-        }
-        if (propsColor.R > propsColor.G) {
-            greenThenElse--;
-        }
-        if (propsColor.B > propsColor.G) {
-            greenThenElse--;
-        }
-        if (propsColor.R > propsColor.B) {
-            blueThenElse--;
-        }
-        if (propsColor.G > propsColor.B) {
-            blueThenElse--;
-        }
-        const code = '' + redThenElse + greenThenElse + blueThenElse;
-        let x = colorWidth;
-        switch (code) {
-            case '222':
-            // fff
-            case '211':
-                // f00
-                this.colorslidepos = 0;
-                x = (1 - highColor.B / 255) * colorWidth;
-                break;
-            case '220':
-                // ff0
-                this.colorslidepos = colorSlideWidth * 0.17;
-                x = (1 - highColor.B / 255) * colorWidth;
-                break;
-            case '121':
-                this.colorslidepos = colorSlideWidth * 0.33;
-                x = (1 - highColor.R / 255) * colorWidth;
-                // 0f0
-                break;
-            case '022':
-                // 0ff
-                this.colorslidepos = colorSlideWidth * 0.5;
-                x = (1 - highColor.R / 255) * colorWidth;
-                break;
-            case '112':
-                // 00f
-                this.colorslidepos = colorSlideWidth * 0.67;
-                x = (1 - highColor.G / 255) * colorWidth;
-                break;
-            case '202':
-                // f0f
-                this.colorslidepos = colorSlideWidth * 0.83;
-                x = (1 - highColor.G / 255) * colorWidth;
-                break;
-            default:
-
-                switch (code) {
-                    case '210':
-                        this.colorslidepos = colorSlideWidth * 0.17 * highColor.G / 255;
-                        x = highColor.B / 255 * colorWidth;
-                        // f00 - ff0
-                        break;
-                    case '120':
-                        this.colorslidepos = colorSlideWidth * 0.17 + colorSlideWidth * 0.16 * (1 - highColor.R / 255);
-                        x = highColor.B / 255 * colorWidth;
-                        // ff0 - 0f0
-                        break;
-                    case '021':
-                        this.colorslidepos = colorSlideWidth * 0.33 + colorSlideWidth * 0.17 * highColor.B / 255;
-                        x = highColor.R / 255 * colorWidth;
-                        // 0f0 - 0ff
-                        break;
-                    case '012':
-                        this.colorslidepos = colorSlideWidth * 0.5 + colorSlideWidth * 0.17 * (1 - highColor.G / 255);
-                        x = highColor.R / 255 * colorWidth;
-                        // 0ff - 00f
-                        break;
-                    case '102':
-                        this.colorslidepos = colorSlideWidth * 0.67 + colorSlideWidth * 0.16 * highColor.R / 255;
-                        x = highColor.G / 255 * colorWidth;
-                        // 00f - f0f
-                        break;
-                    case '201':
-                        this.colorslidepos = colorSlideWidth * 0.83 + colorSlideWidth * 0.17 * (1 - highColor.B / 255);
-                        x = highColor.G / 255 * colorWidth;
-                        // f0f - f00
-                        break;
-                    default:
-                }
-        }
-        this.updateBaseColor();
         this.pos = {
-            x: x,
-            y: colorHeight * (sub / 255)
+            x: Math.round(colorWidth * this.baseColor.S),
+            y: Math.round(colorHeight * (1 - this.baseColor.L * 2 / (2 - this.baseColor.S)))
         };
 
-        const color = getRGBByArea(this.baseColor, { R: 255, G: 255, B: 255 }, colorWidth - this.pos.x, colorWidth);
-        this.showColor = getRGBByArea(color, { R: 0, G: 0, B: 0 }, this.pos.y, colorHeight);
-
+        this.colorslidepos = colorSlideWidth * this.baseColor.H;
         this.alpha = props.color.A;
-
         this.alphaslidepos = colorSlideWidth * this.alpha;
-
     }
     componentWillMount() {
         this.init(this.props);
         this.updateColor(this.props);
     }
-    updateBaseColor() {
-        const persent = this.colorslidepos / colorSlideWidth;
-        if (persent < 0.17) {
-            // f00 - ff0
-            this.baseColor = getRGBByArea({ R: 255, G: 0, B: 0 }, { R: 255, G: 255, B: 0 }, persent, 0.17);
-        } else if (persent < 0.33) {
-            // ff0 - 0f0
-            this.baseColor = getRGBByArea({ R: 255, G: 255, B: 0 }, { R: 0, G: 255, B: 0 }, persent - 0.17, 0.16);
-        } else if (persent < 0.5) {
-            // 0f0 - 0ff
-            this.baseColor = getRGBByArea({ R: 0, G: 255, B: 0 }, { R: 0, G: 255, B: 255 }, persent - 0.33, 0.17);
-        } else if (persent < 0.67) {
-            // 0ff - 00f
-            this.baseColor = getRGBByArea({ R: 0, G: 255, B: 255 }, { R: 0, G: 0, B: 255 }, persent - 0.5, 0.17);
-        } else if (persent < 0.83) {
-            // 00f - f0f
-            this.baseColor = getRGBByArea({ R: 0, G: 0, B: 255 }, { R: 255, G: 0, B: 255 }, persent - 0.67, 0.16);
-        } else {
-            // f0f - f00
-            this.baseColor = getRGBByArea({ R: 255, G: 0, B: 255 }, { R: 255, G: 0, B: 0 }, persent - 0.83, 0.17);
-        }
-    }
-    updateColor(props: this['props']) {
 
-        const alpha = `linear-gradient(to right, rgba(${this.showColor.R},${this.showColor.G},${this.showColor.B},0) 0%, rgb(${this.showColor.R},${this.showColor.G},${this.showColor.B}) 100%);`;
-        const rgba = { ...this.showColor, A: this.alpha };
-        const strRGBA = `rgba(${rgba.R},${rgba.G},${rgba.B},${rgba.A})`;
+    updateColor(props: this['props']) {
+        const rgb = this.hslToRGB(this.baseColor);
+        const alpha = `linear-gradient(to right, rgba(${rgb.R},${rgb.G},${rgb.B},0) 0%, rgb(${rgb.R},${rgb.G},${rgb.B}) 100%);`;
         this.cssClass!.updateRule({
-            colorboxbg: `background-color:${getRGBString(this.baseColor)};`,
-            showcolor: `background-color:${strRGBA};`,
+            colorboxbg: `background-color:hsl(${this.baseColor.H * 360}, 100%, 50%);`,
+            showcolor: `background-color:rgba(${rgb.R},${rgb.G},${rgb.B},${this.alpha});`,
             showAlphaColor: `background-image:${alpha}background-image:-webkit-${alpha}`,
             circlepos: `left:${this.pos.x - 5}px;top:${this.pos.y - 10}px;`,
-            colorslidepos: `left:${this.colorslidepos - 3}px;`,
-            alphaslidepos: `left:${this.alphaslidepos - 3}px;`
+            colorslidepos: `left:${this.colorslidepos - 2}px;`,
+            alphaslidepos: `left:${this.alphaslidepos - 2}px;`
         });
         if (this.onStyleTextChange) {
-            if (this.alpha === 1) {
-                this.onStyleTextChange(getRGBString(this.showColor));
-            } else {
-                this.onStyleTextChange(strRGBA);
-            }
-        }
-        if (props.onChange) {
-            props.onChange(rgba);
+            this.onStyleTextChange(this.getColorText());
         }
 
     }
     render() {
-        debugger;
         return (
             <div EClass="box">
-                <div EClass="colorbox colorboxbg" onMouseDown={this.onColorBox.autoDown}>
+                <div EClass="colorbox colorboxbg" onMouseDown={this.onSL.autoDown}>
                     <div EClass="colorboxmaskwhite">
                         <div EClass="colorboxmaskblack">
                             <div EClass="circle circlepos" />
@@ -312,7 +171,7 @@ export default class SketchPickerPanel
                 </div>
                 <div EClass="colorbox2">
                     <div>
-                        <div EClass="horizontal" onMouseDown={this.onColorSlide.autoDown}>
+                        <div EClass="horizontal" onMouseDown={this.onH.autoDown}>
                             <div EClass="slide colorslidepos" />
                         </div>
                         <div EClass="alpha showAlphaColor" onMouseDown={this.onAlpha.autoDown}>
@@ -327,16 +186,108 @@ export default class SketchPickerPanel
                         <ColorBooth><div className={G.Class.map.frm_border2} EClass="show showcolor" /></ColorBooth>
                     </div>
                 </div>
-                <RenderData
-                    data={this.alpha === 1 ? (getRGBString(this.showColor)) : (`rgba(${this.showColor.R},${this.showColor.G},${this.showColor.B},${this.alpha})`)}
-                    onRaiseChange={this.onRaiseChange}
-                />
+                <div EClass="hem-5">
+                    <RenderData
+                        data={this.getColorText()}
+                        onRaiseChange={this.onRaiseChange}
+                    />
+                </div>
             </div >
         );
     }
-    recalShowColor() {
-        const color = getRGBByArea(this.baseColor, { R: 255, G: 255, B: 255 }, colorWidth - this.pos.x, colorWidth);
-        this.showColor = getRGBByArea(color, { R: 0, G: 0, B: 0 }, this.pos.y, colorHeight);
+    private HSLTo(p: number, q: number, t: number) {
+        if (t < 0) {
+            t += 1;
+        }
+        if (t > 1) {
+            t -= 1;
+        }
+        if (t < 1 / 6) {
+            return p + (q - p) * 6 * t;
+        }
+        if (t < 1 / 2) {
+            return q;
+        }
+        if (t < 2 / 3) {
+            return p + (q - p) * (2 / 3 - t) * 6;
+        }
+        return p;
+    }
+    private hslToRGB(hsl: HSL) {
+
+        var r, g, b;
+        const l = hsl.L;
+        const h = hsl.H;
+        const s = hsl.S;
+        if (s === 0) {
+            r = g = b = l; // achromatic
+        } else {
+
+            var q = l < 0.5 ? l * (1 + s) : l + s - l * s;
+            var p = 2 * l - q;
+            r = this.HSLTo(p, q, h + 1 / 3);
+            g = this.HSLTo(p, q, h);
+            b = this.HSLTo(p, q, h - 1 / 3);
+        }
+
+        return {
+            R: Math.round(r * 255),
+            G: Math.round(g * 255),
+            B: Math.round(b * 255)
+        };
+    }
+    private rgbToHSL(rgb: RGB) {
+        const r = rgb.R / 255;
+        const g = rgb.G / 255;
+        const b = rgb.B / 255;
+        var max = Math.max(r, g, b), min = Math.min(r, g, b);
+        let h = 0, s, l = (max + min) / 2;
+        if (max === min) {
+            h = s = 0; // achromatic
+        } else {
+            var d = max - min;
+            s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
+            switch (max) {
+                case r: h = (g - b) / d + (g < b ? 6 : 0); break;
+                case g: h = (b - r) / d + 2; break;
+                case b: h = (r - g) / d + 4; break;
+                default:
+
+            }
+            h /= 6;
+        }
+        return {
+            H: h,
+            S: s,
+            L: l
+        };
+    }
+    private raiseChange() {
+        if (this.props.onChange) {
+            this.props.onChange({ ...this.hslToRGB(this.baseColor), A: this.alpha });
+        }
+    }
+    // private getHSL() {
+    //     return {
+    //         H: Math.ceil(this.colorslidepos / colorSlideWidth * 360),
+    //         S: Math.ceil(this.pos.x * 100 / colorWidth),
+    //         L: Math.ceil(this.pos.y * 100 / colorHeight)
+    //     };
+    // }
+    private getColorText() {
+        const rgb = this.hslToRGB(this.baseColor);
+        const arr = [
+            (<br />),
+            `R:${rgb.R} G:${rgb.G} B:${rgb.B} A:${this.alpha}`,
+            (<br />),
+            'H:' + Math.round(this.baseColor.H * 360) + ' S:' + Math.round(this.baseColor.S * 100) + '% L:' + Math.round(this.baseColor.L * 50) + '%'
+        ];
+        if (this.alpha === 1) {
+            arr.unshift(getRGBString(rgb)/*  + ' ' + getRGBString(this.props.color) */);
+        } else {
+            arr.unshift(`rgba(${rgb.R},${rgb.G},${rgb.B},${this.alpha})`/*  + ' ' + getRGBString(this.props.color) */);
+        }
+        return arr;
     }
     private onRaiseChange: RenderData['props']['onRaiseChange'] = (onChange) => {
         this.onStyleTextChange = onChange;

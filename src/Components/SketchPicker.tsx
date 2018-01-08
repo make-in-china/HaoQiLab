@@ -42,15 +42,16 @@ export default class SketchPicker
         if (left < 0) {
             left = 0;
         }
-        divBox.style.left = left + 'px';
-        let top = pos.y - this.root.scrollHeight;
-
-        divBox.style.top = top + 'px';
         document.body.appendChild(divBox);
 
         ReactDOM.render((
             <SketchPickerPanel color={this.color} onChange={this.onChange} />
         ), div);
+        
+        divBox.style.left = left + 'px';
+        let top = pos.y - this.divBox.scrollHeight;
+
+        divBox.style.top = top + 'px';
         const pos2 = getOffset(div);
         if (pos2.y < 5) {
             divBox.style.top = top - pos2.y + 5 + 'px';

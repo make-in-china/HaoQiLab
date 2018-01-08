@@ -31,10 +31,10 @@ export default class GlobalSkinEdit
     render() {
         return (
             <div>
-                <div EClass="fz-16 fb">
+                <div EClass="fz-16 pdip-5">
                     <span>全局样式：</span>
                     <StringSelect defaultValue={G.Class.list[0].name} data={G.Class.list.map(e => e.name)} onChange={this.classOnChange} />
-                    <span EClass="mdiplr-10">×{this.useCount}</span>
+                    <span EClass="mdiplr-10">已用{this.useCount}次</span>
                     <Antd.Switch
                         onChange={this.onChangeSync}
                         checkedChildren={'全局调整'}
@@ -42,7 +42,9 @@ export default class GlobalSkinEdit
                         defaultChecked={this.sync}
                     />
                 </div>
-                {this.info && <SkinEditBox sync={this.sync} info={this.info} />}
+                <div EClass="mdipt-5">
+                    {this.info && <SkinEditBox sync={this.sync} info={this.info} />}
+                </div>
             </div>
         );
     }
