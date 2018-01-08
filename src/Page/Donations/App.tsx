@@ -3,7 +3,7 @@ import BaseApp from '../BaseApp';
 export default class App extends BaseApp {
     // region static
     static content = (
-        <div>产品中心</div>
+        <div>github地址：<a href="https://github.com/make-in-china/HaoQiLab" target="_blank">https://github.com/make-in-china/HaoQiLab</a></div>
     );
     // endregion
     noContent= false;

@@ -10,6 +10,7 @@ import { observer, observable } from 'mobx-index';
 import Logo from 'src/Template/Default/Logo';
 import GlobalSkinEdit from 'src/Page/Play/Component/GlobalSkinEdit';
 import { G } from 'src/CSS/G';
+import BindFunctionList from 'src/Page/Play/Component/BindFunctionList';
 const RadioGroup = Antd.Radio.Group;
 const RadioButton = Antd.Radio.Button;
 @React.eclass({
@@ -82,13 +83,15 @@ export default class App extends React.Component {
                                 </div>
                             </BurrowBox>
                         ), (
-                            <BurrowBox title="广告位5，虚席以待">
-                                <div EClass="hem-15">
-                                    长短不一的广告
-                                </div>
+                            <BurrowBox title="函数合并测试">
+                                <BindFunctionList />
                             </BurrowBox>
                         ), (
-                            <BurrowBox title="广告位6，虚席以待" />
+                            <BurrowBox title="广告位6，虚席以待" >
+                            <div EClass="hem-15">
+                                高矮不一的空容器
+                            </div>
+                        </BurrowBox>
                         ), (
                             <BurrowBox title="广告位7，虚席以待" />
                         ), (

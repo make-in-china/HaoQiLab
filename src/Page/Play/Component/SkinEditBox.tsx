@@ -18,6 +18,7 @@ import RenderData from 'src/Components/RenderData';
 import { isString } from 'src/Lib/is';
 
 const re = /(\/\*.*?\*\/)/g;
+
 @React.eclass({
     view: [
         {
@@ -35,17 +36,19 @@ export default class SkinEditBox
         info: ClassItem
         sync: boolean
     }> {
-    display: string;
-    color: RGBA;
-    margin: number;
-    padding: number;
-    borderStyle: string;
-    borderWidth: number;
-    borderRadius: number;
-    shadow: number;
-    shadowColor: RGBA;
-    backgroundColor: RGBA;
-    borderColor: RGBA;
+    setup: {
+        display: string;
+        color: RGBA;
+        margin: number;
+        padding: number;
+        borderStyle: string;
+        borderWidth: number;
+        borderRadius: number;
+        shadow: number;
+        shadowColor: RGBA;
+        backgroundColor: RGBA;
+        borderColor: RGBA;
+    };
     checkList: {
         [P in keyof ClassItem['defaultValue']]?: boolean
     };
@@ -57,24 +60,19 @@ export default class SkinEditBox
     private onStyleTextChange: ((data: ReactNode) => void);
     private globalEClass = cssClassNS.CSSClass.instance;
     private targetRule: this['skinRule'];
+    private displayOnChange = this.makeChangeEvent('display');
+    private borderStyleOnChange = this.makeChangeEvent('borderStyle');
+    private shadowOnChange = this.makeChangeEvent('shadow');
+    private marginOnChange = this.makeChangeEvent('margin');
+    private paddingOnChange = this.makeChangeEvent('padding');
+    private borderWidthOnChange = this.makeChangeEvent('borderWidth');
+    private borderRadiusOnChange = this.makeChangeEvent('borderRadius');
+    private backgroundColorOnChange = this.makeChangeEvent('backgroundColor');
+    private colorOnChange = this.makeChangeEvent('color');
+    private shadowColorOnChange = this.makeChangeEvent('shadowColor');
+    private borderColorOnChange = this.makeChangeEvent('borderColor');
     @observable private renderRandom = Math.random();
 
-    backgroundColorOnChange: SketchPicker['props']['onChange'] = (clr) => {
-        this.backgroundColor = clr;
-        this.updateRule(this.props);
-    }
-    borderColorOnChange: SketchPicker['props']['onChange'] = (clr) => {
-        this.borderColor = clr;
-        this.updateRule(this.props);
-    }
-    colorOnChange: SketchPicker['props']['onChange'] = (clr) => {
-        this.color = clr;
-        this.updateRule(this.props);
-    }
-    onChange: SketchPicker['props']['onChange'] = (clr) => {
-        this.shadowColor = clr;
-        this.updateRule(this.props);
-    }
     componentDidMount() {
         this.updateRule(this.props);
     }
@@ -82,7 +80,10 @@ export default class SkinEditBox
         this.init(this.props);
     }
     componentWillReceiveProps(props: this['props']) {
-        this.init(props);
+        debugger;
+        if (props.info !== this.props.info) {
+            this.init(props);
+        }
         this.updateRule(props);
         this.renderRandom = Math.random();
     }
@@ -93,35 +94,35 @@ export default class SkinEditBox
             <div>
                 <div className={G.Class.map.frm_border} EClass="frame mdip-5">
                     <SkinBoxSetupItem onChangeCheck={this.onChangeCheck} title="显示模式" keyName="display" source={this.checkList}>
-                        <StringSelect defaultValue={this.display} data={['', 'inline-block', 'block', 'inline-flex', 'flex', 'inline-grid', 'grid', 'inline-table', 'table', 'list-item', 'run-in', 'table-caption', 'table-cell', 'table-column', 'table-column-group', 'table-footer-group', 'table-header-group', 'table-row', 'table-row-group']} onChange={this.displayOnChange} />
+                        <StringSelect defaultValue={this.setup.display} data={['', 'inline-block', 'block', 'inline-flex', 'flex', 'inline-grid', 'grid', 'inline-table', 'table', 'list-item', 'run-in', 'table-caption', 'table-cell', 'table-column', 'table-column-group', 'table-footer-group', 'table-header-group', 'table-row', 'table-row-group']} onChange={this.displayOnChange} />
                     </SkinBoxSetupItem>
                     <SkinBoxSetupItem onChangeCheck={this.onChangeCheck} title="背景颜色" keyName="backgroundColor" source={this.checkList}>
-                        <SketchPicker color={this.backgroundColor} onChange={this.backgroundColorOnChange} />
+                        <SketchPicker color={this.setup.backgroundColor} onChange={this.backgroundColorOnChange} />
                     </SkinBoxSetupItem>
                     <SkinBoxSetupItem onChangeCheck={this.onChangeCheck} title="外边距" keyName="margin" source={this.checkList}>
-                        <StepSlider defaultValue={this.margin} min={1} max={100} step={10} onChange={this.marginSliderOnChange} />
+                        <StepSlider defaultValue={this.setup.margin} min={1} max={100} step={10} onChange={this.marginOnChange} />
                     </SkinBoxSetupItem>
                     <SkinBoxSetupItem onChangeCheck={this.onChangeCheck} title="内边距" keyName="padding" source={this.checkList}>
-                        <StepSlider defaultValue={this.padding} min={1} max={100} step={10} onChange={this.paddingSliderOnChange} />
+                        <StepSlider defaultValue={this.setup.padding} min={1} max={100} step={10} onChange={this.paddingOnChange} />
                     </SkinBoxSetupItem>
                     <SkinBoxSetupItem onChangeCheck={this.onChangeCheck} title="字框颜色" keyName="color" source={this.checkList}>
-                        <SketchPicker color={this.color} onChange={this.colorOnChange} />
+                        <SketchPicker color={this.setup.color} onChange={this.colorOnChange} />
                     </SkinBoxSetupItem>
                     <SkinBoxSetupItem onChangeCheck={this.onChangeCheck} title="边框风格" keyName="borderStyle" source={this.checkList}>
-                        <StringSelect defaultValue={this.borderStyle} data={['', 'none', 'hidden', 'solid', 'dashed', 'dotted', 'ridge', 'inset', 'outset', 'groove', 'double']} onChange={this.borderStyleOnChange} />
+                        <StringSelect defaultValue={this.setup.borderStyle} data={['', 'none', 'hidden', 'solid', 'dashed', 'dotted', 'ridge', 'inset', 'outset', 'groove', 'double']} onChange={this.borderStyleOnChange} />
                     </SkinBoxSetupItem>
                     <SkinBoxSetupItem onChangeCheck={this.onChangeCheck} title="边框颜色" keyName="borderColor" source={this.checkList}>
-                        <SketchPicker color={this.borderColor} onChange={this.borderColorOnChange} />
+                        <SketchPicker color={this.setup.borderColor} onChange={this.borderColorOnChange} />
                     </SkinBoxSetupItem>
                     <SkinBoxSetupItem onChangeCheck={this.onChangeCheck} title="边框宽度" keyName="borderWidth" source={this.checkList}>
-                        <StepSlider defaultValue={this.borderWidth} min={1} max={100} step={10} onChange={this.borderWidthSliderOnChange} />
+                        <StepSlider defaultValue={this.setup.borderWidth} min={1} max={100} step={10} onChange={this.borderWidthOnChange} />
                     </SkinBoxSetupItem>
                     <SkinBoxSetupItem onChangeCheck={this.onChangeCheck} title="边框圆角" keyName="borderRadius" source={this.checkList}>
-                        <StepSlider defaultValue={this.borderRadius} min={1} max={100} step={10} onChange={this.borderRadiusSliderOnChange} />
+                        <StepSlider defaultValue={this.setup.borderRadius} min={1} max={100} step={10} onChange={this.borderRadiusOnChange} />
                     </SkinBoxSetupItem>
                     <SkinBoxSetupItem onChangeCheck={this.onChangeCheck} title="阴影" keyName="shadow" source={this.checkList}>
-                        <StepSlider defaultValue={this.shadow} min={1} max={20} step={2} onChange={this.shadowSliderOnChange} />
-                        <SketchPicker color={this.shadowColor} onChange={this.onChange} />
+                        <StepSlider defaultValue={this.setup.shadow} min={1} max={20} step={2} onChange={this.shadowOnChange} />
+                        <SketchPicker color={this.setup.shadowColor} onChange={this.shadowColorOnChange} />
                     </SkinBoxSetupItem>
                 </div>
                 <div EClass="view">
@@ -150,7 +151,7 @@ export default class SkinEditBox
                 value = value.replace('em', '');
                 return Number(value) * 16;
             } else {
-                throw "无法解析borderRadius：" + value;
+                throw '无法解析borderRadius：' + value;
             }
         } else {
             return value;
@@ -176,109 +177,87 @@ export default class SkinEditBox
     private init(props: this['props']) {
         // const use = props.info.use;
         const values = props.info.defaultValue;
-
-        this.shadow = 0;
-        this.shadowColor = { R: 0, G: 0, B: 0, A: 0.5 };
+        this.setup = {} as any;
+        this.setup.shadow = 0;
+        this.setup.shadowColor = { R: 0, G: 0, B: 0, A: 0.5 };
         this.checkList = {};
 
         if (values.display) {
-            this.display = values.display;
+            this.setup.display = values.display;
             this.checkList.display = true;
         } else {
-            this.display = '';
+            this.setup.display = '';
         }
 
         if (values.borderStyle) {
-            this.borderStyle = values.borderStyle;
+            this.setup.borderStyle = values.borderStyle;
             this.checkList.borderStyle = true;
         } else {
-            this.borderStyle = '';
+            this.setup.borderStyle = '';
         }
 
-
         if (values.padding) {
-            this.padding = this.getValueForPx(values.padding);
+            this.setup.padding = this.getValueForPx(values.padding);
             this.checkList.padding = true;
         } else {
-            this.padding = 15;
+            this.setup.padding = 15;
         }
 
         if (values.margin) {
-            this.margin = this.getValueForPx(values.margin);
+            this.setup.margin = this.getValueForPx(values.margin);
             this.checkList.margin = true;
         } else {
-            this.margin = 15;
+            this.setup.margin = 15;
         }
 
         if (values.borderRadius) {
-            this.borderRadius = this.getValueForPx(values.borderRadius);
+            this.setup.borderRadius = this.getValueForPx(values.borderRadius);
             this.checkList.borderRadius = true;
         } else {
-            this.borderRadius = 5;
+            this.setup.borderRadius = 5;
         }
 
         if (values.borderWidth) {
-            this.borderWidth = this.getValueForPx(values.borderWidth);
+            this.setup.borderWidth = this.getValueForPx(values.borderWidth);
             this.checkList.borderWidth = true;
         } else {
-            this.borderWidth = 1;
+            this.setup.borderWidth = 1;
         }
 
         if (values.borderColor) {
-            this.borderColor = this.getRGBAFromReactCSSPropertiesColor(values.borderColor);
+            this.setup.borderColor = this.getRGBAFromReactCSSPropertiesColor(values.borderColor);
             this.checkList.borderColor = true;
         } else {
-            this.borderColor = { R: 0, G: 0, B: 0, A: 1 };
+            this.setup.borderColor = { R: 0, G: 0, B: 0, A: 1 };
         }
 
         if (values.color) {
-            this.color = this.getRGBAFromReactCSSPropertiesColor(values.color);
+            this.setup.color = this.getRGBAFromReactCSSPropertiesColor(values.color);
             this.checkList.color = true;
         } else {
-            this.color = { R: 0, G: 0, B: 0, A: 1 };
+            this.setup.color = { R: 0, G: 0, B: 0, A: 1 };
         }
 
         if (values.backgroundColor) {
-            this.backgroundColor = this.getRGBAFromReactCSSPropertiesColor(values.backgroundColor);
+            this.setup.backgroundColor = this.getRGBAFromReactCSSPropertiesColor(values.backgroundColor);
             this.checkList.backgroundColor = true;
         } else {
-            this.backgroundColor = { R: 0, G: 0, B: 0, A: 1 };
+            this.setup.backgroundColor = { R: 0, G: 0, B: 0, A: 1 };
         }
 
         this.skinRule = this.globalEClass.getRule(props.info.name);
-        this.targetRule = this.cssClass!.getRule('simple')
+        this.targetRule = this.cssClass!.getRule('simple');
     }
     private onRaiseChange: RenderData['props']['onRaiseChange'] = (onChange) => {
         this.onStyleTextChange = onChange;
     }
-    private displayOnChange = (value: string) => {
-        this.display = value;
-        this.updateRule(this.props);
+    private makeChangeEvent<P extends keyof this['setup']>(name: P) {
+        return (value: this['setup'][P]) => {
+            this.setup[name as any] = value;
+            this.updateRule(this.props);
+        };
     }
-    private borderStyleOnChange = (value: string) => {
-        this.borderStyle = value;
-        this.updateRule(this.props);
-    }
-    private shadowSliderOnChange = (value: number) => {
-        this.shadow = value;
-        this.updateRule(this.props);
-    }
-    private marginSliderOnChange = (value: number) => {
-        this.margin = value;
-        this.updateRule(this.props);
-    }
-    private paddingSliderOnChange = (value: number) => {
-        this.padding = value;
-        this.updateRule(this.props);
-    }
-    private borderWidthSliderOnChange = (value: number) => {
-        this.borderWidth = value;
-        this.updateRule(this.props);
-    }
-    private borderRadiusSliderOnChange = (value: number) => {
-        this.borderRadius = value;
-        this.updateRule(this.props);
-    }
+
     private onChangeCheck = () => {
         this.updateRule(this.props);
     }
@@ -287,35 +266,35 @@ export default class SkinEditBox
         const arr2: any[] = [];
 
         if (this.checkList.display) {
-            arr2.push(`display:${this.display};`);
+            arr2.push(`display:${this.setup.display};`);
         }
         if (this.checkList.backgroundColor) {
-            arr2.push(`background-color:rgba(${this.backgroundColor.R},${this.backgroundColor.G},${this.backgroundColor.B},${this.backgroundColor.A});`);
+            arr2.push(`background-color:rgba(${this.setup.backgroundColor.R},${this.setup.backgroundColor.G},${this.setup.backgroundColor.B},${this.setup.backgroundColor.A});`);
         }
         if (this.checkList.margin) {
-            arr2.push(`margin:${this.margin}px;`);
+            arr2.push(`margin:${this.setup.margin}px;`);
         }
         if (this.checkList.padding) {
-            arr2.push(`padding:${this.padding}px;`);
+            arr2.push(`padding:${this.setup.padding}px;`);
         }
         if (this.checkList.borderStyle) {
-            arr2.push(`border-style:${this.borderStyle};`);
+            arr2.push(`border-style:${this.setup.borderStyle};`);
         }
         if (this.checkList.borderWidth) {
-            arr2.push(`border-width:${this.borderWidth}px;`);
+            arr2.push(`border-width:${this.setup.borderWidth}px;`);
         }
         if (this.checkList.borderColor) {
-            arr2.push(`border-color:rgba(${this.borderColor.R},${this.borderColor.G},${this.borderColor.B},${this.borderColor.A});`);
+            arr2.push(`border-color:rgba(${this.setup.borderColor.R},${this.setup.borderColor.G},${this.setup.borderColor.B},${this.setup.borderColor.A});`);
         }
         if (this.checkList.borderRadius) {
-            arr2.push(`border-radius:${this.borderRadius}px;`);
+            arr2.push(`border-radius:${this.setup.borderRadius}px;`);
         }
         if (this.checkList.color) {
-            arr2.push(`color:rgba(${this.color.R},${this.color.G},${this.color.B},${this.color.A});`);
+            arr2.push(`color:rgba(${this.setup.color.R},${this.setup.color.G},${this.setup.color.B},${this.setup.color.A});`);
         }
         if (this.checkList.shadow) {
-            const shadowColor = getRGBA2String(this.shadowColor);
-            arr.push('shadow-' + this.shadow + '-' + shadowColor);
+            const shadowColor = getRGBA2String(this.setup.shadowColor);
+            arr.push('shadow-' + this.setup.shadow + '-' + shadowColor);
         }
         if (arr.length > 0) {
             arr2.push(arr);
@@ -323,7 +302,7 @@ export default class SkinEditBox
         let style: string;
         this.targetRule.map.simple = arr2;
         this.cssClass!.updateClass('simple');
-        if (this.props.sync) {
+        if (props.sync) {
 
             this.skinRule.map[props.info.name] = arr2;
             this.globalEClass.updateClass(props.info.name);

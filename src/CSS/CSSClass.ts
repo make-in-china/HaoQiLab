@@ -1,4 +1,4 @@
-import { isArray, isObject, isString, isFunction } from "src/Lib/is";
+import { isArray, isObject, isString, isFunction } from 'src/Lib/is';
 
 declare var window: {
     CSSClass?: typeof cssClassNS.CSSClass;

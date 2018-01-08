@@ -25,7 +25,7 @@ export default class App extends React.Component<{ title?: string }> {
     }
     render() {
         return (
-            <div className={G.Class.map.clr_background3 + ' ' + G.Class.map.frm_border} EClass = { this.max ? 'boxbig box' : 'box' } >
+            <div className={G.Class.map.clr_background3 + ' ' + G.Class.map.frm_border} EClass={this.max ? 'boxbig box' : 'box'} >
                 <div EClass="title" className={G.Class.map.clr_primary}>
                     {this.props.title}
                     {this.max ? (

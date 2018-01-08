@@ -17,8 +17,8 @@ export default class GlobalSkinEdit
 
     // #region public property
     @observable info: ClassItem | undefined = G.Class.list[0];
-    @observable sync: boolean = true;
-    useCount: number = document.querySelectorAll("." + this.info!.name).length;
+    @observable sync: boolean = false;
+    useCount: number = document.querySelectorAll('.' + this.info!.name).length;
     // #endregion
 
     // #region private property
@@ -37,8 +37,8 @@ export default class GlobalSkinEdit
                     <span EClass="mdiplr-10">×{this.useCount}</span>
                     <Antd.Switch
                         onChange={this.onChangeSync}
-                        checkedChildren={' 同 步 '}
-                        unCheckedChildren={'不同步'}
+                        checkedChildren={'全局调整'}
+                        unCheckedChildren={'私有调整'}
                         defaultChecked={this.sync}
                     />
                 </div>
@@ -56,7 +56,7 @@ export default class GlobalSkinEdit
             }
             return false;
         });
-        this.useCount = document.querySelectorAll("." + this.info!.name).length;
+        this.useCount = document.querySelectorAll('.' + this.info!.name).length;
     }
     // #endregion
 }
