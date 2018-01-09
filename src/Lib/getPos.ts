@@ -7,10 +7,10 @@ export function getPos(e: TouchMoveEvent<HTMLElement>, target: HTMLElement) {
 export function getOffset(target: HTMLElement, rootTarget: HTMLElement = document.body) {
     let x = 0;
     let y = 0;
-    while (target !== rootTarget) {
+    do {
         x += target.offsetLeft;
         y += target.offsetTop;
         target = target.offsetParent as HTMLElement;
-    }
+    } while (target && target !== rootTarget);
     return { x: x, y: y };
 }
