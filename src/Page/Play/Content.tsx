@@ -8,7 +8,6 @@ import Animation from '../../Components/Animation';
 import Antd from 'antd-more';
 import { observer, observable } from 'mobx-index';
 import Logo from 'src/Template/Default/Logo';
-import GlobalSkinEdit from 'src/Page/Play/Component/GlobalSkinEdit';
 import { G } from 'src/CSS/G';
 import BindFunctionList from 'src/Page/Play/Component/BindFunctionList';
 const RadioGroup = Antd.Radio.Group;
@@ -46,10 +45,6 @@ export default class App extends React.Component {
                     permissibleHeightGaps={this.permissibleHeightGaps}
                     datas={[
                         (
-                            <BurrowBox title="全局样式编辑">
-                                <GlobalSkinEdit />
-                            </BurrowBox>
-                        ), (
                             <BurrowBox title="逆序文字">
                                 <div EClass="pdip-10">
                                     普通显示：‮文字你肿么了
