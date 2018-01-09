@@ -1,5 +1,5 @@
-export function isString(v:any):v is string{
-    return Object.prototype.toString.call(v)==='[object String]';
+export function isString(v: any): v is string {
+    return Object.prototype.toString.call(v) === '[object String]';
 }
 export function isFunction(v: any): v is Function {
     return '[object Function]' === Object.prototype.toString.call(v);
