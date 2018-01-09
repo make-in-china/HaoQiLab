@@ -1,6 +1,3 @@
-/**
- * 此页面不设计多次Render
- */
 
 import React from 'react-ex';
 import { CSSRuleEx, cssClassNS, RGBA, getRGBA2String, getRGB } from '../../../CSS/CSSClass';
@@ -16,7 +13,8 @@ import { observer } from 'src/Lib/mobx.index';
 import { G } from 'src/CSS/G';
 import RenderData from 'src/Components/RenderData';
 import { isString } from 'src/Lib/is';
-
+import { Antd } from 'src/Lib/antd.min';
+const TabPane = Antd.Tabs.TabPane;
 const re = /(\/\*.*?\*\/)/g;
 
 @React.eclass({
@@ -27,6 +25,13 @@ const re = /(\/\*.*?\*\/)/g;
     ],
     frame: [
         'pdip-5 bd-12-gray'.split(' ')
+    ],
+    setupbox: [
+        'mdip-5 minhem-16'.split(' '),
+        {
+            ' .ant-tabs.ant-tabs-card>.ant-tabs-bar .ant-tabs-nav-container': 'height:31px',
+            ' .ant-tabs.ant-tabs-card>.ant-tabs-bar .ant-tabs-tab': 'line-height:29px'
+        }
     ],
     simple: []
 })
@@ -89,40 +94,52 @@ export default class SkinEditBox
     render() {
         // tslint:disable-next-line:no-unused-expression
         void this.renderRandom;
+        const data = {
+            onChangeCheck: this.onChangeCheck,
+            source: this.checkList
+        };
         return (
             <div>
-                <div className={G.Class.map.frm_border} EClass="frame mdip-5">
-                    <SkinBoxSetupItem onChangeCheck={this.onChangeCheck} title="显示模式" keyName="display" source={this.checkList}>
-                        <StringSelect defaultValue={this.setup.display} data={['', 'inline-block', 'block', 'inline-flex', 'flex', 'inline-grid', 'grid', 'inline-table', 'table', 'list-item', 'run-in', 'table-caption', 'table-cell', 'table-column', 'table-column-group', 'table-footer-group', 'table-header-group', 'table-row', 'table-row-group']} onChange={this.displayOnChange} />
-                    </SkinBoxSetupItem>
-                    <SkinBoxSetupItem onChangeCheck={this.onChangeCheck} title="外边距" keyName="margin" source={this.checkList}>
-                        <StepSlider defaultValue={this.setup.margin} min={1} max={100} step={10} onChange={this.marginOnChange} />
-                    </SkinBoxSetupItem>
-                    <SkinBoxSetupItem onChangeCheck={this.onChangeCheck} title="内边距" keyName="padding" source={this.checkList}>
-                        <StepSlider defaultValue={this.setup.padding} min={1} max={100} step={10} onChange={this.paddingOnChange} />
-                    </SkinBoxSetupItem>
-                    <SkinBoxSetupItem onChangeCheck={this.onChangeCheck} title="边框风格" keyName="borderStyle" source={this.checkList}>
-                        <StringSelect defaultValue={this.setup.borderStyle} data={['', 'none', 'hidden', 'solid', 'dashed', 'dotted', 'ridge', 'inset', 'outset', 'groove', 'double']} onChange={this.borderStyleOnChange} />
-                    </SkinBoxSetupItem>
-                    <SkinBoxSetupItem onChangeCheck={this.onChangeCheck} title="边框宽度" keyName="borderWidth" source={this.checkList}>
-                        <StepSlider defaultValue={this.setup.borderWidth} min={1} max={100} step={10} onChange={this.borderWidthOnChange} />
-                    </SkinBoxSetupItem>
-                    <SkinBoxSetupItem onChangeCheck={this.onChangeCheck} title="边框圆角" keyName="borderRadius" source={this.checkList}>
-                        <StepSlider defaultValue={this.setup.borderRadius} min={1} max={100} step={10} onChange={this.borderRadiusOnChange} />
-                    </SkinBoxSetupItem>
-                    <SkinBoxSetupItem onChangeCheck={this.onChangeCheck} title="阴影" keyName="shadow" source={this.checkList}>
-                        <StepSlider defaultValue={this.setup.shadow} min={1} max={20} step={2} onChange={this.shadowOnChange} />
-                        <SketchPicker color={this.setup.shadowColor} onChange={this.shadowColorOnChange} />
-                    </SkinBoxSetupItem>
-                    <SkinBoxSetupItem onChangeCheck={this.onChangeCheck} title="背景颜色" keyName="backgroundColor" source={this.checkList}>
-                        <SketchPicker color={this.setup.backgroundColor} onChange={this.backgroundColorOnChange} />
-                    </SkinBoxSetupItem>
-                    <SkinBoxSetupItem onChangeCheck={this.onChangeCheck} title="字框颜色" keyName="color" source={this.checkList}>
-                        <SketchPicker color={this.setup.color} onChange={this.colorOnChange} />
-                    </SkinBoxSetupItem>
-                    <SkinBoxSetupItem onChangeCheck={this.onChangeCheck} title="边框颜色" keyName="borderColor" source={this.checkList}>
-                        <SketchPicker color={this.setup.borderColor} onChange={this.borderColorOnChange} />
-                    </SkinBoxSetupItem>
+                <div className={G.Class.map.frm_border} EClass="frame setupbox">
+                    <Antd.Tabs type="card">
+                        <TabPane tab="大小" key="size">
+                            <SkinBoxSetupItem title="显示模式" keyName="display" {...data}>
+                                <StringSelect defaultValue={this.setup.display} data={['', 'inline-block', 'block', 'inline-flex', 'flex', 'inline-grid', 'grid', 'inline-table', 'table', 'list-item', 'run-in', 'table-caption', 'table-cell', 'table-column', 'table-column-group', 'table-footer-group', 'table-header-group', 'table-row', 'table-row-group']} onChange={this.displayOnChange} />
+                            </SkinBoxSetupItem>
+                            <SkinBoxSetupItem title="外边距" keyName="margin" {...data}>
+                                <StepSlider defaultValue={this.setup.margin} min={1} max={100} step={10} onChange={this.marginOnChange} />
+                            </SkinBoxSetupItem>
+                            <SkinBoxSetupItem title="内边距" keyName="padding" {...data}>
+                                <StepSlider defaultValue={this.setup.padding} min={1} max={100} step={10} onChange={this.paddingOnChange} />
+                            </SkinBoxSetupItem>
+                        </TabPane>
+                        <TabPane tab="颜色" key="default">
+                            <SkinBoxSetupItem title="背景颜色" keyName="backgroundColor" {...data}>
+                                <SketchPicker color={this.setup.backgroundColor} onChange={this.backgroundColorOnChange} />
+                            </SkinBoxSetupItem>
+                            <SkinBoxSetupItem title="字框颜色" keyName="color" {...data}>
+                                <SketchPicker color={this.setup.color} onChange={this.colorOnChange} />
+                            </SkinBoxSetupItem>
+                            <SkinBoxSetupItem title="阴影" keyName="shadow" {...data}>
+                                <StepSlider defaultValue={this.setup.shadow} min={1} max={20} step={2} onChange={this.shadowOnChange} />
+                                <SketchPicker color={this.setup.shadowColor} onChange={this.shadowColorOnChange} />
+                            </SkinBoxSetupItem>
+                        </TabPane>
+                        <TabPane tab="边框" key="border">
+                            <SkinBoxSetupItem title="边框风格" keyName="borderStyle" {...data}>
+                                <StringSelect defaultValue={this.setup.borderStyle} data={['', 'none', 'hidden', 'solid', 'dashed', 'dotted', 'ridge', 'inset', 'outset', 'groove', 'double']} onChange={this.borderStyleOnChange} />
+                            </SkinBoxSetupItem>
+                            <SkinBoxSetupItem title="边框宽度" keyName="borderWidth" {...data}>
+                                <StepSlider defaultValue={this.setup.borderWidth} min={1} max={100} step={10} onChange={this.borderWidthOnChange} />
+                            </SkinBoxSetupItem>
+                            <SkinBoxSetupItem title="边框圆角" keyName="borderRadius" {...data}>
+                                <StepSlider defaultValue={this.setup.borderRadius} min={1} max={100} step={10} onChange={this.borderRadiusOnChange} />
+                            </SkinBoxSetupItem>
+                            <SkinBoxSetupItem title="边框颜色" keyName="borderColor" {...data}>
+                                <SketchPicker color={this.setup.borderColor} onChange={this.borderColorOnChange} />
+                            </SkinBoxSetupItem>
+                        </TabPane>
+                    </Antd.Tabs>
                 </div>
                 <div EClass="view">
                     <div>
