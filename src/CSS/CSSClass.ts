@@ -132,10 +132,26 @@ export function getRGBString(color: RGB) {
 }
 export function getRGBA2String(color: RGBA) {
 
-    return rightString('0' + Math.floor(color.A * 256).toString(16), 2) +
+    return rightString('0' + Math.round(color.A * 255).toString(16), 2) +
         rightString('0' + color.R.toString(16), 2) +
         rightString('0' + color.G.toString(16), 2) +
         rightString('0' + color.B.toString(16), 2);
+}
+export function getColorByMoreInfo(moreInfo: string) {
+    switch (moreInfo.length) {
+        case 3:
+            return '#' + moreInfo[0] + moreInfo[0] + moreInfo[1] + moreInfo[1] + moreInfo[2] + moreInfo[2];
+        case 6:
+            return '#' + moreInfo;
+        case 8:
+            let alpha = parseInt(moreInfo.substr(0, 2), 16) / 255;
+            let red = parseInt(moreInfo.substr(2, 2), 16);
+            let green = parseInt(moreInfo.substr(4, 2), 16);
+            let blue = parseInt(moreInfo.substr(6, 2), 16);
+            return  `rgba(${red},${green},${blue},${alpha})`;
+        default:
+            return null;
+    }
 }
 export function getColorByArea(color1: string, color2: string, index: number, max: number): string {
     const color1RGB = getRGB(color1);
@@ -352,6 +368,10 @@ export namespace cssClassNS {
                 className = this.create(info);
             }
             return className;
+        }
+        parseToElement(elem: HTMLElement, clses: string, selector?: keyof SelectorMap) {
+            const clsList = this.parse(clses, selector);
+            clsList.forEach(cls => { elem.classList.add(cls); });
         }
         /**
          * 解析出class数组，解析出的新class会立即注册到style
