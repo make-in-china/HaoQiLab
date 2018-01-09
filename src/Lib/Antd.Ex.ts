@@ -1,11 +1,9 @@
 
 import _Anchor from 'antd/es/anchor';
 import _Alert from 'antd/es/alert';
-import _Button from 'antd/es/button';
 import _Form from 'antd/es/form';
 import _notification from 'antd/es/notification';
 import _Pagination from 'antd/es/pagination';
-import _Tooltip from 'antd/es/tooltip';
 import _message from 'antd/es/message';
 import _Popconfirm from 'antd/es/popconfirm';
 import _Popover from 'antd/es/popover';
@@ -15,22 +13,16 @@ import _Row from 'antd/es/row';
 import _Slider from 'antd/es/slider';
 import _Col from 'antd/es/col';
 import _Radio from 'antd/es/radio';
-import _Switch from 'antd/es/switch';
-import _InputNumber from 'antd/es/input-number';
 import _Rate from 'antd/es/rate';
 import _Input from 'antd/es/input';
-import _Checkbox from 'antd/es/checkbox';
 
 (function (that: any) {
-    that.Checkbox = _Checkbox;
-    that.Switch = _Switch;
     that.Radio = _Radio;
     that.Row = _Row;
     that.Slider = _Slider;
     that.Col = _Col;
     that.Anchor = _Anchor;
     that.Alert = _Alert;
-    that.Button = _Button;
     that.Form = _Form;
     that.message = _message;
     that.notification = _notification;
@@ -39,8 +31,6 @@ import _Checkbox from 'antd/es/checkbox';
     that.Popover = _Popover;
     that.Progress = _Progress;
     that.Table = _Table;
-    that.Tooltip = _Tooltip;
-    that.InputNumber = _InputNumber;
     that.Rate = _Rate;
     that.Input = _Input;
 })((window as any).Antd || ((window as any).Antd = {}));
