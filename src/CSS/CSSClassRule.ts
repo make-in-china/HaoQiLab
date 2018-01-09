@@ -1,4 +1,4 @@
-import { cssClassNS, getColorByArea } from './CSSClass';
+import { cssClassNS, getColorByArea, getColorByMoreInfo } from './CSSClass';
 
 const px1 = 0.0625;
 const w = {
@@ -112,6 +112,14 @@ const rule1 = {
     mdiplr(idx: number) { return rule1.mdipl(idx) + rule1.mdipr(idx); },
     mdiptb(idx: number) { return rule1.mdipt(idx) + rule1.mdipb(idx); },
 
+    mpx(idx: number) { return `margin:${idx!}px;`; },
+    mpxl(idx: number) { return `margin-left:${idx!}px;`; },
+    mpxr(idx: number) { return `margin-right:${idx!}px;`; },
+    mpxt(idx: number) { return `margin-top:${idx!}px;`; },
+    mpxb(idx: number) { return `margin-bottom:${idx!}px;`; },
+    mpxlr(idx: number) { return rule1.mpxl(idx) + rule1.mpxr(idx); },
+    mpxtb(idx: number) { return rule1.mpxt(idx) + rule1.mpxb(idx); },
+
     mdip_(idx: number) { return `margin:-${idx! * px1}em;`; },
     mdipl_(idx: number) { return `margin-left:-${idx! * px1}em;`; },
     mdipr_(idx: number) { return `margin-right:-${idx! * px1}em;`; },
@@ -119,6 +127,14 @@ const rule1 = {
     mdipb_(idx: number) { return `margin-bottom:-${idx! * px1}em;`; },
     mdiplr_(idx: number) { return rule1.mdipl_(idx) + rule1.mdipr_(idx); },
     mdiptb_(idx: number) { return rule1.mdipt_(idx) + rule1.mdipb_(idx); },
+
+    mpx_(idx: number) { return `margin:-${idx!}px;`; },
+    mpxl_(idx: number) { return `margin-left:-${idx!}px;`; },
+    mpxr_(idx: number) { return `margin-right:-${idx!}px;`; },
+    mpxt_(idx: number) { return `margin-top:-${idx!}px;`; },
+    mpxb_(idx: number) { return `margin-bottom:-${idx!}px;`; },
+    mpxlr_(idx: number) { return rule1.mpxl_(idx) + rule1.mpxr_(idx); },
+    mpxtb_(idx: number) { return rule1.mpxt_(idx) + rule1.mpxb_(idx); },
 
     tl_under: `text-decoration:undeline;`,
     tl_through: `text-decoration:line-through;`,
@@ -169,6 +185,7 @@ const rule1 = {
     lh(idx: number) { return `line-height:${idx}%;`; },
     lhem(idx: number) { return `line-height:${idx}em;`; },
     lhdip(idx: number) { return `line-height:${idx! * px1}em;`; },
+    lhpx(idx: number) { return `line-height:${idx!}px;`; },
 
     tiem(idx: number) { return `text-indent:${idx}em;`; },
     tidip(idx: number) { return `text-indent:${idx! * px1}em;`; },
@@ -262,7 +279,7 @@ const rule1 = {
 const rule2 = {
     uhide: `display:none !important;`,
     abs: `position:absolute;`,
-
+    fixed: `position:fixed;`,
     // 颜色系列
     bg(idx: number, moreInfo: string) { return `background-color:${getColorByEClass(idx, moreInfo!)};`; },
     bd(idx: number, moreInfo: string) { return `border-color:${getColorByEClass(idx, moreInfo!)};`; },
@@ -378,7 +395,7 @@ function getColorByEClass(idx: number | undefined, moreInfo: string) {
             clr2 = '0080FF';
             break;
         default:
-            return '#000';
+            return getColorByMoreInfo(moreInfo);
     }
     const max = setMax(strMax);
     if (idx === undefined) {
