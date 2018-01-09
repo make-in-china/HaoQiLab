@@ -1,5 +1,5 @@
 import React from 'react-ex';
-import Antd from 'antd-more';
+import Antd from 'antd-min';
 import { observer, observable } from 'mobx-index';
 @React.eclass({
     line: [
@@ -20,7 +20,7 @@ export default class SkinBoxSetupItem
         onChangeCheck: () => void
     }> {
     @observable private isCheck = this.props.source[this.props.keyName];
-    onChange: Antd.Checkbox['props']['onChange'] = (e) => {
+    onChange: React.ChangeEventHandler<HTMLInputElement> = (e) => {
         this.isCheck = this.props.source[this.props.keyName] = e.target.checked;
         this.props.onChangeCheck();
     }

@@ -1,5 +1,5 @@
 import React from 'react-ex';
-import Antd from 'antd-more';
+import Antd from 'antd-min';
 import { observer, observable } from 'mobx-index';
 import StringSelect from 'src/Page/Play/Component/StringSelect';
 @React.eclass({
@@ -17,10 +17,10 @@ export default class SkinTargets
     @observable type: string = 'div';
     @observable innerType: string = '3.1+2';
     @observable className?: string = this.props.className;
-    onChangeCount: Antd.InputNumber['props']['onChange'] = (v: number) => {
+    onChangeCount: (value: number | string | undefined) => void = (v: number) => {
         this.count = v;
     }
-    onChangeInner: Antd.Switch['props']['onChange'] = (v) => {
+    onChangeInner: (checked: boolean) => any = (v) => {
         this.hasInnerTarget = v;
     }
     onChangeInnerType: StringSelect['props']['onChange'] = (v) => {
