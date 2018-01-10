@@ -1,6 +1,6 @@
 
 import React from 'react-ex';
-import { CSSRuleEx, cssClassNS, RGBA, getRGBA2String, getRGB, getRGBACSSString } from 'src/CSS/CSSClass';
+import { CSSRuleEx, cssClassNS, RGBA, getRGBA2String, getRGB, getRGBACSSString, getRGBAByMoreInfo } from 'src/CSS/CSSClass';
 import StepSlider from '../StepSlider';
 import StringSelect from '../StringSelect';
 import SkinTargets from './SkinTargets';
@@ -12,7 +12,6 @@ import { observable } from 'mobx';
 import { observer } from 'src/Lib/mobx.index';
 import { G } from 'src/CSS/G';
 import RenderData from 'src/Components/RenderData';
-import { isString } from 'src/Lib/is';
 import { Antd } from 'src/Lib/antd.min';
 import { calcStyle } from 'src/CSS/CalcStyle';
 const TabPane = Antd.Tabs.TabPane;
@@ -45,11 +44,11 @@ export default class SkinEditBox
         sync: boolean
     }> {
     setup: {
-        display: string;
+        display: ClassRule['display'];
         color: RGBA;
         margin: number;
         padding: number;
-        borderStyle: string;
+        borderStyle: ClassRule['borderStyle'];
         borderWidth: number;
         borderRadius: number;
         shadow: number;
@@ -105,6 +104,17 @@ export default class SkinEditBox
     private shadowColorOnChange = this.makeChangeEvent('shadowColor');
     private borderColorOnChange = this.makeChangeEvent('borderColor');
     @observable private renderRandom = Math.random();
+
+    onClickExport: React.FormEventHandler<any> = (evt) => {
+        const rule = this.createRule();
+        notification.open({
+            message: '样式规则导出-' + this.props.name,
+            description: JSON.stringify(rule),
+            btn: this.btnUpdateClassByClear,
+            key: 'clearClass',
+            onClose: close,
+        });
+    }
     onClickClear: React.FormEventHandler<any> = (evt) => {
         const data = localClassRuleData.get() || {};
         delete data[this.props.name];
@@ -118,6 +128,19 @@ export default class SkinEditBox
         });
     }
     onClickSave: React.FormEventHandler<any> = (evt) => {
+
+        const data = localClassRuleData.get() || {};
+        data[this.props.name] = this.createRule();
+        localClassRuleData.set(data);
+        notification.open({
+            message: '样式保存',
+            description: `保存“${this.props.name}”样式成功！`,
+            btn: this.btnUpdateClassBySave,
+            key: 'saveClass',
+            onClose: close,
+        });
+    }
+    createRule() {
         const rule: ClassRule = {};
 
         if (this.checkList.display) {
@@ -148,21 +171,11 @@ export default class SkinEditBox
             rule.color = getRGBACSSString(this.setup.color);
         }
         if (this.checkList.shadow) {
-            // const shadowColor = getRGBA2String(this.setup.shadowColor);
-            rule.shadow = this.setup.shadow;
+            const shadowColor = getRGBA2String(this.setup.shadowColor);
+            rule.shadow = [this.setup.shadow, shadowColor];
         }
-        const data = localClassRuleData.get() || {};
-        data[this.props.name] = rule;
-        localClassRuleData.set(data);
-        notification.open({
-            message: '样式保存',
-            description: `保存“${this.props.name}”样式成功！`,
-            btn: this.btnUpdateClassBySave,
-            key: 'saveClass',
-            onClose: close,
-        });
+        return rule;
     }
-
     componentDidMount() {
         this.updateRule(this.props);
     }
@@ -189,7 +202,7 @@ export default class SkinEditBox
                     <Antd.Tabs type="card">
                         <TabPane tab="大小" key="size">
                             <SkinBoxSetupItem title="显示模式" keyName="display" {...data}>
-                                <StringSelect defaultValue={this.setup.display} data={['', 'inline-block', 'block', 'inline-flex', 'flex', 'inline-grid', 'grid', 'inline-table', 'table', 'list-item', 'run-in', 'table-caption', 'table-cell', 'table-column', 'table-column-group', 'table-footer-group', 'table-header-group', 'table-row', 'table-row-group']} onChange={this.displayOnChange} />
+                                <StringSelect defaultValue={this.setup.display!} data={['', 'inline-block', 'block', 'inline-flex', 'flex', 'inline-grid', 'grid', 'inline-table', 'table', 'list-item', 'run-in', 'table-caption', 'table-cell', 'table-column', 'table-column-group', 'table-footer-group', 'table-header-group', 'table-row', 'table-row-group']} onChange={this.displayOnChange as any} />
                             </SkinBoxSetupItem>
                             <SkinBoxSetupItem title="外边距" keyName="margin" {...data}>
                                 <StepSlider defaultValue={this.setup.margin} min={1} max={100} step={10} onChange={this.marginOnChange} />
@@ -212,7 +225,7 @@ export default class SkinEditBox
                         </TabPane>
                         <TabPane tab="边框" key="border">
                             <SkinBoxSetupItem title="边框风格" keyName="borderStyle" {...data}>
-                                <StringSelect defaultValue={this.setup.borderStyle} data={['', 'none', 'hidden', 'solid', 'dashed', 'dotted', 'ridge', 'inset', 'outset', 'groove', 'double']} onChange={this.borderStyleOnChange} />
+                                <StringSelect defaultValue={this.setup.borderStyle! as string} data={['', 'none', 'hidden', 'solid', 'dashed', 'dotted', 'ridge', 'inset', 'outset', 'groove', 'double']} onChange={this.borderStyleOnChange as any} />
                             </SkinBoxSetupItem>
                             <SkinBoxSetupItem title="边框宽度" keyName="borderWidth" {...data}>
                                 <StepSlider defaultValue={this.setup.borderWidth} min={1} max={100} step={10} onChange={this.borderWidthOnChange} />
@@ -235,8 +248,9 @@ export default class SkinEditBox
                     <div>
                         <pre className={G.Class.map.frm_border} EClass="frame minhem-20">
                             <div>
-                                <Antd.Button size="small" onClick={this.onClickSave}>保存</Antd.Button>&nbsp;
-                                <Antd.Button size="small" onClick={this.onClickClear}>清除</Antd.Button>
+                                <Antd.Button size="small" onClick={this.onClickSave}>保存规则</Antd.Button>&nbsp;
+                                <Antd.Button size="small" onClick={this.onClickClear}>清除规则</Antd.Button>&nbsp;
+                                <Antd.Button size="small" onClick={this.onClickExport}>导出规则</Antd.Button>
                             </div>
                             <RenderData data="" onRaiseChange={this.onRaiseChange} />
                         </pre>
@@ -246,22 +260,22 @@ export default class SkinEditBox
         );
     }
     // #region private
-    private getValueForPx(value: string | number) {
-        if (isString(value)) {
-            value = value.trim();
-            if (/^\d+p/.test(value)) {
-                value = value.replace('px', '');
-                return Number(value);
-            } else if (/\d+em/.test(value)) {
-                value = value.replace('em', '');
-                return Number(value) * 16;
-            } else {
-                throw '无法解析borderRadius：' + value;
-            }
-        } else {
-            return value;
-        }
-    }
+    // private getValueForPx(value: string | number) {
+    //     if (isString(value)) {
+    //         value = value.trim();
+    //         if (/^\d+p/.test(value)) {
+    //             value = value.replace('px', '');
+    //             return Number(value);
+    //         } else if (/\d+em/.test(value)) {
+    //             value = value.replace('em', '');
+    //             return Number(value) * 16;
+    //         } else {
+    //             throw '无法解析borderRadius：' + value;
+    //         }
+    //     } else {
+    //         return value;
+    //     }
+    // }
     private getRGBAFromReactCSSPropertiesColor(color: string) {
         color = color.trim();
         if (/#[a-z\d]{3}([a-z\d]{3})?/.test(color)) {
@@ -282,10 +296,15 @@ export default class SkinEditBox
         // const use = props.info.use;
         const values = props.info;
         this.setup = {} as any;
-        this.setup.shadow = 0;
-        this.setup.shadowColor = { R: 0, G: 0, B: 0, A: 0.5 };
         this.checkList = {};
-
+        if (values.shadow) {
+            this.setup.shadow = values.shadow[0];
+            this.setup.shadowColor = getRGBAByMoreInfo(values.shadow[1])!;
+            this.checkList.shadow = true;
+        } else {
+            this.setup.shadow = 0;
+            this.setup.shadowColor = { R: 0, G: 0, B: 0, A: 0.5 };
+        }
         if (values.display) {
             this.setup.display = values.display;
             this.checkList.display = true;
@@ -301,28 +320,28 @@ export default class SkinEditBox
         }
 
         if (values.padding) {
-            this.setup.padding = this.getValueForPx(values.padding);
+            this.setup.padding = values.padding;
             this.checkList.padding = true;
         } else {
             this.setup.padding = 15;
         }
 
         if (values.margin) {
-            this.setup.margin = this.getValueForPx(values.margin);
+            this.setup.margin = values.margin;
             this.checkList.margin = true;
         } else {
             this.setup.margin = 15;
         }
 
         if (values.borderRadius) {
-            this.setup.borderRadius = this.getValueForPx(values.borderRadius);
+            this.setup.borderRadius = values.borderRadius;
             this.checkList.borderRadius = true;
         } else {
             this.setup.borderRadius = 5;
         }
 
         if (values.borderWidth) {
-            this.setup.borderWidth = this.getValueForPx(values.borderWidth);
+            this.setup.borderWidth = values.borderWidth;
             this.checkList.borderWidth = true;
         } else {
             this.setup.borderWidth = 1;
@@ -430,13 +449,25 @@ export default class SkinEditBox
     private updateLocalClass() {
         const data = localClassRuleData.get();
         if (data) {
+
+            let rule: ClassRule;
             if (data[this.props.name]) {
-                this.skinRule.map[this.props.name] = calcStyle(data[this.props.name]);
-                this.globalEClass.updateClass(this.props.name);
+                rule = data[this.props.name];
             } else {
-                this.skinRule.map[this.props.name] = calcStyle(G.Class.data[this.props.name]);
-                this.globalEClass.updateClass(this.props.name);
+                rule = G.Class.data[this.props.name];
             }
+            const { shadow, ...elseRule } = rule;
+            const arr: string[] = [];
+            if (shadow !== undefined) {
+                arr.push(`shadow-${shadow[0]}-${shadow[1]}`);
+            }
+            if (arr.length > 0) {
+                this.skinRule.map[this.props.name] = [calcStyle(elseRule), arr];
+            } else {
+                this.skinRule.map[this.props.name] = calcStyle(elseRule);
+            }
+
+            this.globalEClass.updateClass(this.props.name);
         }
     }
     // #endregion

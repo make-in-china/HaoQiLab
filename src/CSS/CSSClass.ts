@@ -151,7 +151,19 @@ export function getColorByMoreInfo(moreInfo: string) {
             let red = parseInt(moreInfo.substr(2, 2), 16);
             let green = parseInt(moreInfo.substr(4, 2), 16);
             let blue = parseInt(moreInfo.substr(6, 2), 16);
-            return  `rgba(${red},${green},${blue},${alpha})`;
+            return `rgba(${red},${green},${blue},${alpha})`;
+        default:
+            return null;
+    }
+}
+export function getRGBAByMoreInfo(moreInfo: string) {
+    switch (moreInfo.length) {
+        case 8:
+            let A = parseInt(moreInfo.substr(0, 2), 16) / 255;
+            let R = parseInt(moreInfo.substr(2, 2), 16);
+            let G = parseInt(moreInfo.substr(4, 2), 16);
+            let B = parseInt(moreInfo.substr(6, 2), 16);
+            return { R, G, B, A };
         default:
             return null;
     }

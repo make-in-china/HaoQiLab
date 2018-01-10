@@ -34,13 +34,21 @@ export default class StepSlider
         this.randerRandom = Math.random();
     }
     componentWillMount() {
-        this.stepArea = this.props.max / this.props.step;
-        const index = Math.floor(this.props.defaultValue / this.stepArea);
-        this.value = this.props.defaultValue - this.index * this.stepArea;
+        this.init(this.props);
+    }
+    init(props: this['props']) {
+
+        this.stepArea = props.max / props.step;
+        const index = Math.floor(props.defaultValue / this.stepArea);
+        this.value = props.defaultValue - this.index * this.stepArea;
 
         this.min = this.stepArea * index;
         this.max = this.stepArea * (index + 1);
         this.index = index;
+    }
+    componentWillReceiveProps(props: this['props']) {
+        this.init(props);
+        this.randerRandom = Math.random();
     }
     render() {
         // tslint:disable-next-line:no-unused-expression
