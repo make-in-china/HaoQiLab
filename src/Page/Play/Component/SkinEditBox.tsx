@@ -7,7 +7,7 @@ import SkinTargets from 'src/Page/Play/Component/SkinTargets';
 import { ReactNode } from 'src/Lib/react';
 import SkinBoxSetupItem from 'src/Page/Play/Component/SkinBoxSetupItem';
 import SketchPicker from 'src/Components/SketchPicker';
-import { ClassItem } from 'src/CSS/G.Class';
+import { ClassRule } from 'src/CSS/G.Class';
 import { observable } from 'mobx';
 import { observer } from 'src/Lib/mobx.index';
 import { G } from 'src/CSS/G';
@@ -38,7 +38,8 @@ const re = /(\/\*.*?\*\/)/g;
 @observer
 export default class SkinEditBox
     extends React.Component<{
-        info: ClassItem
+        name: string
+        info: ClassRule
         sync: boolean
     }> {
     setup: {
@@ -55,7 +56,7 @@ export default class SkinEditBox
         borderColor: RGBA;
     };
     checkList: {
-        [P in keyof ClassItem['defaultValue']]?: boolean
+        [P in keyof ClassRule]?: boolean
     };
     skinRule: {
         map: Record<string, CSSRuleEx>;
@@ -192,7 +193,7 @@ export default class SkinEditBox
     }
     private init(props: this['props']) {
         // const use = props.info.use;
-        const values = props.info.defaultValue;
+        const values = props.info;
         this.setup = {} as any;
         this.setup.shadow = 0;
         this.setup.shadowColor = { R: 0, G: 0, B: 0, A: 0.5 };
@@ -261,7 +262,7 @@ export default class SkinEditBox
             this.setup.backgroundColor = { R: 0, G: 0, B: 0, A: 1 };
         }
 
-        this.skinRule = this.globalEClass.getRule(props.info.name);
+        this.skinRule = this.globalEClass.getRule(props.name);
         this.targetRule = this.cssClass!.getRule('simple');
     }
     private onRaiseChange: RenderData['props']['onRaiseChange'] = (onChange) => {
@@ -320,9 +321,9 @@ export default class SkinEditBox
         this.cssClass!.updateClass('simple');
         if (props.sync) {
 
-            this.skinRule.map[props.info.name] = arr2;
-            this.globalEClass.updateClass(props.info.name);
-            style = this.globalEClass.getStyleByName(props.info.name)!;
+            this.skinRule.map[props.name] = arr2;
+            this.globalEClass.updateClass(props.name);
+            style = this.globalEClass.getStyleByName(props.name)!;
         } else {
             style = this.cssClass!.getStyleByName('simple')!;
         }

@@ -3,7 +3,6 @@ import StringSelect from 'src/Page/Play/Component/StringSelect';
 import { G } from '../../../CSS/G';
 import SkinEditBox from 'src/Page/Play/Component/SkinEditBox';
 import { observer, observable } from 'src/Lib/mobx.index';
-import { ClassItem } from 'src/CSS/G.Class';
 import { Antd } from 'src/Lib/antd.min';
 
 @observer
@@ -16,9 +15,9 @@ export default class GlobalSkinEdit
     // #endregion
 
     // #region public property
-    @observable info: ClassItem | undefined = G.Class.list[0];
+    @observable name: string = G.Class.names[0];
     @observable sync: boolean = false;
-    useCount: number = document.querySelectorAll('.' + this.info!.name).length;
+    useCount: number = document.querySelectorAll('.' + this.name).length;
     // #endregion
 
     // #region private property
@@ -33,7 +32,7 @@ export default class GlobalSkinEdit
             <div>
                 <div EClass="fz-16 pdip-5">
                     <span>全局样式：</span>
-                    <StringSelect defaultValue={G.Class.list[0].name} data={G.Class.list.map(e => e.name)} onChange={this.classOnChange} />
+                    <StringSelect defaultValue={this.name} data={G.Class.names} onChange={this.classOnChange} />
                     <span EClass="mdiplr-10">已用{this.useCount}次</span>
                     <Antd.Switch
                         onChange={this.onChangeSync}
@@ -43,7 +42,7 @@ export default class GlobalSkinEdit
                     />
                 </div>
                 <div EClass="mdipt-5">
-                    {this.info && <SkinEditBox sync={this.sync} info={this.info} />}
+                    <SkinEditBox name={this.name} sync={this.sync} info={G.Class.data[this.name]} />
                 </div>
             </div>
         );
@@ -52,13 +51,8 @@ export default class GlobalSkinEdit
 
     // #region private methods
     private classOnChange: StringSelect['props']['onChange'] = (v) => {
-        this.info = G.Class.list.find(item => {
-            if (item.name === v) {
-                return true;
-            }
-            return false;
-        });
-        this.useCount = document.querySelectorAll('.' + this.info!.name).length;
+        this.name = v;
+        this.useCount = document.querySelectorAll('.' + this.name).length;
     }
     // #endregion
 }

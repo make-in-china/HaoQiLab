@@ -1,6 +1,7 @@
 import React from 'react-ex';
 import Antd from 'antd-min';
 import { observer, observable } from 'mobx-index';
+import { ClassRule } from 'src/CSS/G.Class';
 @React.eclass({
     line: [
         'nowrap mdipt-5'.split(' '),
@@ -14,8 +15,10 @@ import { observer, observable } from 'mobx-index';
 export default class SkinBoxSetupItem
     extends React.Component<
     {
-        source: Record<string, boolean | undefined>
-        keyName: string
+        source: {
+            [P in keyof ClassRule]?: boolean
+        }
+        keyName: keyof ClassRule
         title: string
         onChangeCheck: () => void
     }> {
