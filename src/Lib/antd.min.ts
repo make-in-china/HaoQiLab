@@ -15,7 +15,8 @@ export default {
     Tooltip: _Antd.Tooltip,
     Checkbox: _Antd.Checkbox,
     InputNumber: _Antd.InputNumber,
-    Switch: _Antd.Switch
+    Switch: _Antd.Switch,
+    Slider : _Antd.Slider
 };
 if (Antd === undefined) {
     alert('未导入任何Antd组件');

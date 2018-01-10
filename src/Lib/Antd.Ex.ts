@@ -10,7 +10,6 @@ import _Popover from 'antd/es/popover';
 import _Progress from 'antd/es/progress';
 import _Table from 'antd/es/table';
 import _Row from 'antd/es/row';
-import _Slider from 'antd/es/slider';
 import _Col from 'antd/es/col';
 import _Radio from 'antd/es/radio';
 import _Rate from 'antd/es/rate';
@@ -19,7 +18,6 @@ import _Input from 'antd/es/input';
 (function (that: any) {
     that.Radio = _Radio;
     that.Row = _Row;
-    that.Slider = _Slider;
     that.Col = _Col;
     that.Anchor = _Anchor;
     that.Alert = _Alert;

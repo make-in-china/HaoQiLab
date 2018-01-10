@@ -36,9 +36,11 @@ import _Tooltip from 'antd/es/tooltip';
 import _Checkbox from 'antd/es/checkbox';
 import _Switch from 'antd/es/switch';
 import _InputNumber from 'antd/es/input-number';
+import _Slider from 'antd/es/slider';
 
 (function (that: any) {
     that.Affix = _Affix;
+    that.Slider = _Slider;
     that.Switch = _Switch;
     that.InputNumber = _InputNumber;
     that.Tooltip = _Tooltip;
@@ -52,5 +54,6 @@ import _InputNumber from 'antd/es/input-number';
     that.Spin = _Spin;
     that.Tabs = _Tabs;
     that.Button = _Button;
+    
     
 })( (window as any).Antd || ( (window as any).Antd = {}));
