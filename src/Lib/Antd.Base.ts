@@ -19,7 +19,7 @@ import _Layout from 'antd/es/layout';
 // import _List from 'antd/es/list';
 // import _LocaleProvider from 'antd/es/locale-provider';
 import _Menu from 'antd/es/menu';
-// import _Modal from 'antd/es/modal';
+import _Modal from 'antd/es/modal';
 import _Spin from 'antd/es/spin';
 // import _Steps from 'antd/es/steps';
 // import _Transfer from 'antd/es/transfer';
@@ -54,5 +54,6 @@ import _Slider from 'antd/es/slider';
     that.Spin = _Spin;
     that.Tabs = _Tabs;
     that.Button = _Button;
+    that.Modal = _Modal;
      
 })( (window as any).Antd || ( (window as any).Antd = {}));

@@ -11,7 +11,8 @@ const { Header } = Antd.Layout;
 @React.eclass({
     github: [
         'transform:rotateZ(50deg);',
-        'hem-2 lhem-2 bg-ff0 bd-bb0 pdiplr-20 fb fz-15 inline mpxr_-12 meml-4'.split(' ')]
+        'hem-2 lhem-2 bg-ff0 bd-bb0 pdiplr-20 fb fz-15 inline mpxr_-12 meml-4'.split(' ')
+    ]
 })
 export default class App extends React.Component<{ page: IPage }> {
     setupModel: ModelWindow | null = null;

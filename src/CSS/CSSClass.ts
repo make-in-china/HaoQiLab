@@ -137,6 +137,9 @@ export function getRGBA2String(color: RGBA) {
         rightString('0' + color.G.toString(16), 2) +
         rightString('0' + color.B.toString(16), 2);
 }
+export function getRGBACSSString(color: RGBA) {
+    return `rgba(${color.R},${color.G},${color.B},${color.A})`;
+}
 export function getColorByMoreInfo(moreInfo: string) {
     switch (moreInfo.length) {
         case 3:

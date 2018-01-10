@@ -1,21 +1,23 @@
 
 import React from 'react-ex';
-import { CSSRuleEx, cssClassNS, RGBA, getRGBA2String, getRGB } from 'src/CSS/CSSClass';
+import { CSSRuleEx, cssClassNS, RGBA, getRGBA2String, getRGB, getRGBACSSString } from 'src/CSS/CSSClass';
 import StepSlider from '../StepSlider';
 import StringSelect from '../StringSelect';
 import SkinTargets from './SkinTargets';
 import { ReactNode } from 'src/Lib/react';
 import SkinBoxSetupItem from './SkinBoxSetupItem';
 import SketchPicker from 'src/Components/Sketch/SketchPicker';
-import { ClassRule } from 'src/CSS/G.Class';
+import { ClassRule, localClassRuleData } from 'src/CSS/G.Class';
 import { observable } from 'mobx';
 import { observer } from 'src/Lib/mobx.index';
 import { G } from 'src/CSS/G';
 import RenderData from 'src/Components/RenderData';
 import { isString } from 'src/Lib/is';
 import { Antd } from 'src/Lib/antd.min';
+import { calcStyle } from 'src/CSS/CalcStyle';
 const TabPane = Antd.Tabs.TabPane;
 const re = /(\/\*.*?\*\/)/g;
+const notification = Antd.notification;
 
 @React.eclass({
     view: [
@@ -63,6 +65,31 @@ export default class SkinEditBox
         rule: CSSRuleEx;
         cssClass: cssClassNS.CSSClass;
     };
+
+    private btnUpdateClassBySave = (
+        <Antd.Button
+            type="primary"
+            size="small"
+            onClick={() => {
+                notification.close('saveClass');
+                this.updateLocalClass();
+            }}
+        >
+            刷新页面样式
+        </Antd.Button>
+    );
+    private btnUpdateClassByClear = (
+        <Antd.Button
+            type="primary"
+            size="small"
+            onClick={() => {
+                notification.close('clearClass');
+                this.updateLocalClass();
+            }}
+        >
+            刷新页面样式
+        </Antd.Button>
+    );
     private onStyleTextChange: ((data: ReactNode) => void);
     private globalEClass = cssClassNS.CSSClass.instance;
     private targetRule: this['skinRule'];
@@ -78,6 +105,63 @@ export default class SkinEditBox
     private shadowColorOnChange = this.makeChangeEvent('shadowColor');
     private borderColorOnChange = this.makeChangeEvent('borderColor');
     @observable private renderRandom = Math.random();
+    onClickClear: React.FormEventHandler<any> = (evt) => {
+        const data = localClassRuleData.get() || {};
+        delete data[this.props.name];
+        localClassRuleData.set(data);
+        notification.open({
+            message: '样式清除',
+            description: `清除“${this.props.name}”样式成功！`,
+            btn: this.btnUpdateClassByClear,
+            key: 'clearClass',
+            onClose: close,
+        });
+    }
+    onClickSave: React.FormEventHandler<any> = (evt) => {
+        const rule: ClassRule = {};
+
+        if (this.checkList.display) {
+            rule.display = this.setup.display;
+        }
+        if (this.checkList.backgroundColor) {
+            rule.backgroundColor = getRGBACSSString(this.setup.backgroundColor);
+        }
+        if (this.checkList.margin) {
+            rule.margin = this.setup.margin;
+        }
+        if (this.checkList.padding) {
+            rule.padding = this.setup.padding;
+        }
+        if (this.checkList.borderStyle) {
+            rule.borderStyle = this.setup.borderStyle;
+        }
+        if (this.checkList.borderWidth) {
+            rule.borderWidth = this.setup.borderWidth;
+        }
+        if (this.checkList.borderColor) {
+            rule.borderColor = getRGBACSSString(this.setup.borderColor);
+        }
+        if (this.checkList.borderRadius) {
+            rule.borderRadius = this.setup.borderRadius;
+        }
+        if (this.checkList.color) {
+            rule.color = getRGBACSSString(this.setup.color);
+        }
+        if (this.checkList.shadow) {
+            // const shadowColor = getRGBA2String(this.setup.shadowColor);
+            rule.shadow = this.setup.shadow;
+        }
+        const data = localClassRuleData.get() || {};
+        data[this.props.name] = rule;
+        localClassRuleData.set(data);
+        notification.open({
+            message: '样式保存',
+            description: `保存“${this.props.name}”样式成功！`,
+            btn: this.btnUpdateClassBySave,
+            key: 'saveClass',
+            onClose: close,
+        });
+    }
 
     componentDidMount() {
         this.updateRule(this.props);
@@ -150,6 +234,10 @@ export default class SkinEditBox
                     </div>
                     <div>
                         <pre className={G.Class.map.frm_border} EClass="frame minhem-20">
+                            <div>
+                                <Antd.Button size="small" onClick={this.onClickSave}>保存</Antd.Button>&nbsp;
+                                <Antd.Button size="small" onClick={this.onClickClear}>清除</Antd.Button>
+                            </div>
                             <RenderData data="" onRaiseChange={this.onRaiseChange} />
                         </pre>
                     </div>
@@ -184,7 +272,6 @@ export default class SkinEditBox
             }
             return { ...getRGB(color), A: 1 };
         } else {
-            debugger;
             const match = color.match(/^rgba?\(\d{1,3},\d{1,3},\d{1,3}(,(\d{1,})?\.?\d{1,})?\)/);
             console.log(match);
             debugger;
@@ -278,7 +365,7 @@ export default class SkinEditBox
     private onChangeCheck = () => {
         this.updateRule(this.props);
     }
-    private updateRule(props: this['props']) {
+    private recalRule(props: this['props']) {
         const arr: string[] = [];
         const arr2: any[] = [];
 
@@ -316,12 +403,17 @@ export default class SkinEditBox
         if (arr.length > 0) {
             arr2.push(arr);
         }
-        let style: string;
-        this.targetRule.map.simple = arr2;
+        return arr2;
+    }
+    private updateRule(props: this['props']) {
+        const ruleArr = this.recalRule(props);
+        this.targetRule.map.simple = ruleArr;
         this.cssClass!.updateClass('simple');
+
+        let style: string;
         if (props.sync) {
 
-            this.skinRule.map[props.name] = arr2;
+            this.skinRule.map[props.name] = ruleArr;
             this.globalEClass.updateClass(props.name);
             style = this.globalEClass.getStyleByName(props.name)!;
         } else {
@@ -334,6 +426,18 @@ export default class SkinEditBox
         style = style.replace(/\n\s*\n/g, '\n');
         style = style.replace(/(  \})/g, '$1\n');
         this.onStyleTextChange(<code dangerouslySetInnerHTML={{ __html: style }} />);
+    }
+    private updateLocalClass() {
+        const data = localClassRuleData.get();
+        if (data) {
+            if (data[this.props.name]) {
+                this.skinRule.map[this.props.name] = calcStyle(data[this.props.name]);
+                this.globalEClass.updateClass(this.props.name);
+            } else {
+                this.skinRule.map[this.props.name] = calcStyle(G.Class.data[this.props.name]);
+                this.globalEClass.updateClass(this.props.name);
+            }
+        }
     }
     // #endregion
 }
