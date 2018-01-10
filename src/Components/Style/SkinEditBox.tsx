@@ -1,12 +1,12 @@
 
 import React from 'react-ex';
-import { CSSRuleEx, cssClassNS, RGBA, getRGBA2String, getRGB } from '../../../CSS/CSSClass';
-import StepSlider from 'src/Page/Play/Component/StepSlider';
-import StringSelect from 'src/Page/Play/Component/StringSelect';
-import SkinTargets from 'src/Page/Play/Component/SkinTargets';
+import { CSSRuleEx, cssClassNS, RGBA, getRGBA2String, getRGB } from 'src/CSS/CSSClass';
+import StepSlider from '../StepSlider';
+import StringSelect from '../StringSelect';
+import SkinTargets from './SkinTargets';
 import { ReactNode } from 'src/Lib/react';
-import SkinBoxSetupItem from 'src/Page/Play/Component/SkinBoxSetupItem';
-import SketchPicker from 'src/Components/SketchPicker';
+import SkinBoxSetupItem from './SkinBoxSetupItem';
+import SketchPicker from 'src/Components/Sketch/SketchPicker';
 import { ClassRule } from 'src/CSS/G.Class';
 import { observable } from 'mobx';
 import { observer } from 'src/Lib/mobx.index';

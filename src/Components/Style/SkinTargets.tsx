@@ -1,7 +1,7 @@
 import React from 'react-ex';
 import Antd from 'antd-min';
 import { observer, observable } from 'mobx-index';
-import StringSelect from 'src/Page/Play/Component/StringSelect';
+import StringSelect from 'src/Components/StringSelect';
 @React.eclass({
     inner: ['ladip minwem-2 minhem-2 rdip-5 inline'.split(' ')]
 })

@@ -3,7 +3,7 @@ import React from 'react-ex';
 import Antd from 'antd-min';
 import Logo from 'src/Template/Default/Logo';
 import { ModelWindow } from 'src/Lib/ModelWindow';
-import GlobalSkinEdit from 'src/Page/Play/Component/GlobalSkinEdit';
+import GlobalSkinEdit from 'src/Components/Style/GlobalSkinEdit';
 import { Ref } from 'react';
 import { G } from 'src/CSS/G';
 

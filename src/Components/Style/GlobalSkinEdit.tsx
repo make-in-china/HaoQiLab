@@ -1,7 +1,7 @@
 import React from 'react-ex';
-import StringSelect from 'src/Page/Play/Component/StringSelect';
-import { G } from '../../../CSS/G';
-import SkinEditBox from 'src/Page/Play/Component/SkinEditBox';
+import StringSelect from 'src/Components/StringSelect';
+import { G } from 'src/CSS/G';
+import SkinEditBox from './SkinEditBox';
 import { observer, observable } from 'src/Lib/mobx.index';
 import { Antd } from 'src/Lib/antd.min';
 

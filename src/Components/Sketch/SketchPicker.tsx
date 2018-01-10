@@ -1,7 +1,7 @@
 import React from 'react-ex';
 import ColorBooth from 'src/Components/ColorBooth';
 import { MouseEventHandler } from 'react';
-import SketchPickerPanel from 'src/Components/SketchPickerPanel';
+import SketchPickerPanel from './SketchPickerPanel';
 import { RGBA } from 'src/CSS/CSSClass';
 import { observable, observer } from 'src/Lib/mobx.index';
 import { Ref } from 'react';
