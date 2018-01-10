@@ -1,6 +1,7 @@
 import React from 'react-ex';
-import Antd from 'antd-more';
+import Antd from 'antd-min';
 import { observer, observable } from 'mobx-index';
+import { ClickParam } from 'antd/es/menu';
 @observer
 export default class StringSelect
     extends React.Component<
@@ -10,7 +11,7 @@ export default class StringSelect
         data: string[]
     }> {
     @observable value = this.props.defaultValue;
-    onClick: Antd.Menu['props']['onClick'] = (param) => {
+    onClick: (param: ClickParam) => void = (param) => {
         const key = param.key;
         const value = this.props.data[key];
         this.props.onChange(value);

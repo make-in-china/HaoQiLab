@@ -4,7 +4,7 @@ import { G } from '../../../CSS/G';
 import SkinEditBox from 'src/Page/Play/Component/SkinEditBox';
 import { observer, observable } from 'src/Lib/mobx.index';
 import { ClassItem } from 'src/CSS/G.Class';
-import { Antd } from 'src/Lib/antd.more';
+import { Antd } from 'src/Lib/antd.min';
 
 @observer
 export default class GlobalSkinEdit
