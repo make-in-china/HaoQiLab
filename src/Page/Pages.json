@@ -15,11 +15,6 @@
         "reactex.html"
     ],
     [
-        "jquery",
-        "ReactJQuery",
-        "reactJQuery.html"
-    ],
-    [
         "antd",
         "Document",
         "document.html",
