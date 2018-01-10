@@ -54,6 +54,5 @@ import _Slider from 'antd/es/slider';
     that.Spin = _Spin;
     that.Tabs = _Tabs;
     that.Button = _Button;
-    
-    
+     
 })( (window as any).Antd || ( (window as any).Antd = {}));
