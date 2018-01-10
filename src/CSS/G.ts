@@ -1,7 +1,8 @@
 /* 
     全局
  */
-import { default as Class } from './G.Class';
+import { default as Class, registerClass } from './G.Class';
 export const G = {
-    Class: Class
+    Class: Class,
+    registerClass: registerClass
 };

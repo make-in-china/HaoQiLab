@@ -8,7 +8,7 @@ import { G } from '../CSS/G';
 
 const pages = require('./Pages.json');
 CSSClassRule.register();
-G.Class.register();
+G.registerClass();
 export default abstract class BaseApp
     extends React.Component
     <
