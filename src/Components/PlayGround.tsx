@@ -40,15 +40,59 @@ export default class App
     }).join('\n');
 
     /* 放在pre里显示的数据结果的html演示数据 */
-    private htmlDest = this.reductionReactNode(this.props.children);
+    private htmlDest = this.reductionReactNode(this.props.children).replace(/className=\{(.*?)\}/g, 'class=$1');
 
     /* 样式 */
     private previewEClass = `pre${this.props.sourceMaxHeight ? ' maxhdip-' + this.props.sourceMaxHeight : ''}`;
 
     private elemCodeSource = this.getCodeNode(this.htmlSource);
 
-    private elemCodeDest = this.getCodeNode(this.htmlDest);
+    private previewRule = this.getCodeNode(this.eclassList.map(eclass => {
+        return this.format({ [eclass]: this.props.cssClass.getRule(eclass).rule });
+    }).join('\n'));
 
+    private elemCodeDest = this.getCodeNode(this.htmlDest);
+    format(obj: any, compress?: boolean/*是否为压缩模式*/) {/* 格式化JSON源码(对象转换为JSON文本) */
+        const indentChar = '    ';
+        const draw: string[] = [];
+        const line = compress ? '' : '\n';
+        // @ts-ignore
+        let nodeCount = 0;
+        // @ts-ignore
+        let maxDepth = 0;
+
+        var notify = function (name: string | number, value: any, isLast: boolean, indent: number/*缩进*/, formObj: any) {
+            nodeCount++;
+            /*节点计数*/
+            for (var i = 0, tab = ''; i < indent; i++) {
+                tab += indentChar; /* 缩进HTML */
+            }
+            tab = compress ? '' : tab; /*压缩模式忽略缩进*/
+            maxDepth = ++indent; /*缩进递增并记录*/
+            if (value && value.constructor === Array) {/*处理数组*/
+                draw.push(tab + (formObj ? ('"' + name + '":') : '') + '[' + line); /*缩进'[' 然后换行*/
+                for (let k = 0; k < value.length; k++) {
+                    notify(k, value[k], k === value.length - 1, indent, false);
+                }
+                draw.push(tab + ']' + (isLast ? line : (',' + line))); /*缩进']'换行,若非尾元素则添加逗号*/
+            } else if (value && typeof value === 'object') {/*处理对象*/
+                draw.push(tab + (formObj ? ('"' + name + '":') : '') + '{' + line); /*缩进'{' 然后换行*/
+                let len = Object.keys(value).length, j = 0;
+
+                for (let key in value) {
+                    notify(key, value[key], ++j === len, indent, true);
+                }
+                draw.push(tab + '}' + (isLast ? line : (',' + line))); /*缩进'}'换行,若非尾元素则添加逗号*/
+            } else {
+                if (typeof value === 'string') {
+                    value = '"' + value + '"';
+                }
+                draw.push(tab + (formObj ? ('"' + name + '":') : '') + value + (isLast ? '' : ',') + line);
+            }
+        };
+        notify('', obj, true, 0, false);
+        return draw.join('');
+    }
     render() {
         const styleString = this.styleDest.split('\n').map((itm, idx) => {
             if (idx % 2 === 1) {
@@ -63,6 +107,9 @@ export default class App
                     <div>createElement前</div>
                     <div EClass="box" className={G.Class.map.frm_border}>
                         <pre EClass={this.previewEClass}>
+                            {this.previewRule}
+                        </pre>
+                        <pre EClass={this.previewEClass}>
                             {this.elemCodeSource}
                         </pre>
                     </div>
@@ -73,10 +120,6 @@ export default class App
                     <div>createElement后</div>
                     <div EClass="box" className={G.Class.map.frm_border}>
                         {this.styleDest !== null && (<pre key="style" EClass={this.previewEClass} dangerouslySetInnerHTML={{ __html: styleString }} />)}
-                            {/* // [(<code style={{ backgroundColor: 'rgba(0,0,0,0.025)' }}>&lt;style&gt;</code>),
-                            // this.styleDest
-                            // ]
-                         */}
                         <pre EClass={this.previewEClass}>
                             {this.elemCodeDest}
                         </pre>
