@@ -11,3 +11,15 @@ export function isObject(v: any): v is Object {
 export function isArray(v: any): v is Array<any> {
     return '[object Array]' === Object.prototype.toString.call(v);
 }
+export function isStringNumberBoolean(a: any): a is boolean | number | string {
+    switch (Object.prototype.toString.call(a)) {
+        case '[object String]':
+            return true;
+        case '[object Number]':
+            return true;
+        case '[object Boolean]':
+            return true;
+        default:
+            return false;
+    }
+}

@@ -13,9 +13,9 @@ import { observer } from 'src/Lib/mobx.index';
 import { G } from 'src/CSS/G';
 import RenderData from 'src/Components/RenderData';
 import { Antd } from 'src/Lib/antd.min';
+import { highlightStyle } from 'src/Lib/highlightStyle';
 // import * as ZeroClipboard from 'zeroclipboard';
 const TabPane = Antd.Tabs.TabPane;
-const re = /(\/\*.*?\*\/)/g;
 const notification = Antd.notification;
 
 @React.eclass({
@@ -544,12 +544,7 @@ export default class SkinEditBox
         } else {
             style = this.cssClass!.getStyleByName('simple')!;
         }
-
-        style = style.replace(/((-[a-z]+?-)?[a-z]+?\-?[a-z]+?:)/g, '<span style="color:red;">$1</span>');
-        style = style.replace(re, '<span style="color:green;">$1</span>');
-        style = style.replace(/(\{|;)/g, '$1\n  ');
-        style = style.replace(/\n\s*\n/g, '\n');
-        style = style.replace(/(  \})/g, '$1\n');
+        style = highlightStyle(style);
         this.onStyleTextChange(<code dangerouslySetInnerHTML={{ __html: style }} />);
     }
 

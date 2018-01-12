@@ -12,7 +12,6 @@ import entry from '../Entry';
 })
 export default class EClass extends React.Component {
     playGroundData = React.hookCreateElement(() => {
-        debugger;
         return this.renderReactNode(() => (
             <div EClass="box">{/* 动态样式 */}
                 <div>如果</div>
@@ -29,6 +28,7 @@ export default class EClass extends React.Component {
             <PlayGround
                 source={this.playGroundData.source}
                 sourceMaxHeight={300}
+                cssClass={this.cssClass}
             >
                 {this.playGroundData.result}
             </PlayGround>

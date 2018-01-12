@@ -1,6 +1,8 @@
 import React from 'react-ex';
 import { cssClassNS } from 'src/CSS/CSSClass';
 import { G } from '../CSS/G';
+import { isArray, isStringNumberBoolean, isFunction } from 'src/Lib/is';
+import { highlightStyleLine } from 'src/Lib/highlightStyle';
 
 @React.eclass({
     box: [
@@ -21,6 +23,7 @@ export default class App
             props: { children?: React.ReactNode[] } | undefined;
         }
         sourceMaxHeight?: number
+        cssClass: cssClassNS.CSSClass
     }> {
     /* 数据源用到的所有eclass */
     private eclassList = this.getEclassList(this.props.source);
@@ -28,10 +31,16 @@ export default class App
     /* 放在pre里显示的数据源的html演示数据 */
     private htmlSource = this.reductionReactNode(this.props.source);
 
+    private styleDest = this.eclassList.map(eclass => {
+        const styleString = this.props.cssClass.getStyleByName(eclass);
+        if (styleString !== null) {
+            return styleString;
+        }
+        return '';
+    }).join('\n');
+
     /* 放在pre里显示的数据结果的html演示数据 */
-    private htmlDest = this.eclassList.map(eclass => {
-        return '<style>\n' + cssClassNS.CSSClass.instance.getStyleByName(eclass) + '\n</style>\n';
-    }) + this.reductionReactNode(this.props.children);
+    private htmlDest = this.reductionReactNode(this.props.children);
 
     /* 样式 */
     private previewEClass = `pre${this.props.sourceMaxHeight ? ' maxhdip-' + this.props.sourceMaxHeight : ''}`;
@@ -41,6 +50,13 @@ export default class App
     private elemCodeDest = this.getCodeNode(this.htmlDest);
 
     render() {
+        const styleString = this.styleDest.split('\n').map((itm, idx) => {
+            if (idx % 2 === 1) {
+                return `<code style="background-olor:rgba(0,0,0,0.025);">${highlightStyleLine(itm)}</code>`;
+            } else {
+                return `<code style="background-color:rgba(0,0,0,0.05);">${highlightStyleLine(itm)}</code>`;
+            }
+        }).join('');
         return [
             (
                 <div className="ant-col-12">
@@ -56,6 +72,11 @@ export default class App
                 <div className="ant-col-12">
                     <div>createElement后</div>
                     <div EClass="box" className={G.Class.map.frm_border}>
+                        {this.styleDest !== null && (<pre key="style" EClass={this.previewEClass} dangerouslySetInnerHTML={{ __html: styleString }} />)}
+                            {/* // [(<code style={{ backgroundColor: 'rgba(0,0,0,0.025)' }}>&lt;style&gt;</code>),
+                            // this.styleDest
+                            // ]
+                         */}
                         <pre EClass={this.previewEClass}>
                             {this.elemCodeDest}
                         </pre>
@@ -80,35 +101,17 @@ export default class App
             }
         });
     }
-    private isFunction(a: any): a is Function {
-        return '[object Function]' === Object.prototype.toString.call(a);
-    }
-    private isArray(a: any): a is Array<any> {
-        const type = Object.prototype.toString.call(a);
-        return '[object Array]' === type || ('[object Object]' === type && a.length !== undefined);
-    }
-    private isStringNumberBoolean(a: any): a is boolean | number | string {
-        switch (Object.prototype.toString.call(a)) {
-            case '[object String]':
-                return true;
-            case '[object Number]':
-                return true;
-            case '[object Boolean]':
-                return true;
-            default:
-                return false;
-        }
-    }
+
     private reductionReactNode(chd: React.ReactNode, space: number = 0) {
         let html = '';
         if (chd) {
             const spaceHTML = new Array(space + 1).join(' ');
-            if (this.isArray(chd)) {
+            if (isArray(chd)) {
                 for (let i = 0; i < chd.length; i++) {
                     const itm = chd[i];
                     html += this.reductionReactNode(itm, space);
                 }
-            } else if (this.isStringNumberBoolean(chd)) {
+            } else if (isStringNumberBoolean(chd)) {
                 const str = String(chd);
                 if (str.length > 20) {
                     html += spaceHTML + chd + '\n';
@@ -118,7 +121,7 @@ export default class App
             } else {
                 if ('type' in chd) {
                     const type: Function | string = (chd as any).type;
-                    if (this.isFunction(type)) {
+                    if (isFunction(type)) {
                         html += spaceHTML + '<' + type.name;
                     } else {
                         html += spaceHTML + '<' + type;
@@ -142,7 +145,7 @@ export default class App
                                 } else {
                                     html += str;
                                 }
-                                if (this.isFunction(type)) {
+                                if (isFunction(type)) {
                                     html += '</' + type.name + '>\n';
                                 } else {
                                     html += '</' + type + '>\n';
@@ -161,12 +164,12 @@ export default class App
     private getEclassList(chd: React.ReactNode) {
         const eclassList: string[] = [];
         if (chd) {
-            if (this.isArray(chd)) {
+            if (isArray(chd)) {
                 for (let i = 0; i < chd.length; i++) {
                     const itm = chd[i];
                     Array.prototype.push.apply(eclassList, this.getEclassList(itm));
                 }
-            } else if (!this.isStringNumberBoolean(chd)) {
+            } else if (!isStringNumberBoolean(chd)) {
                 if ('type' in chd) {
                     if ('props' in chd) {
                         const props = (chd as any).props;
