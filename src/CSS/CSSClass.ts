@@ -222,6 +222,7 @@ export namespace cssClassNS {
         private static priInstance: CSSClass | null = null;
         key: string;
         rule: Record<string, CSSRuleEx> = {}; // = createDictionaryObject<CSSRuleEx>()
+        
         /* class结果列表 */
         private list = createDictionaryObject<CSSClassData[] | CSSClassData>();
         /* 类名映射表 */
@@ -241,7 +242,7 @@ export namespace cssClassNS {
             }
         }
         constructor(
-            style?: HTMLStyleElement,
+            styleElement?: HTMLStyleElement,
             public isPrivate: boolean = false/* 不允许被继承 */,
             public isNoExtendsGlobal: boolean = false/* 不从全局继承rule */,
             public isGlobalName: boolean = false/* 不加名字前缀 */,
@@ -252,27 +253,29 @@ export namespace cssClassNS {
             } else {
                 this.key = '';
             }
-            if (!style) {
-                style = document.createElement('style');
-                style.type = 'text/css';
+            if (!styleElement) {
+                let styleElem = document.createElement('style');
+                styleElem.type = 'text/css';
                 if (isPrivate) {
-                    style.setAttribute('Private', '');
+                    styleElem.setAttribute('Private', '');
                 }
                 if (isNoExtendsGlobal) {
-                    style.setAttribute('NoExtendsGlobal', '');
+                    styleElem.setAttribute('NoExtendsGlobal', '');
                 }
-                style.setAttribute('key', this.key);
+                styleElem.setAttribute('key', this.key);
                 // setTimeout(function(){
                 if (isPrivate && CSS.global.length > 0) {
-                    document.head.insertBefore(style!, CSS.global[0]!.styleElement);
+                    document.head.insertBefore(styleElem, CSS.global[0]!.styleElement);
                 } else {
                     // document.head.insertBefore2(style!,$t.turtleScriptElement!);
-                    document.head.appendChild(style!);
+                    document.head.appendChild(styleElem);
                 }
+                this.styleElement = styleElem;
                 // },100);
+            } else {
+                this.styleElement = styleElement;
             }
 
-            this.styleElement = style;
             CSS.all.push(this);
             if (!isPrivate) {
                 CSS.global.push(this);
@@ -282,6 +285,10 @@ export namespace cssClassNS {
             if (rule) {
                 this.registerClassRule(rule);
             }
+        }
+        clone() {
+            // 新key,新styleElement,新rule
+            return new CSSClass(undefined, this.isPrivate, this.isNoExtendsGlobal, this.isGlobalName, this.rule);
         }
         extendsClassRule(rule: Record<string, CSSRuleEx>) {
             const thisRule: any = this.rule;

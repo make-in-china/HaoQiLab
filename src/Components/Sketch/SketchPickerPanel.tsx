@@ -121,7 +121,11 @@ export default class SketchPickerPanel
             A: 0
         };
     }
-
+    constructor(props: SketchPickerPanel['props']) {
+        super(props);
+        // 不修改类上的rule
+        this.cssClass = this.cssClass.clone();
+    }
     componentWillReceiveProps(props: this['props']) {
         this.init(props);
         this.updateColor(props);

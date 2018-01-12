@@ -2,9 +2,18 @@ import * as _React from 'react';
 import { CSS, cssClassNS, CSSRuleEx } from '../CSS/CSSClass';
 import { calcStyle } from 'src/CSS/CalcStyle';
 import { isString } from 'src/Lib/is';
-import { IReactComponent } from 'mobx-react';
+import { ReactNode } from 'react';
 
 namespace ReactEx {
+    type ComponentClass<P = any> =
+        | React.StatelessComponent<P>
+        | React.ComponentClass<P>
+        | React.ClassicComponentClass<P>
+        | {
+            prototype: {
+                render: () => ReactNode
+            }
+        };
     let renderCSSClass: cssClassNS.CSSClass = CSS.instance;
     let isHookCreateElement = false;
     let createElementReactNodes: {
@@ -166,9 +175,9 @@ namespace ReactEx {
         isExtendsGlobal: boolean = false/* false 不从全局继承rule ;true 继承*/,
         isGlobalName: boolean = false/* false 不加名字前缀 ; true 加*/
     ) {
-        return function <T extends IReactComponent>(ctor: T) {
+        return function <T extends ComponentClass>(ctor: T) {
             const render = ctor.prototype.render;
-            // (ctor as any).cssClass = cssClass;
+            (ctor as any).cssClass = new cssClassNS.CSSClass(undefined, isPrivate, isExtendsGlobal, isGlobalName, rule);
             ctor.prototype.render = function (this: Component) {
                 const oldcssClass = renderCSSClass;
                 renderCSSClass = this.cssClass!;
@@ -177,15 +186,14 @@ namespace ReactEx {
                 return result;
             };
 
-            const retCtor = {
-                [ctor.name](props: any) {
-                    const ret = new (ctor as any)(props);
-                    ret.cssClass = new cssClassNS.CSSClass(undefined, isPrivate, isExtendsGlobal, isGlobalName, rule);
-                    return ret;
-                }
-            }[ctor.name];
-            debugger;
-            return retCtor as T;
+            // return {
+            //     [ctor.name](props: any) {
+            //         debugger;
+            //         const ret = new (ctor as any)(props);
+            //         ret.cssClass = new cssClassNS.CSSClass(undefined, isPrivate, isExtendsGlobal, isGlobalName, rule);
+            //         return ret;
+            //     }
+            // }[ctor.name] as T;
         };
     }
     export interface CreateElementHookCallBack {
@@ -248,8 +256,22 @@ namespace ReactEx {
     } */
     // endregion
     export class Component<P = {}, S = {}> extends _React.Component<P, S> {
-        // static cssClass?: cssClassNS.CSSClass;
-        cssClass?: cssClassNS.CSSClass;
+        static cssClass?: cssClassNS.CSSClass;
+        private instanceCssClass?: cssClassNS.CSSClass;
+        get cssClass(): cssClassNS.CSSClass {
+
+            if (this.instanceCssClass) {
+                return this.instanceCssClass;
+            }
+            const cssClass = (this.constructor as typeof Component).cssClass;
+            if (cssClass) {
+                return cssClass;
+            }
+            return cssClassNS.CSSClass.instance;
+        }
+        set cssClass(v: cssClassNS.CSSClass) {
+            this.instanceCssClass = v;
+        }
         renderReactNode(fn: (this: void) => React.ReactNode) {
             if (this.cssClass) {
                 const oldcssClass = renderCSSClass;

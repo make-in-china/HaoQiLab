@@ -1,18 +1,18 @@
 import React from 'react-ex';
 import PlayGround from '../../../Components/PlayGround';
-import entry from 'src/Page/ReactEx/Entry';
+import entry from '../Entry';
 @entry
-@React.eclass(
-    {
-        box: [
-            ['pdip-10', 'ladip', 'rdip-20', 'bg-gray', 'inline'],
-            {
-                chd: [['mdip-5', 'pdip-5', 'rdip-5', 'bg-blue', 'f-gray', 'inline']]
-            }
-        ]
-    })
+@React.eclass({
+    box: [
+        ['pdip-10', 'ladip', 'rdip-20', 'bg-gray', 'inline'],
+        {
+            chd: [['mdip-5', 'pdip-5', 'rdip-5', 'bg-blue', 'f-gray', 'inline']]
+        }
+    ]
+})
 export default class EClass extends React.Component {
     playGroundData = React.hookCreateElement(() => {
+        debugger;
         return this.renderReactNode(() => (
             <div EClass="box">{/* 动态样式 */}
                 <div>如果</div>
