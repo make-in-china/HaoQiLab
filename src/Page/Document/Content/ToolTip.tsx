@@ -1,16 +1,17 @@
 
 import React from 'react-ex';
 import Antd from 'antd-more';
-import AddEntryComponent from '../../EntryComponent';
+import entry from '../Entry';
 
 const text = <span>prompt text</span>;
+@entry
 @React.eclass({
     that: [{
         '.tooltip-demo-placement a': 'display: inline-block;line-height: 32px;height: 32px;width: 60px;font-size: 14px;text-align: center;background: #f5f5f5;margin-right: 1em;margin-bottom: 1em;border-radius: 6px;',
         '.tooltip-demo-placement button': 'display: inline-block;line-height: 32px;height: 32px;width: 60px;font-size: 14px;text-align: center;background: #f5f5f5;margin-right: 1em;margin-bottom: 1em;border-radius: 6px;',
     }]
 })
-export default class App extends React.Component {
+export default class ToolTip extends React.Component {
     render() {
         return (
             <div EClass="that" className="tooltip-demo-placement">
@@ -62,4 +63,3 @@ export default class App extends React.Component {
         );
     }
 }
-AddEntryComponent('ToolTip', 'Document', App);

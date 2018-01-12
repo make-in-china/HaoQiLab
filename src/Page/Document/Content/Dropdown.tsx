@@ -1,7 +1,8 @@
 import React from 'react-ex';
 import Antd from 'antd-min';
-import AddEntryComponent from '../../EntryComponent';
-class App extends React.Component {
+import entry from '../Entry';
+@entry
+export default class Dropdown extends React.Component {
     container: HTMLElement | null = null;
     render() {
         return (
@@ -28,5 +29,3 @@ class App extends React.Component {
         );
     }
 }
-export default App;
-AddEntryComponent('Dropdown', 'Document', App);

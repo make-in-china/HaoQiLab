@@ -15,7 +15,7 @@ const logo = require('../../assert/logo.png');
         '.Affix': 'padding-left:25px;',
         '.Affix .Breadcrumb': 'float:left;margin:8px 0;',
         '.Affix .ant-affix': 'left:0 !important;height:2.5em;background-color:rgba(0,0,0,0.75);border-bottom-right-radius:1em;',
-        '.Affix,.Affix .Breadcrumb, .ant-breadcrumb-separator,.Affix .Breadcrumb .BreadcrumbItem,.Affix .Breadcrumb .BreadcrumbItem a': [[G.Class.map.clr_primary]]
+        '.Affix,.Affix .Breadcrumb, .ant-breadcrumb-separator,.Affix .Breadcrumb .BreadcrumbItem,.Affix .Breadcrumb .BreadcrumbItem a': 'color:#fff;'
     }],
     box2: [{
         ' .logo': ['uof'.split(' ')],

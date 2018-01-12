@@ -2,6 +2,8 @@ import * as _React from 'react';
 import { CSS, cssClassNS, CSSRuleEx } from '../CSS/CSSClass';
 import { calcStyle } from 'src/CSS/CalcStyle';
 import { isString } from 'src/Lib/is';
+import { IReactComponent } from 'mobx-react';
+
 namespace ReactEx {
     let renderCSSClass: cssClassNS.CSSClass = CSS.instance;
     let isHookCreateElement = false;
@@ -164,12 +166,7 @@ namespace ReactEx {
         isExtendsGlobal: boolean = false/* false 不从全局继承rule ;true 继承*/,
         isGlobalName: boolean = false/* false 不加名字前缀 ; true 加*/
     ) {
-        return function <T extends
-            {
-                prototype: {
-                    render(): React.ReactNode
-                }
-            }>(ctor: T) {
+        return function <T extends IReactComponent>(ctor: T) {
             const render = ctor.prototype.render;
             // (ctor as any).cssClass = cssClass;
             ctor.prototype.render = function (this: Component) {
@@ -179,11 +176,16 @@ namespace ReactEx {
                 renderCSSClass = oldcssClass;
                 return result;
             };
-            return function (props: any) {
-                const ret = new (ctor as any)(props);
-                ret.cssClass = new cssClassNS.CSSClass(undefined, isPrivate, isExtendsGlobal, isGlobalName, rule);
-                return ret;
-            } as any;
+
+            const retCtor = {
+                [ctor.name](props: any) {
+                    const ret = new (ctor as any)(props);
+                    ret.cssClass = new cssClassNS.CSSClass(undefined, isPrivate, isExtendsGlobal, isGlobalName, rule);
+                    return ret;
+                }
+            }[ctor.name];
+            debugger;
+            return retCtor as T;
         };
     }
     export interface CreateElementHookCallBack {

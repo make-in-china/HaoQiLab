@@ -1,7 +1,8 @@
 import React from 'react-ex';
 import Antd from 'antd-min';
-import AddEntryComponent from '../../EntryComponent';
-export default class App extends React.Component {
+import entry from '../Entry';
+@entry
+export default class Breadcrumb extends React.Component {
     container: HTMLElement | null = null;
     render() {
         return (
@@ -14,4 +15,3 @@ export default class App extends React.Component {
         );
     }
 }
-AddEntryComponent('Breadcrumb', 'Document', App);

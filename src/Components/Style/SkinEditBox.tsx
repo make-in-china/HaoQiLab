@@ -7,13 +7,13 @@ import SkinTargets from './SkinTargets';
 import { ReactNode } from 'src/Lib/react';
 import SkinBoxSetupItem from './SkinBoxSetupItem';
 import SketchPicker from 'src/Components/Sketch/SketchPicker';
-import { ClassRule, localClassRuleData } from 'src/CSS/G.Class';
+import { ClassRule, localClassRuleData, updateLocalClass } from 'src/CSS/G.Class';
 import { observable } from 'mobx';
 import { observer } from 'src/Lib/mobx.index';
 import { G } from 'src/CSS/G';
 import RenderData from 'src/Components/RenderData';
 import { Antd } from 'src/Lib/antd.min';
-import { calcStyle } from 'src/CSS/CalcStyle';
+// import * as ZeroClipboard from 'zeroclipboard';
 const TabPane = Antd.Tabs.TabPane;
 const re = /(\/\*.*?\*\/)/g;
 const notification = Antd.notification;
@@ -42,6 +42,7 @@ export default class SkinEditBox
         name: string
         info: ClassRule
         sync: boolean
+        onChangeRule: () => void
     }> {
     setup: {
         display: ClassRule['display'];
@@ -55,6 +56,11 @@ export default class SkinEditBox
         shadowColor: RGBA;
         backgroundColor: RGBA;
         borderColor: RGBA;
+        fontSize: number;
+        fontWeight: 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9;
+        rotateX: number
+        rotateY: number
+        rotateZ: number
     };
     checkList: {
         [P in keyof ClassRule]?: boolean
@@ -71,7 +77,8 @@ export default class SkinEditBox
             size="small"
             onClick={() => {
                 notification.close('saveClass');
-                this.updateLocalClass();
+                updateLocalClass(this.props.name);
+                this.props.onChangeRule();
             }}
         >
             刷新页面样式
@@ -83,7 +90,8 @@ export default class SkinEditBox
             size="small"
             onClick={() => {
                 notification.close('clearClass');
-                this.updateLocalClass();
+                updateLocalClass(this.props.name);
+                this.props.onChangeRule();
             }}
         >
             刷新页面样式
@@ -101,17 +109,23 @@ export default class SkinEditBox
     private borderRadiusOnChange = this.makeChangeEvent('borderRadius');
     private backgroundColorOnChange = this.makeChangeEvent('backgroundColor');
     private colorOnChange = this.makeChangeEvent('color');
+    private fontSizeOnChange = this.makeChangeEvent('fontSize');
+    private rotateXOnChange = this.makeChangeEvent('rotateX');
+    private rotateYOnChange = this.makeChangeEvent('rotateY');
+    private rotateZOnChange = this.makeChangeEvent('rotateZ');
+    private fontWeightOnChange = this.makeChangeEvent('fontWeight');
     private shadowColorOnChange = this.makeChangeEvent('shadowColor');
     private borderColorOnChange = this.makeChangeEvent('borderColor');
     @observable private renderRandom = Math.random();
 
     onClickExport: React.FormEventHandler<any> = (evt) => {
         const rule = this.createRule();
+        const str = JSON.stringify(rule);
         notification.open({
             message: '样式规则导出-' + this.props.name,
-            description: JSON.stringify(rule),
-            btn: this.btnUpdateClassByClear,
-            key: 'clearClass',
+            description: str,
+            btn: null,
+            key: 'copyClass',
             onClose: close,
         });
     }
@@ -152,6 +166,15 @@ export default class SkinEditBox
         if (this.checkList.margin) {
             rule.margin = this.setup.margin;
         }
+        if (this.checkList.rotateX) {
+            rule.rotateX = this.setup.rotateX;
+        }
+        if (this.checkList.rotateY) {
+            rule.rotateY = this.setup.rotateY;
+        }
+        if (this.checkList.rotateZ) {
+            rule.rotateZ = this.setup.rotateZ;
+        }
         if (this.checkList.padding) {
             rule.padding = this.setup.padding;
         }
@@ -169,6 +192,12 @@ export default class SkinEditBox
         }
         if (this.checkList.color) {
             rule.color = getRGBACSSString(this.setup.color);
+        }
+        if (this.checkList.fontSize) {
+            rule.fontSize = this.setup.fontSize;
+        }
+        if (this.checkList.fontWeight) {
+            rule.fontWeight = this.setup.fontWeight;
         }
         if (this.checkList.shadow) {
             const shadowColor = getRGBA2String(this.setup.shadowColor);
@@ -211,18 +240,6 @@ export default class SkinEditBox
                                 <StepSlider defaultValue={this.setup.padding} min={1} max={100} step={10} onChange={this.paddingOnChange} />
                             </SkinBoxSetupItem>
                         </TabPane>
-                        <TabPane tab="颜色" key="default">
-                            <SkinBoxSetupItem title="背景颜色" keyName="backgroundColor" {...data}>
-                                <SketchPicker color={this.setup.backgroundColor} onChange={this.backgroundColorOnChange} />
-                            </SkinBoxSetupItem>
-                            <SkinBoxSetupItem title="字框颜色" keyName="color" {...data}>
-                                <SketchPicker color={this.setup.color} onChange={this.colorOnChange} />
-                            </SkinBoxSetupItem>
-                            <SkinBoxSetupItem title="阴影" keyName="shadow" {...data}>
-                                <StepSlider defaultValue={this.setup.shadow} min={1} max={20} step={2} onChange={this.shadowOnChange} />
-                                <SketchPicker color={this.setup.shadowColor} onChange={this.shadowColorOnChange} />
-                            </SkinBoxSetupItem>
-                        </TabPane>
                         <TabPane tab="边框" key="border">
                             <SkinBoxSetupItem title="边框风格" keyName="borderStyle" {...data}>
                                 <StringSelect defaultValue={this.setup.borderStyle! as string} data={['', 'none', 'hidden', 'solid', 'dashed', 'dotted', 'ridge', 'inset', 'outset', 'groove', 'double']} onChange={this.borderStyleOnChange as any} />
@@ -235,6 +252,37 @@ export default class SkinEditBox
                             </SkinBoxSetupItem>
                             <SkinBoxSetupItem title="边框颜色" keyName="borderColor" {...data}>
                                 <SketchPicker color={this.setup.borderColor} onChange={this.borderColorOnChange} />
+                            </SkinBoxSetupItem>
+                        </TabPane>
+                        <TabPane tab="字体" key="font">
+                            <SkinBoxSetupItem title="字体大小" keyName="fontSize" {...data}>
+                                <StepSlider defaultValue={this.setup.fontSize} min={1} max={45} step={1} onChange={this.fontSizeOnChange} />
+                            </SkinBoxSetupItem>
+                            <SkinBoxSetupItem title="字体宽度" keyName="fontWeight" {...data}>
+                                <StepSlider defaultValue={this.setup.fontWeight} min={1} max={9} step={1} ratio={100} onChange={this.fontWeightOnChange} />
+                            </SkinBoxSetupItem>
+                            <SkinBoxSetupItem title="字体颜色" keyName="color" {...data}>
+                                <SketchPicker color={this.setup.color} onChange={this.colorOnChange} />
+                            </SkinBoxSetupItem>
+                        </TabPane>
+                        <TabPane tab="变形" key="deformation">
+                            <SkinBoxSetupItem title="前后翻转" keyName="rotateX" {...data}>
+                                <StepSlider defaultValue={this.setup.rotateX} min={1} max={360} step={1} onChange={this.rotateXOnChange} />
+                            </SkinBoxSetupItem>
+                            <SkinBoxSetupItem title="左右翻转" keyName="rotateY" {...data}>
+                                <StepSlider defaultValue={this.setup.rotateY} min={1} max={360} step={1} onChange={this.rotateYOnChange} />
+                            </SkinBoxSetupItem>
+                            <SkinBoxSetupItem title="旋转" keyName="rotateZ" {...data}>
+                                <StepSlider defaultValue={this.setup.rotateZ} min={1} max={360} step={1} onChange={this.rotateZOnChange} />
+                            </SkinBoxSetupItem>
+                        </TabPane>
+                        <TabPane tab="颜色和其他" key="default">
+                            <SkinBoxSetupItem title="背景颜色" keyName="backgroundColor" {...data}>
+                                <SketchPicker color={this.setup.backgroundColor} onChange={this.backgroundColorOnChange} />
+                            </SkinBoxSetupItem>
+                            <SkinBoxSetupItem title="阴影" keyName="shadow" {...data}>
+                                <StepSlider defaultValue={this.setup.shadow} min={1} max={20} step={2} onChange={this.shadowOnChange} />
+                                <SketchPicker color={this.setup.shadowColor} onChange={this.shadowColorOnChange} />
                             </SkinBoxSetupItem>
                         </TabPane>
                     </Antd.Tabs>
@@ -319,6 +367,27 @@ export default class SkinEditBox
             this.setup.borderStyle = '';
         }
 
+        if (values.rotateX) {
+            this.setup.rotateX = values.rotateX;
+            this.checkList.rotateX = true;
+        } else {
+            this.setup.rotateX = 0;
+        }
+
+        if (values.rotateY) {
+            this.setup.rotateY = values.rotateY;
+            this.checkList.rotateY = true;
+        } else {
+            this.setup.rotateY = 0;
+        }
+
+        if (values.rotateZ) {
+            this.setup.rotateZ = values.rotateZ;
+            this.checkList.rotateZ = true;
+        } else {
+            this.setup.rotateZ = 0;
+        }
+
         if (values.padding) {
             this.setup.padding = values.padding;
             this.checkList.padding = true;
@@ -340,6 +409,24 @@ export default class SkinEditBox
             this.setup.borderRadius = 5;
         }
 
+        if (values.borderWidth) {
+            this.setup.borderWidth = values.borderWidth;
+            this.checkList.borderWidth = true;
+        } else {
+            this.setup.borderWidth = 1;
+        }
+        if (values.fontSize) {
+            this.setup.fontSize = values.fontSize;
+            this.checkList.fontSize = true;
+        } else {
+            this.setup.fontSize = 14;
+        }
+        if (values.fontWeight) {
+            this.setup.fontWeight = values.fontWeight;
+            this.checkList.fontWeight = true;
+        } else {
+            this.setup.fontWeight = 1;
+        }
         if (values.borderWidth) {
             this.setup.borderWidth = values.borderWidth;
             this.checkList.borderWidth = true;
@@ -397,8 +484,27 @@ export default class SkinEditBox
         if (this.checkList.margin) {
             arr2.push(`margin:${this.setup.margin}px;`);
         }
+        let transform: string[] = [];
+        if (this.checkList.rotateX) {
+            transform.push(`rotateX(${this.setup.rotateX}deg)`);
+        }
+        if (this.checkList.rotateY) {
+            transform.push(`rotateY(${this.setup.rotateY}deg)`);
+        }
+        if (this.checkList.rotateZ) {
+            transform.push(`rotateZ(${this.setup.rotateZ}deg)`);
+        }
+        if (transform.length > 0) {
+            arr2.push(`transform:${transform.join(' ')};`);
+        }
         if (this.checkList.padding) {
             arr2.push(`padding:${this.setup.padding}px;`);
+        }
+        if (this.checkList.fontWeight) {
+            arr2.push(`font-weight:${this.setup.fontWeight * 100};`);
+        }
+        if (this.checkList.fontSize) {
+            arr2.push(`font-size:${this.setup.fontSize}px;`);
         }
         if (this.checkList.borderStyle) {
             arr2.push(`border-style:${this.setup.borderStyle};`);
@@ -446,29 +552,6 @@ export default class SkinEditBox
         style = style.replace(/(  \})/g, '$1\n');
         this.onStyleTextChange(<code dangerouslySetInnerHTML={{ __html: style }} />);
     }
-    private updateLocalClass() {
-        const data = localClassRuleData.get();
-        if (data) {
 
-            let rule: ClassRule;
-            if (data[this.props.name]) {
-                rule = data[this.props.name];
-            } else {
-                rule = G.Class.data[this.props.name];
-            }
-            const { shadow, ...elseRule } = rule;
-            const arr: string[] = [];
-            if (shadow !== undefined) {
-                arr.push(`shadow-${shadow[0]}-${shadow[1]}`);
-            }
-            if (arr.length > 0) {
-                this.skinRule.map[this.props.name] = [calcStyle(elseRule), arr];
-            } else {
-                this.skinRule.map[this.props.name] = calcStyle(elseRule);
-            }
-
-            this.globalEClass.updateClass(this.props.name);
-        }
-    }
     // #endregion
 }

@@ -12,10 +12,12 @@ export default class StepSlider
         min: number
         max: number
         step: number
+        ratio?: number
         defaultValue: number
         onChange: (value: number) => void
     }> {
     @observable randerRandom = Math.random();
+    ratio: number = this.props.ratio !== undefined ? this.props.ratio : 1;
     index = 0;
     min: number;
     max: number;
@@ -55,10 +57,9 @@ export default class StepSlider
         void this.randerRandom;
         return (
             <div className={this.props.className} EClass="inline inline-chd">
-                <div EClass="pdipr-10 minwem-3">{this.min + this.value}</div>
-                <Antd.Slider tipFormatter={null} EClass="width" key="a" defaultValue={this.value} min={0} max={this.stepArea} onChange={this.onChange} />
-                <Antd.Slider tipFormatter={null} EClass="width" key="b" defaultValue={this.index} min={0} max={this.props.step - 1} onChange={this.onChange2} />
-
+                <div EClass="pdipr-10 minwem-3">{(this.min + this.value) * this.ratio}</div>
+                <Antd.Slider tipFormatter={null} EClass="width" key="a" defaultValue={this.value} min={1} max={this.stepArea} onChange={this.onChange} />
+                {this.props.step !== 1 && <Antd.Slider tipFormatter={null} EClass="width" key="b" defaultValue={this.index} min={0} max={this.props.step - 1} onChange={this.onChange2} />}
             </div>
         );
     }

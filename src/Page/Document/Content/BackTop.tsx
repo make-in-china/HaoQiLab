@@ -1,9 +1,9 @@
 
 import Antd from 'antd-min';
 import React from 'react-ex';
-import AddEntryComponent from '../../EntryComponent';
-
-export default class App extends React.Component {
+import entry from '../Entry';
+@entry
+export default class BackTop extends React.Component {
 
     render() {
         return (
@@ -17,4 +17,3 @@ export default class App extends React.Component {
     }
 
 }
-AddEntryComponent('BackTop', 'Document', App);

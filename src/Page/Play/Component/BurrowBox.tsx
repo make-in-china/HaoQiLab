@@ -2,6 +2,7 @@ import React from 'react-ex';
 import Antd from 'antd-more';
 import { observer, observable } from 'mobx-index';
 import { G } from 'src/CSS/G';
+
 @React.eclass({
     box: [
         'pdip-5 mdipt-10 uof bd-12-gray minhem-15'.split(' '),

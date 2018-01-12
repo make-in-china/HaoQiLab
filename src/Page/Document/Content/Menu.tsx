@@ -1,10 +1,11 @@
 import React from 'react-ex';
 import Antd from 'antd-min';
-import AddEntryComponent from '../../EntryComponent';
 const SubMenu = Antd.Menu.SubMenu;
 const MenuItemGroup = Antd.Menu.ItemGroup;
 
-class App extends React.Component {
+import entry from '../Entry';
+@entry
+export default class Menu extends React.Component {
     handleClick: IPage['onMenuClick'] = (e) => {
         console.log('click ', e);
     }
@@ -45,5 +46,3 @@ class App extends React.Component {
         );
     }
 }
-export default App;
-AddEntryComponent('Menu', 'Document', App);

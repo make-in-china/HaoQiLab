@@ -28,7 +28,7 @@ export function toNames<P, T extends { [index: string]: P }>(data: T) {
     });
     return { names };
 }
-export function toMap<P, T extends { [index: string]: P }>(data: T){
+export function toMap<P, T extends { [index: string]: P }>(data: T) {
     const map: {
         [U in keyof T]: U
     } = {} as any;
@@ -37,10 +37,10 @@ export function toMap<P, T extends { [index: string]: P }>(data: T){
     });
     return { map };
 }
-export function toList<P, T extends { [index: string]: P }>(data: T) {
+export function toList<P, T extends { [index: string]: P }>(data: T): { list: P[] } {
     const list: P[] = [];
     Object.keys(data).forEach(v => {
         list.push(data[v]);
     });
-    return {  list };
+    return { list: list };
 }

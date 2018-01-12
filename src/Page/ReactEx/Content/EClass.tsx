@@ -1,6 +1,7 @@
 import React from 'react-ex';
 import PlayGround from '../../../Components/PlayGround';
-import AddEntryComponent from '../../EntryComponent';
+import entry from 'src/Page/ReactEx/Entry';
+@entry
 @React.eclass(
     {
         box: [
@@ -10,7 +11,7 @@ import AddEntryComponent from '../../EntryComponent';
             }
         ]
     })
-export default class App extends React.Component {
+export default class EClass extends React.Component {
     playGroundData = React.hookCreateElement(() => {
         return this.renderReactNode(() => (
             <div EClass="box">{/* 动态样式 */}
@@ -34,4 +35,3 @@ export default class App extends React.Component {
         );
     }
 }
-AddEntryComponent('EClass', 'ReactEx', App);

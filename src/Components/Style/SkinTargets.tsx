@@ -2,6 +2,13 @@ import React from 'react-ex';
 import Antd from 'antd-min';
 import { observer, observable } from 'mobx-index';
 import StringSelect from 'src/Components/StringSelect';
+import { toList } from 'src/Lib/NamesAndMapAndList';
+
+const innerType = {
+    A: '边框div',
+    B: '文字hello',
+    AB: '边框+文字'
+};
 @React.eclass({
     inner: ['ladip minwem-2 minhem-2 rdip-5 inline'.split(' ')]
 })
@@ -15,7 +22,7 @@ export default class SkinTargets
     @observable hasInnerTarget: boolean = true;
     @observable count: number = this.props.count;
     @observable type: string = 'div';
-    @observable innerType: string = '3.1+2';
+    @observable innerType: string = innerType.AB;
     @observable className?: string = this.props.className;
     onChangeCount: (value: number | string | undefined) => void = (v: number) => {
         this.count = v;
@@ -38,13 +45,13 @@ export default class SkinTargets
             let inner: any = null;
             if (this.hasInnerTarget) {
                 switch (this.innerType) {
-                    case '1.边框div':
+                    case innerType.A:
                         inner = <div EClass="inner" />;
                         break;
-                    case '2.hello文字':
+                    case innerType.B:
                         inner = 'hello';
                         break;
-                    case '3.1+2':
+                    case innerType.AB:
                         inner = <div EClass="inner">hello</div>;
                         break;
                     default:
@@ -62,7 +69,7 @@ export default class SkinTargets
             ), (
                 <div EClass="pdip-chd-3 inline-chd">
                     <div>放置内容物：<Antd.Switch onChange={this.onChangeInner} checkedChildren={<Antd.Icon type="check" />} unCheckedChildren={<Antd.Icon type="cross" />} defaultChecked={this.hasInnerTarget} /></div>
-                    <div>内容物：<StringSelect defaultValue="3.1+2" data={['1.边框div', '2.hello文字', '3.1+2']} onChange={this.onChangeInnerType} /></div>
+                    <div>内容物：<StringSelect defaultValue={this.innerType} data={toList<string, Record<string, string>>(innerType).list} onChange={this.onChangeInnerType} /></div>
                 </div>
             )
             , data

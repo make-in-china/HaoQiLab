@@ -37,9 +37,11 @@ import _Checkbox from 'antd/es/checkbox';
 import _Switch from 'antd/es/switch';
 import _InputNumber from 'antd/es/input-number';
 import _Slider from 'antd/es/slider';
+import _notification from 'antd/es/notification';
 
 (function (that: any) {
     that.Affix = _Affix;
+    that.notification = _notification;
     that.Slider = _Slider;
     that.Switch = _Switch;
     that.InputNumber = _InputNumber;

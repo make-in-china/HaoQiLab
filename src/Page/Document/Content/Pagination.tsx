@@ -1,7 +1,8 @@
 import React from 'react-ex';
 import Antd from 'antd-more';
-import AddEntryComponent from '../../EntryComponent';
-class App extends React.Component {
+import entry from '../Entry';
+@entry
+export default class Pagination extends React.Component {
     showTotal(total: number) {
         return `Total ${total} items`;
     }
@@ -25,6 +26,3 @@ class App extends React.Component {
         ];
     }
 }
-export default App;
-
-AddEntryComponent('Pagination', 'Document', App);

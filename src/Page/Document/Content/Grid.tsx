@@ -1,14 +1,15 @@
 import Antd from 'antd-more';
 import React from 'react-ex';
-import AddEntryComponent from '../../EntryComponent';
-export default class App
+import entry from '../Entry';
+@entry
+export default class Grid
     extends React.Component<{}, {
         gutterKey: number
         colCountKey: number
     }> {
     gutters: Record<string, number> = {};
     colCounts: Record<string, number> = {};
-    constructor(props: App['props']) {
+    constructor(props: Grid['props']) {
         super(props);
         this.state = {
             gutterKey: 1,
@@ -67,4 +68,3 @@ export default class App
             </div>);
     }
 }
-AddEntryComponent('Grid', 'Document', App);

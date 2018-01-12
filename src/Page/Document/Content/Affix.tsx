@@ -1,8 +1,9 @@
 import React from 'react-ex';
 import Antd from 'antd-more';
 import Table from '../../../Components/APITable';
-import AddEntryComponent from '../../EntryComponent';
-export default class App extends React.Component {
+import entry from '../Entry';
+@entry
+export default class Affix extends React.Component {
     container: HTMLElement | null = null;
     render() {
         return [
@@ -72,5 +73,3 @@ export default class App extends React.Component {
         ];
     }
 }
-
-AddEntryComponent('Affix', 'Document', App);

@@ -1,8 +1,9 @@
 import React from 'react-ex';
 import Antd from 'antd-min';
-import AddEntryComponent from '../../EntryComponent';
+import entry from '../Entry';
 const { Header, Footer, Sider, Content } = Antd.Layout;
-export default class App extends React.Component {
+@entry
+export default class Layout extends React.Component {
     render() {
         return [(
             <Antd.Layout>
@@ -16,4 +17,3 @@ export default class App extends React.Component {
         )];
     }
 }
-AddEntryComponent('Layout', 'Document', App);

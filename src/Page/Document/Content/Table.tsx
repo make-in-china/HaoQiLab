@@ -1,7 +1,7 @@
 
 import React from 'react-ex';
 import Antd from 'antd-more';
-import AddEntryComponent from '../../EntryComponent';
+import entry from '../Entry';
 const FormItem = Antd.Form.Item;
 
 const columns = [{
@@ -59,7 +59,8 @@ const showHeader = true;
 const footer = () => 'Here is footer';
 const scroll = { y: 240 };
 
-export default class App extends React.Component {
+@entry
+export default class Table extends React.Component {
     state = {
         bordered: false,
         loading: false,
@@ -158,4 +159,3 @@ export default class App extends React.Component {
         );
     }
 }
-AddEntryComponent('Table', 'Document', App);

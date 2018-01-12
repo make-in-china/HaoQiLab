@@ -1,9 +1,9 @@
 
 import React from 'react-ex';
 import Antd from 'antd-min';
-import AddEntryComponent from '../../EntryComponent';
-
-class App extends React.Component {
+import entry from '../Entry';
+@entry
+export default class Spin extends React.Component {
     render() {
         return (
             <Antd.Spin
@@ -14,6 +14,3 @@ class App extends React.Component {
         );
     }
 }
-
-export default App;
-AddEntryComponent('Spin', 'Document', App);

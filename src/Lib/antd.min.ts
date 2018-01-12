@@ -16,8 +16,9 @@ export default {
     Checkbox: _Antd.Checkbox,
     InputNumber: _Antd.InputNumber,
     Switch: _Antd.Switch,
-    Slider : _Antd.Slider,
-    Modal : _Antd.Modal
+    Slider: _Antd.Slider,
+    Modal: _Antd.Modal,
+    notification: _Antd.notification
 };
 if (Antd === undefined) {
     alert('未导入任何Antd组件');

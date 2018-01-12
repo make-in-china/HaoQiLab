@@ -2,7 +2,6 @@
 import _Anchor from 'antd/es/anchor';
 import _Alert from 'antd/es/alert';
 import _Form from 'antd/es/form';
-import _notification from 'antd/es/notification';
 import _Pagination from 'antd/es/pagination';
 import _message from 'antd/es/message';
 import _Popconfirm from 'antd/es/popconfirm';
@@ -23,7 +22,6 @@ import _Input from 'antd/es/input';
     that.Alert = _Alert;
     that.Form = _Form;
     that.message = _message;
-    that.notification = _notification;
     that.Pagination = _Pagination;
     that.Popconfirm = _Popconfirm;
     that.Popover = _Popover;

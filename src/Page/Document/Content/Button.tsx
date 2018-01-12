@@ -1,9 +1,9 @@
 import React from 'react-ex';
 import Table from '../../../Components/APITable';
 import ButtonExample from './Else/Button.Ex';
-import AddEntryComponent from '../../EntryComponent';
-
-export default class App extends React.Component {
+import entry from '../Entry';
+@entry
+export default class Button extends React.Component {
     render() {
         return [
             (
@@ -88,4 +88,3 @@ export default class App extends React.Component {
         ];
     }
 }
-AddEntryComponent('Button', 'Document', App);
