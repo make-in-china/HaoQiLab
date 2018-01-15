@@ -35,7 +35,7 @@ export class ModelPanel {
         let top: number;
 
         document.body.appendChild(panelBox);
-        
+
         ReactDOM.render((<div>{this.content}</div>), this.contentBox);
         const nearBy = this.nearBy;
         if (nearBy !== undefined) {
@@ -72,12 +72,12 @@ export class ModelPanel {
         const pos2 = getOffset(panelBox);
 
         if (pos2.x + panelBox.scrollWidth > document.body.clientWidth - 5) {
-            left = pos2.x + panelBox.scrollWidth + 5 - document.body.clientWidth;
+            left = document.body.clientWidth - 5 - panelBox.scrollWidth;
             panelBox.style.left = left + 'px';
         }
 
         if (pos2.y + panelBox.scrollHeight > document.body.clientHeight - 5) {
-            top = pos2.x + panelBox.scrollHeight + 5 - document.body.clientHeight;
+            top = document.body.clientHeight - 5 - panelBox.scrollHeight;
             panelBox.style.top = top + 'px';
         }
         const pos3 = getOffset(panelBox);

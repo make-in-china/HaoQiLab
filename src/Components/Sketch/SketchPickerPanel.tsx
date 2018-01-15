@@ -12,7 +12,6 @@ const horizontal = 'linear-gradient(to right, #f00 0%, #ff0 16.3333%, #0f0 33.66
 const colorSlideWidth = 230;
 const colorWidth = 256;
 const colorHeight = 200;
-// const vertical = 'linear-gradient(to top, #f00 0%, #ff0 17%, #0f0 33%, #0ff 50%, #00f 67%, #f0f 83%, #f00 100%);';
 @React.eclass({
     box: ['pdip-10 rdip-5 shadow-1 bg-gray inline'.split(' ')],
     colorbox: [React.calcStyle({ width: colorWidth, height: colorHeight })],

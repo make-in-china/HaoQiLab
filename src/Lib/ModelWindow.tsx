@@ -23,7 +23,4 @@ export class ModelWindow extends ModelPanel {
         const contentBox = this.contentBox = document.createElement('div');
         this.panelBox.appendChild(contentBox);
     }
-    open() {
-        super.open();
-    }
 }

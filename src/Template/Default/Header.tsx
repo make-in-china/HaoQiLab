@@ -6,6 +6,7 @@ import { ModelWindow } from 'src/Lib/ModelWindow';
 import GlobalSkinEdit from 'src/Components/Style/GlobalSkinEdit';
 import { Ref } from 'react';
 import { G } from 'src/CSS/G';
+import { EModelPanelAlign } from 'src/Lib/ModelPanel';
 
 const { Header } = Antd.Layout;
 @React.eclass({
@@ -18,12 +19,12 @@ export default class App extends React.Component<{ page: IPage }> {
     setupModel: ModelWindow | null = null;
     onClickSetup: React.FormEventHandler<any> = (e) => {
         if (this.setupModel !== null) {
-            this.setupModel.open();
+            this.setupModel.open(EModelPanelAlign.Left+EModelPanelAlign.Bottom);
         }
     }
     onRefSetup: Ref<any> = (instance) => {
         if (instance) {
-            this.setupModel = new ModelWindow((<GlobalSkinEdit />), instance, 'wem-50 minhem-30 bg-gray zidx-999 shadow-1 ' + G.Class.map.frm_border);
+            this.setupModel = new ModelWindow((<GlobalSkinEdit />), instance, 'wem-60 minhem-30 bg-gray zidx-999 shadow-1 ' + G.Class.map.frm_border);
         }
     }
     render() {

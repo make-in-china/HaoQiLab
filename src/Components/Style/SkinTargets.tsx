@@ -65,11 +65,8 @@ export default class SkinTargets
                 <div EClass="pdip-chd-3 inline-chd">
                     <div>演示目标：<StringSelect data={['div', 'span']} defaultValue={this.type} onChange={this.onChangeType} /></div>
                     <div>数量：<Antd.InputNumber EClass="wem-3" size="small" min={1} max={this.props.max} defaultValue={this.props.count} onChange={this.onChangeCount} /></div>
-                </div>
-            ), (
-                <div EClass="pdip-chd-3 inline-chd">
-                    <div>放置内容物：<Antd.Switch onChange={this.onChangeInner} checkedChildren={<Antd.Icon type="check" />} unCheckedChildren={<Antd.Icon type="cross" />} defaultChecked={this.hasInnerTarget} /></div>
-                    <div>内容物：<StringSelect defaultValue={this.innerType} data={toList<string, Record<string, string>>(innerType).list} onChange={this.onChangeInnerType} /></div>
+                    <div><Antd.Switch onChange={this.onChangeInner} checkedChildren={[(<Antd.Icon type="check" />), '填充']} unCheckedChildren={[(<Antd.Icon type="cross" />), '填充']} defaultChecked={this.hasInnerTarget} /></div>
+                    <div><StringSelect defaultValue={this.innerType} data={toList<string, Record<string, string>>(innerType).list} onChange={this.onChangeInnerType} /></div>
                 </div>
             )
             , data

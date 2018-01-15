@@ -1,4 +1,4 @@
-
+//#region import
 import React from 'react-ex';
 import { CSSRuleEx, cssClassNS, RGBA, getRGBA2String, getRGB, getRGBACSSString, getRGBAByMoreInfo } from 'src/CSS/CSSClass';
 import StepSlider from '../StepSlider';
@@ -15,25 +15,30 @@ import RenderData from 'src/Components/RenderData';
 import { Antd } from 'src/Lib/antd.min';
 import { highlightStyle } from 'src/Lib/highlightStyle';
 // import * as ZeroClipboard from 'zeroclipboard';
+//#endregion
 const TabPane = Antd.Tabs.TabPane;
 const notification = Antd.notification;
 
 @React.eclass({
     view: [
         {
-            'chd': ['mhem-5 w-50 uof inline alignTop bdbox pdip-5'.split(' ')]
+            'chd': ['mhem-5 uof alignTop bdbox pdip-5'.split(' ')]
         }
     ],
     frame: [
         'pdip-5 bd-12-gray'.split(' ')
     ],
     setupbox: [
-        'mdip-5 minhem-16'.split(' '),
+        'mdiptb-5 pdipl-4 minhem-16'.split(' '),
         {
             ' .ant-tabs.ant-tabs-card>.ant-tabs-bar .ant-tabs-nav-container': 'height:31px',
-            ' .ant-tabs.ant-tabs-card>.ant-tabs-bar .ant-tabs-tab': 'line-height:29px'
+            ' .ant-tabs.ant-tabs-card>.ant-tabs-bar .ant-tabs-tab': 'line-height:29px;padding:0 10px;',
+            chd: ['w-50 inline alignTop frame minhem-20'.split(' ')]
         }
     ],
+    style: ['mdipl-4 maxhem-20 scrolly'.split(' '), {
+        '>pre': 'overflow: initial;'
+    }],
     simple: []
 })
 @observer
@@ -44,6 +49,7 @@ export default class SkinEditBox
         sync: boolean
         onChangeRule: () => void
     }> {
+    //#region public property
     setup: {
         display: ClassRule['display'];
         color: RGBA;
@@ -70,7 +76,8 @@ export default class SkinEditBox
         rule: CSSRuleEx;
         cssClass: cssClassNS.CSSClass;
     };
-
+    //#endregion
+    //#region private property
     private btnUpdateClassBySave = (
         <Antd.Button
             type="primary"
@@ -117,43 +124,8 @@ export default class SkinEditBox
     private shadowColorOnChange = this.makeChangeEvent('shadowColor');
     private borderColorOnChange = this.makeChangeEvent('borderColor');
     @observable private renderRandom = Math.random();
-
-    onClickExport: React.FormEventHandler<any> = (evt) => {
-        const rule = this.createRule();
-        const str = JSON.stringify(rule);
-        notification.open({
-            message: '样式规则导出-' + this.props.name,
-            description: str,
-            btn: null,
-            key: 'copyClass',
-            onClose: close,
-        });
-    }
-    onClickClear: React.FormEventHandler<any> = (evt) => {
-        const data = localClassRuleData.get() || {};
-        delete data[this.props.name];
-        localClassRuleData.set(data);
-        notification.open({
-            message: '样式清除',
-            description: `清除“${this.props.name}”样式成功！`,
-            btn: this.btnUpdateClassByClear,
-            key: 'clearClass',
-            onClose: close,
-        });
-    }
-    onClickSave: React.FormEventHandler<any> = (evt) => {
-
-        const data = localClassRuleData.get() || {};
-        data[this.props.name] = this.createRule();
-        localClassRuleData.set(data);
-        notification.open({
-            message: '样式保存',
-            description: `保存“${this.props.name}”样式成功！`,
-            btn: this.btnUpdateClassBySave,
-            key: 'saveClass',
-            onClose: close,
-        });
-    }
+    //#endregion
+    //#region public function without render
     createRule() {
         const rule: ClassRule = {};
 
@@ -218,6 +190,7 @@ export default class SkinEditBox
         this.updateRule(props);
         this.renderRandom = Math.random();
     }
+    //#endregion
     render() {
         // tslint:disable-next-line:no-unused-expression
         void this.renderRandom;
@@ -227,65 +200,79 @@ export default class SkinEditBox
         };
         return (
             <div>
-                <div className={G.Class.map.frm_border} EClass="frame setupbox">
-                    <Antd.Tabs type="card">
-                        <TabPane tab="大小" key="size">
-                            <SkinBoxSetupItem title="显示模式" keyName="display" {...data}>
-                                <StringSelect defaultValue={this.setup.display!} data={['', 'inline-block', 'block', 'inline-flex', 'flex', 'inline-grid', 'grid', 'inline-table', 'table', 'list-item', 'run-in', 'table-caption', 'table-cell', 'table-column', 'table-column-group', 'table-footer-group', 'table-header-group', 'table-row', 'table-row-group']} onChange={this.displayOnChange as any} />
-                            </SkinBoxSetupItem>
-                            <SkinBoxSetupItem title="外边距" keyName="margin" {...data}>
-                                <StepSlider defaultValue={this.setup.margin} min={1} max={100} step={10} onChange={this.marginOnChange} />
-                            </SkinBoxSetupItem>
-                            <SkinBoxSetupItem title="内边距" keyName="padding" {...data}>
-                                <StepSlider defaultValue={this.setup.padding} min={1} max={100} step={10} onChange={this.paddingOnChange} />
-                            </SkinBoxSetupItem>
-                        </TabPane>
-                        <TabPane tab="边框" key="border">
-                            <SkinBoxSetupItem title="边框风格" keyName="borderStyle" {...data}>
-                                <StringSelect defaultValue={this.setup.borderStyle! as string} data={['', 'none', 'hidden', 'solid', 'dashed', 'dotted', 'ridge', 'inset', 'outset', 'groove', 'double']} onChange={this.borderStyleOnChange as any} />
-                            </SkinBoxSetupItem>
-                            <SkinBoxSetupItem title="边框宽度" keyName="borderWidth" {...data}>
-                                <StepSlider defaultValue={this.setup.borderWidth} min={1} max={100} step={10} onChange={this.borderWidthOnChange} />
-                            </SkinBoxSetupItem>
-                            <SkinBoxSetupItem title="边框圆角" keyName="borderRadius" {...data}>
-                                <StepSlider defaultValue={this.setup.borderRadius} min={1} max={100} step={10} onChange={this.borderRadiusOnChange} />
-                            </SkinBoxSetupItem>
-                            <SkinBoxSetupItem title="边框颜色" keyName="borderColor" {...data}>
-                                <SketchPicker color={this.setup.borderColor} onChange={this.borderColorOnChange} />
-                            </SkinBoxSetupItem>
-                        </TabPane>
-                        <TabPane tab="字体" key="font">
-                            <SkinBoxSetupItem title="字体大小" keyName="fontSize" {...data}>
-                                <StepSlider defaultValue={this.setup.fontSize} min={1} max={45} step={1} onChange={this.fontSizeOnChange} />
-                            </SkinBoxSetupItem>
-                            <SkinBoxSetupItem title="字体宽度" keyName="fontWeight" {...data}>
-                                <StepSlider defaultValue={this.setup.fontWeight} min={1} max={9} step={1} ratio={100} onChange={this.fontWeightOnChange} />
-                            </SkinBoxSetupItem>
-                            <SkinBoxSetupItem title="字体颜色" keyName="color" {...data}>
-                                <SketchPicker color={this.setup.color} onChange={this.colorOnChange} />
-                            </SkinBoxSetupItem>
-                        </TabPane>
-                        <TabPane tab="变形" key="deformation">
-                            <SkinBoxSetupItem title="前后翻转" keyName="rotateX" {...data}>
-                                <StepSlider defaultValue={this.setup.rotateX} min={1} max={360} step={1} onChange={this.rotateXOnChange} />
-                            </SkinBoxSetupItem>
-                            <SkinBoxSetupItem title="左右翻转" keyName="rotateY" {...data}>
-                                <StepSlider defaultValue={this.setup.rotateY} min={1} max={360} step={1} onChange={this.rotateYOnChange} />
-                            </SkinBoxSetupItem>
-                            <SkinBoxSetupItem title="旋转" keyName="rotateZ" {...data}>
-                                <StepSlider defaultValue={this.setup.rotateZ} min={1} max={360} step={1} onChange={this.rotateZOnChange} />
-                            </SkinBoxSetupItem>
-                        </TabPane>
-                        <TabPane tab="颜色和其他" key="default">
-                            <SkinBoxSetupItem title="背景颜色" keyName="backgroundColor" {...data}>
-                                <SketchPicker color={this.setup.backgroundColor} onChange={this.backgroundColorOnChange} />
-                            </SkinBoxSetupItem>
-                            <SkinBoxSetupItem title="阴影" keyName="shadow" {...data}>
-                                <StepSlider defaultValue={this.setup.shadow} min={1} max={20} step={2} onChange={this.shadowOnChange} />
-                                <SketchPicker color={this.setup.shadowColor} onChange={this.shadowColorOnChange} />
-                            </SkinBoxSetupItem>
-                        </TabPane>
-                    </Antd.Tabs>
+                <div>
+                    <div>
+                        <Antd.Button size="small" onClick={this.onClickSave}>保存规则</Antd.Button>
+                        &nbsp;
+                        <Antd.Button size="small" onClick={this.onClickClear}>清除规则</Antd.Button>
+                        &nbsp;
+                        <Antd.Button size="small" onClick={this.onClickExport}>导出规则</Antd.Button>
+                    </div>
+                    <div EClass="setupbox">
+                        <div className={G.Class.map.frm_border} EClass="mdipl_-4">
+                            <Antd.Tabs type="card">
+                                <TabPane tab="大小" key="size">
+                                    <SkinBoxSetupItem title="显示模式" keyName="display" {...data}>
+                                        <StringSelect defaultValue={this.setup.display!} data={['', 'inline-block', 'block', 'inline-flex', 'flex', 'inline-grid', 'grid', 'inline-table', 'table', 'list-item', 'run-in', 'table-caption', 'table-cell', 'table-column', 'table-column-group', 'table-footer-group', 'table-header-group', 'table-row', 'table-row-group']} onChange={this.displayOnChange as any} />
+                                    </SkinBoxSetupItem>
+                                    <SkinBoxSetupItem title="外边距" keyName="margin" {...data}>
+                                        <StepSlider defaultValue={this.setup.margin} min={1} max={100} step={10} onChange={this.marginOnChange} />
+                                    </SkinBoxSetupItem>
+                                    <SkinBoxSetupItem title="内边距" keyName="padding" {...data}>
+                                        <StepSlider defaultValue={this.setup.padding} min={1} max={100} step={10} onChange={this.paddingOnChange} />
+                                    </SkinBoxSetupItem>
+                                </TabPane>
+                                <TabPane tab="边框" key="border">
+                                    <SkinBoxSetupItem title="边框风格" keyName="borderStyle" {...data}>
+                                        <StringSelect defaultValue={this.setup.borderStyle! as string} data={['', 'none', 'hidden', 'solid', 'dashed', 'dotted', 'ridge', 'inset', 'outset', 'groove', 'double']} onChange={this.borderStyleOnChange as any} />
+                                    </SkinBoxSetupItem>
+                                    <SkinBoxSetupItem title="边框宽度" keyName="borderWidth" {...data}>
+                                        <StepSlider defaultValue={this.setup.borderWidth} min={1} max={100} step={10} onChange={this.borderWidthOnChange} />
+                                    </SkinBoxSetupItem>
+                                    <SkinBoxSetupItem title="边框圆角" keyName="borderRadius" {...data}>
+                                        <StepSlider defaultValue={this.setup.borderRadius} min={1} max={100} step={10} onChange={this.borderRadiusOnChange} />
+                                    </SkinBoxSetupItem>
+                                    <SkinBoxSetupItem title="边框颜色" keyName="borderColor" {...data}>
+                                        <SketchPicker color={this.setup.borderColor} onChange={this.borderColorOnChange} />
+                                    </SkinBoxSetupItem>
+                                </TabPane>
+                                <TabPane tab="字体" key="font">
+                                    <SkinBoxSetupItem title="字体大小" keyName="fontSize" {...data}>
+                                        <StepSlider defaultValue={this.setup.fontSize} min={1} max={45} step={1} onChange={this.fontSizeOnChange} />
+                                    </SkinBoxSetupItem>
+                                    <SkinBoxSetupItem title="字体宽度" keyName="fontWeight" {...data}>
+                                        <StepSlider defaultValue={this.setup.fontWeight} min={1} max={9} step={1} ratio={100} onChange={this.fontWeightOnChange} />
+                                    </SkinBoxSetupItem>
+                                    <SkinBoxSetupItem title="字体颜色" keyName="color" {...data}>
+                                        <SketchPicker color={this.setup.color} onChange={this.colorOnChange} />
+                                    </SkinBoxSetupItem>
+                                </TabPane>
+                                <TabPane tab="变形" key="deformation">
+                                    <SkinBoxSetupItem title="前后翻转" keyName="rotateX" {...data}>
+                                        <StepSlider defaultValue={this.setup.rotateX} min={1} max={360} step={1} onChange={this.rotateXOnChange} />
+                                    </SkinBoxSetupItem>
+                                    <SkinBoxSetupItem title="左右翻转" keyName="rotateY" {...data}>
+                                        <StepSlider defaultValue={this.setup.rotateY} min={1} max={360} step={1} onChange={this.rotateYOnChange} />
+                                    </SkinBoxSetupItem>
+                                    <SkinBoxSetupItem title="旋转" keyName="rotateZ" {...data}>
+                                        <StepSlider defaultValue={this.setup.rotateZ} min={1} max={360} step={1} onChange={this.rotateZOnChange} />
+                                    </SkinBoxSetupItem>
+                                </TabPane>
+                                <TabPane tab="颜色和其他" key="default">
+                                    <SkinBoxSetupItem title="背景颜色" keyName="backgroundColor" {...data}>
+                                        <SketchPicker color={this.setup.backgroundColor} onChange={this.backgroundColorOnChange} />
+                                    </SkinBoxSetupItem>
+                                    <SkinBoxSetupItem title="阴影" keyName="shadow" {...data}>
+                                        <StepSlider defaultValue={this.setup.shadow} min={1} max={20} step={2} onChange={this.shadowOnChange} />
+                                        <SketchPicker color={this.setup.shadowColor} onChange={this.shadowColorOnChange} />
+                                    </SkinBoxSetupItem>
+                                </TabPane>
+                            </Antd.Tabs>
+                        </div>
+                        <div className={G.Class.map.frm_border} EClass="style">
+                            <pre><RenderData data="" onRaiseChange={this.onRaiseChange} /></pre>
+                        </div>
+                    </div>
                 </div>
                 <div EClass="view">
                     <div>
@@ -293,21 +280,47 @@ export default class SkinEditBox
                             <SkinTargets count={2} max={10} EClass="simple" />
                         </div>
                     </div>
-                    <div>
-                        <pre className={G.Class.map.frm_border} EClass="frame minhem-20">
-                            <div>
-                                <Antd.Button size="small" onClick={this.onClickSave}>保存规则</Antd.Button>&nbsp;
-                                <Antd.Button size="small" onClick={this.onClickClear}>清除规则</Antd.Button>&nbsp;
-                                <Antd.Button size="small" onClick={this.onClickExport}>导出规则</Antd.Button>
-                            </div>
-                            <RenderData data="" onRaiseChange={this.onRaiseChange} />
-                        </pre>
-                    </div>
                 </div>
             </div >
         );
     }
     // #region private
+    private onClickClear: React.FormEventHandler<any> = (evt) => {
+        const data = localClassRuleData.get() || {};
+        delete data[this.props.name];
+        localClassRuleData.set(data);
+        notification.open({
+            message: '样式清除',
+            description: `清除“${this.props.name}”样式成功！`,
+            btn: this.btnUpdateClassByClear,
+            key: 'clearClass',
+            onClose: close,
+        });
+    }
+    private onClickSave: React.FormEventHandler<any> = (evt) => {
+
+        const data = localClassRuleData.get() || {};
+        data[this.props.name] = this.createRule();
+        localClassRuleData.set(data);
+        notification.open({
+            message: '样式保存',
+            description: `保存“${this.props.name}”样式成功！`,
+            btn: this.btnUpdateClassBySave,
+            key: 'saveClass',
+            onClose: close,
+        });
+    }
+    private onClickExport: React.FormEventHandler<any> = (evt) => {
+        const rule = this.createRule();
+        const str = JSON.stringify(rule);
+        notification.open({
+            message: '样式规则导出-' + this.props.name,
+            description: str,
+            btn: null,
+            key: 'copyClass',
+            onClose: close,
+        });
+    }
     // private getValueForPx(value: string | number) {
     //     if (isString(value)) {
     //         value = value.trim();
