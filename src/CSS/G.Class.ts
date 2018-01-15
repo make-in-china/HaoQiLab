@@ -1,6 +1,6 @@
 import { cssClassNS } from 'src/CSS/CSSClass';
 import { calcStyle } from 'src/CSS/CalcStyle';
-import { toNamesAndMapAndList, NamesAndMapAndList } from 'src/Lib/NamesAndMapAndList';
+import { toNamesAndMapAndList } from 'src/Lib/NamesAndMapAndList';
 import { Local } from '../Lib/Local';
 export interface ClassRule {
     display?: '' | 'inline-block' | 'block' | 'inline-flex' | 'flex' | 'inline-grid' | 'grid' | 'inline-table' | 'table' | 'list-item' | 'run-in' | 'table-caption' | 'table-cell' | 'table-column' | 'table-column-group' | 'table-footer-group' | 'table-header-group' | 'table-row' | 'table-row-group';
@@ -51,13 +51,15 @@ const classRuleData = {
     clr_shadow: {
         shadow: [1, '40000000'],
     }
-} as ClassRuleData;
+};
 
-declare var window: { ClassNS: { data: ClassRuleData } & NamesAndMapAndList<ClassRule, ClassRuleData> } & Window;
+// declare var window: { ClassNS: { data: ClassRuleData } & NamesAndMapAndList<ClassRule, ClassRuleData> } & Window;
 
-if (window.ClassNS === undefined) {
-    window.ClassNS = { data: classRuleData, ...toNamesAndMapAndList(classRuleData) };
-}
+// if (window.ClassNS === undefined) {
+//     window.ClassNS = { data: classRuleData, ...toNamesAndMapAndList(classRuleData) };
+// }
+
+const classNS = { data: classRuleData, ...toNamesAndMapAndList(classRuleData) };
 
 export const localClassRuleData = new Local<ClassRuleData>('classRuleData');
 function getSkinRule(css: cssClassNS.CSSClass, data: ClassRuleData | null, name: string) {
@@ -65,7 +67,7 @@ function getSkinRule(css: cssClassNS.CSSClass, data: ClassRuleData | null, name:
     if (data && data[name]) {
         rule = data[name];
     } else {
-        rule = window.ClassNS.data[name];
+        rule = classRuleData[name];
     }
     const { fontWeight, shadow, rotateX, rotateY, rotateZ, ...elseRule } = rule;
     const arr: string[] = [];
@@ -111,12 +113,12 @@ function updateLocalClassByName(css: cssClassNS.CSSClass, data: ClassRuleData, n
 export function updateLocalClass(name?: string) {
     const css = cssClassNS.CSSClass.instance;
     const data = localClassRuleData.get();
-    const classNS = window.ClassNS;
+    // const classNS = window.ClassNS;
     if (data) {
         if (name !== undefined) {
             updateLocalClassByName(css, data, name);
         } else {
-            for (const key in classNS.data) {
+            for (const key in classRuleData) {
                 updateLocalClassByName(css, data, key);
             }
         }
@@ -125,14 +127,12 @@ export function updateLocalClass(name?: string) {
 export function registerClass() {
     const css = cssClassNS.CSSClass.instance;
     const data = localClassRuleData.get();
-    const classNS = window.ClassNS;
-    for (const key in classNS.data) {
+    // const classNS = window.ClassNS;
+    for (const key in classRuleData) {
         const rule = getSkinRule(css, data, key);
         css.registerClassRuleItem(key, rule);
         css.registerClass(key);
     }
 }
 
-const defaultExport = window.ClassNS;
-
-export default defaultExport;
+export default classNS;

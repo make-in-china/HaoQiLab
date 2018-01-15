@@ -1,6 +1,5 @@
 
 const re = /(\/\*.*?\*\/)/g;
-const DoubleQuotString = '<span style="color:#060;">"</span>';
 export function highlightStyle(style: string) {
 
     style = highlightStyleLine(style);
@@ -16,6 +15,6 @@ export function highlightStyleLine(style: string) {
     return style;
 }
 export function highlightString(style: string) {
-    style = style.replace(/"(.*?)"/g, `${DoubleQuotString}<span style="color:green;">$1</span>${DoubleQuotString}`);
+    style = style.replace(/(['"`])(.*?)\1/g, `<span style="color:#060;">$1</span><span style="color:green;">$2</span><span style="color:#060;">$1</span>`);
     return style;
 }
