@@ -455,8 +455,8 @@ export default class SkinEditBox
             this.setup.backgroundColor = { R: 0, G: 0, B: 0, A: 1 };
         }
 
-        this.skinRule = this.globalEClass.getRule(props.name);
-        this.targetRule = this.cssClass!.getRule('simple');
+        this.skinRule = this.globalEClass.getRule(props.name)!;
+        this.targetRule = this.cssClass!.getRule('simple')!;
     }
     private onRaiseChange: RenderData['props']['onRaiseChange'] = (onChange) => {
         this.onStyleTextChange = onChange;

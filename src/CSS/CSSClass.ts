@@ -222,7 +222,7 @@ export namespace cssClassNS {
         private static priInstance: CSSClass | null = null;
         key: string;
         rule: Record<string, CSSRuleEx> = {}; // = createDictionaryObject<CSSRuleEx>()
-        
+
         /* class结果列表 */
         private list = createDictionaryObject<CSSClassData[] | CSSClassData>();
         /* 类名映射表 */
@@ -370,7 +370,7 @@ export namespace cssClassNS {
         updateRule(ruleList: Record<string, CSSRuleEx>) {
             for (const key in ruleList) {
                 const rule = ruleList[key];
-                const oldRule = this.getRule(key);
+                const oldRule = this.getRule(key)!;
                 oldRule.map[key] = rule;
                 this.updateClass(key);
             }
@@ -507,6 +507,10 @@ export namespace cssClassNS {
                     const subInfo = this.parseInfo(rule);
                     if (subInfo) {
                         const ruleInfo = this.getRule(subInfo.name);
+                        if (ruleInfo === null) {
+                            console.warn(`classRule '${subInfo.name}' can't be found.`);
+                            break;
+                        }
                         const subRule = ruleInfo.rule;
                         const map = ruleInfo.map;
                         if (subRule) {
@@ -524,11 +528,14 @@ export namespace cssClassNS {
         }
 
         create(info: CSSClassInfo) {
-            const { rule, map, cssClass } = this.getRule(info.name);
+            const ruleInfo = this.getRule(info.name);
+            if (ruleInfo === null) {
+                this.list[this.getNameByInfo(info, false)] = this.doCreate(this.styleElement, '', info);
+                return;
+            }
+            const { rule, map, cssClass } = ruleInfo;
 
-            if (!rule) {
-                this.list[this.getNameByInfo(info, false)] = this.doCreate(cssClass.styleElement, '', info);
-            } else if (isArray(rule)) {
+            if (isArray(rule)) {
                 this.list[this.getNameByInfo(info, false)] = this.createByArray(cssClass.styleElement, map, rule, info);
             } else if (isString(rule)) {
                 this.list[this.getNameByInfo(info, false)] = this.doCreate(cssClass.styleElement, rule, info);
@@ -580,7 +587,7 @@ export namespace cssClassNS {
             this.addArray(elem, clses);
         }
         getRule(ruleName: string) {
-            let rule = this.rule[ruleName];
+            let rule: CSSRuleEx | undefined = this.rule[ruleName];
             let map = this.rule;
             let thatCssClass: CSSClass = this;
             if (!rule && !this.isNoExtendsGlobal) {
@@ -595,11 +602,16 @@ export namespace cssClassNS {
                     }
                 }
             }
-            return {
-                map: map,
-                rule: rule,
-                cssClass: thatCssClass
-            };
+            if (rule !== undefined) {
+                return {
+                    map: map,
+                    rule: rule,
+                    cssClass: thatCssClass
+                };
+            } else {
+                return null;
+            }
+
         }
         registerClassRuleItem(name: string, rule: CSSRuleEx) {
             // if (name in this.rule) {

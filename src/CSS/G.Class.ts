@@ -101,6 +101,9 @@ function getSkinRule(css: cssClassNS.CSSClass, data: ClassRuleData | null, name:
 function updateLocalClassByName(css: cssClassNS.CSSClass, data: ClassRuleData, name: string) {
     const rule = getSkinRule(css, data, name);
     const skinRule = css.getRule(name);
+    if (skinRule === null) {
+        return;
+    }
     skinRule.map[name] = rule;
 
     css.updateClass(name);
