@@ -1,7 +1,7 @@
 import React from 'react-ex';
 import Antd from 'antd-more';
 import entry from '../Entry';
-@entry
+@entry('Pagination')
 export default class Pagination extends React.Component {
     showTotal(total: number) {
         return `Total ${total} items`;

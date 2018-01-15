@@ -2,7 +2,7 @@ import React from 'react-ex';
 import Antd from 'antd-more';
 import Table from '../../../Components/APITable';
 import entry from '../Entry';
-@entry
+@entry('Affix')
 export default class Affix extends React.Component {
     container: HTMLElement | null = null;
     render() {

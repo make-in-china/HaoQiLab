@@ -2,7 +2,7 @@ import React from 'react-ex';
 import Table from '../../../Components/APITable';
 import ButtonExample from './Else/Button.Ex';
 import entry from '../Entry';
-@entry
+@entry('Button')
 export default class Button extends React.Component {
     render() {
         return [

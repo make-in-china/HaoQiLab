@@ -2,7 +2,7 @@
 import Antd from 'antd-min';
 import React from 'react-ex';
 import entry from '../Entry';
-@entry
+@entry('BackTop')
 export default class BackTop extends React.Component {
 
     render() {

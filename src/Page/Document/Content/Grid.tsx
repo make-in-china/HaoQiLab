@@ -1,7 +1,7 @@
 import Antd from 'antd-more';
 import React from 'react-ex';
 import entry from '../Entry';
-@entry
+@entry('Grid')
 export default class Grid
     extends React.Component<{}, {
         gutterKey: number

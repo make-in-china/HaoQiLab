@@ -1,7 +1,7 @@
 import React from 'react-ex';
 import Antd from 'antd-min';
 import entry from '../Entry';
-@entry
+@entry('Dropdown')
 export default class Dropdown extends React.Component {
     container: HTMLElement | null = null;
     render() {

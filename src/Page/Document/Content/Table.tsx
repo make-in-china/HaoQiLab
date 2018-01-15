@@ -59,7 +59,7 @@ const showHeader = true;
 const footer = () => 'Here is footer';
 const scroll = { y: 240 };
 
-@entry
+@entry('Table')
 export default class Table extends React.Component {
     state = {
         bordered: false,

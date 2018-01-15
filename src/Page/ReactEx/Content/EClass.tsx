@@ -7,7 +7,7 @@ import { formatJSON } from 'src/Lib/Format';
 import { G } from 'src/CSS/G';
 import B from 'src/Page/ReactEx/Content/EClass/B';
 import A from 'src/Page/ReactEx/Content/EClass/A';
-@entry
+@entry('EClass')
 @React.eclass({
     box: [
         ['pdip-10', 'ladip', 'rdip-20', 'bg-gray', 'inline'],

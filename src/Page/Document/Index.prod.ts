@@ -1,3 +1,4 @@
 import '../../index.css';
 import init from '../../Helper/Init';
-init('Document');
+import { Key } from './Entry';
+init(Key);

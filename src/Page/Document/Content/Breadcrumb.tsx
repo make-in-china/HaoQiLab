@@ -1,7 +1,7 @@
 import React from 'react-ex';
 import Antd from 'antd-min';
 import entry from '../Entry';
-@entry
+@entry('Breadcrumb')
 export default class Breadcrumb extends React.Component {
     container: HTMLElement | null = null;
     render() {

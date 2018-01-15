@@ -4,7 +4,7 @@ import Antd from 'antd-more';
 import entry from '../Entry';
 
 const text = <span>prompt text</span>;
-@entry
+@entry('ToolTip')
 @React.eclass({
     that: [{
         '.tooltip-demo-placement a': 'display: inline-block;line-height: 32px;height: 32px;width: 60px;font-size: 14px;text-align: center;background: #f5f5f5;margin-right: 1em;margin-bottom: 1em;border-radius: 6px;',

@@ -2,7 +2,7 @@ import React from 'react-ex';
 import Antd from 'antd-min';
 import entry from '../Entry';
 const { Header, Footer, Sider, Content } = Antd.Layout;
-@entry
+@entry('Layout')
 export default class Layout extends React.Component {
     render() {
         return [(

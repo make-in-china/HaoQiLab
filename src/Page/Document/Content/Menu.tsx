@@ -4,7 +4,7 @@ const SubMenu = Antd.Menu.SubMenu;
 const MenuItemGroup = Antd.Menu.ItemGroup;
 
 import entry from '../Entry';
-@entry
+@entry('Menu')
 export default class Menu extends React.Component {
     handleClick: IPage['onMenuClick'] = (e) => {
         console.log('click ', e);

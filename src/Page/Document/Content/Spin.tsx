@@ -2,7 +2,7 @@
 import React from 'react-ex';
 import Antd from 'antd-min';
 import entry from '../Entry';
-@entry
+@entry('Spin')
 export default class Spin extends React.Component {
     render() {
         return (
