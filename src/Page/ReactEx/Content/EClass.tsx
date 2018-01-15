@@ -5,8 +5,8 @@ import CodeList from 'src/Components/CodeList';
 import { highlightString } from 'src/Lib/highlightStyle';
 import { formatJSON } from 'src/Lib/Format';
 import { G } from 'src/CSS/G';
-import EClassB from 'src/Page/ReactEx/Content/EClassB';
-import EClassA from 'src/Page/ReactEx/Content/EClassA';
+import B from 'src/Page/ReactEx/Content/EClass/B';
+import A from 'src/Page/ReactEx/Content/EClass/A';
 @entry
 @React.eclass({
     box: [
@@ -142,10 +142,10 @@ export default class EClass extends React.Component {
                     </p>
                     <div>
                         <div className="ant-col-12">
-                            <EClassA />
+                            <A />
                         </div>
                         <div className="ant-col-12">
-                            <EClassB />
+                            <B />
                         </div>
                     </div>
                     <p>

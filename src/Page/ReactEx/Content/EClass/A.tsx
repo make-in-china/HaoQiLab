@@ -1,9 +1,9 @@
 import React from 'react-ex';
-import PlayGround from '../../../Components/PlayGround';
+import PlayGround from 'src/Components/PlayGround';
 @React.eclass({
     box: 'color:#f00;'
 })
-export default class EClassA extends React.Component {
+export default class A extends React.Component {
     playGroundData = React.hookCreateElement(() => {
         return this.renderReactNode(() => (
             <div EClass="box">{/* 动态样式 */}
