@@ -1,2 +1,1287 @@
-!function(t,e){if("object"===typeof exports&&"object"===typeof module)module.exports=e(require("react"),require("react-dom"),require("Antd"));else if("function"===typeof define&&define.amd)define(["react","react-dom","Antd"],e);else{var r="object"===typeof exports?e(require("react"),require("react-dom"),require("Antd")):e(t.React,t.ReactDOM,t.Antd);for(var n in r)("object"===typeof exports?exports:t)[n]=r[n]}}(this,function(t,e,r){return function(t){function e(n){if(r[n])return r[n].exports;var o=r[n]={i:n,l:!1,exports:{}};return t[n].call(o.exports,o,o.exports,e),o.l=!0,o.exports}var r={};return e.m=t,e.c=r,e.d=function(t,r,n){e.o(t,r)||Object.defineProperty(t,r,{configurable:!1,enumerable:!0,get:n})},e.n=function(t){var r=t&&t.__esModule?function(){return t.default}:function(){return t};return e.d(r,"a",r),r},e.o=function(t,e){return Object.prototype.hasOwnProperty.call(t,e)},e.p="/",e(e.s=563)}({0:function(t,e,r){"use strict";var n,o=r(1),s=(r.n(o),r(12)),a=r(14),i=r(13),c=this&&this.__extends||function(){var t=Object.setPrototypeOf||{__proto__:[]}instanceof Array&&function(t,e){t.__proto__=e}||function(t,e){for(var r in e)e.hasOwnProperty(r)&&(t[r]=e[r])};return function(e,r){function n(){this.constructor=e}t(e,r),e.prototype=null===r?Object.create(r):(n.prototype=r.prototype,new n)}}(),l=this&&this.__assign||Object.assign||function(t){for(var e,r=1,n=arguments.length;r<n;r++){e=arguments[r];for(var o in e)Object.prototype.hasOwnProperty.call(e,o)&&(t[o]=e[o])}return t};!function(t){function e(t,e){for(var r=[],n=2;n<arguments.length;n++)r[n-2]=arguments[n];if(u&&f.push({type:t,props:l({},e,{children:r})}),e){var c=e.EClass;if(void 0!==c){var h=a;if(Object(i.d)(c)){if(""!==c.trim()){var d=h.parse(c);void 0===e.className?e.className=d.join(" "):e.className+=" "+d.join(" "),delete e.EClass}}else if("setClass"in c){var y=void 0;"ref"in e&&(y=e.ref),e.ref=function(t){c.instance=t,y&&y(t)};var v;if(c.onChange=function(t){var e=c.instance,r=void 0;if(e){r=h.parse(t);var n=e.classList;if(v)for(var o=0;o<v.length;o++)n.contains(v[o])&&n.remove(v[o]);for(var o=0;o<r.length;o++)n.contains(r[o])||n.add(r[o])}v=r},""!==c.fixedClass.trim()){var g=h.parse(c.fixedClass);void 0===e.className?e.className=g.join(" "):e.className+=" "+g.join(" ")}""!==c.defaultClass.trim()&&(v=h.parse(c.defaultClass),void 0===e.className?e.className=v.join(" "):e.className+=" "+v.join(" ")),delete e.EClass}}for(var m in s.b.cssClassSelectorMap){var b=e["EClass-"+m];if(b){var d=a.parse(b,m);void 0===e.className?e.className=d.join(" "):e.className+=" "+d.join(" "),delete e["EClass-"+m]}}}return p.apply(o,arguments)}function r(t,e,r,n){return void 0===e&&(e=!0),void 0===r&&(r=!1),void 0===n&&(n=!1),function(o){var i=o.prototype.render;return o.prototype.render=function(){var t=a;a=this.cssClass;var e=i.call(this);return a=t,e},function(a){var i=new o(a);return i.cssClass=new s.b.CSSClass(void 0,e,r,n,t),i}}}function n(t){u=!0,f=[];var e=t();return u=!1,{source:f.pop(),result:e}}var a=s.a.instance,u=!1,f=[],p=o.createElement;Object.defineProperty(o,"createElement",{value:e});var h=function(){function t(t,e){this.fixedClass=t,this.defaultClass=e}return t.prototype.setClass=function(t){this.onChange&&this.onChange(t)},t}();t.AsyncEClass=h,t.eclass=r,t.hookCreateElement=n;var d=function(t){function e(){return null!==t&&t.apply(this,arguments)||this}return c(e,t),e.prototype.renderReactNode=function(t){if(this.cssClass){var e=a;a=this.cssClass;var r=t();return a=e,r}return t()},e}(o.Component);t.Component=d}(n||(n={})),e.a=l({},o,n,{calcStyle:a.a}),void 0===o&&alert("\u672a\u5bfc\u5165React")},1:function(e,r){e.exports=t},12:function(t,e,r){"use strict";function n(t,e){return t.substr(t.length-e,e)}function o(t){var e=Number("0x"+t);return{R:(16711680&e)/65536,G:(65280&e)/256,B:255&e}}function s(t,e,r,n){var o=r/n;return{R:Math.floor((e.R-t.R)*o+.5)+t.R&255,G:Math.floor((e.G-t.G)*o+.5)+t.G&255,B:Math.floor((e.B-t.B)*o+.5)+t.B&255}}function a(t){return"#"+(n("0"+t.R.toString(16),2)+n("0"+t.G.toString(16),2)+n("0"+t.B.toString(16),2))}function i(t){return n("0"+Math.round(255*t.A).toString(16),2)+n("0"+t.R.toString(16),2)+n("0"+t.G.toString(16),2)+n("0"+t.B.toString(16),2)}function c(t){return"rgba("+t.R+","+t.G+","+t.B+","+t.A+")"}function l(t){switch(t.length){case 3:return"#"+t[0]+t[0]+t[1]+t[1]+t[2]+t[2];case 6:return"#"+t;case 8:var e=parseInt(t.substr(0,2),16)/255;return"rgba("+parseInt(t.substr(2,2),16)+","+parseInt(t.substr(4,2),16)+","+parseInt(t.substr(6,2),16)+","+e+")";default:return null}}function u(t){switch(t.length){case 8:var e=parseInt(t.substr(0,2),16)/255;return{R:parseInt(t.substr(2,2),16),G:parseInt(t.substr(4,2),16),B:parseInt(t.substr(6,2),16),A:e};default:return null}}function f(t,e,r,n){return a(s(o(t),o(e),r,n))}e.e=o,e.i=a,e.f=i,e.h=c,e.d=l,e.g=u,e.c=f,r.d(e,"b",function(){return p}),r.d(e,"a",function(){return y});var p,h=r(13),d=/^(([\w_]+)(-(bf|af|ac|hv|tg|chd|bfac|afac|bfhv|afhv|bftg|aftg|chdbf|chdaf|chdac|chdhv|chdtg|chdbfac|chdbfhv|chdafhv|chdbftg|chdaftg))?(-(\d+))?(-([\w\_\#][\.\w\_\#\d]*))?)$/;!function(t){function e(){return Object.create(null)}t.cssClassSelectorMap={bf:1,af:2,ac:4,hv:8,tg:16,chd:32,bfac:5,afac:6,bfhv:9,afhv:10,bftg:17,aftg:18,chdbf:33,chdaf:34,chdac:36,chdhv:40,chdtg:48,chdbfac:37,chdafac:38,chdbfhv:41,chdafhv:42,chdbftg:49,chdaftg:50};var r=function(){function r(t,r,n,o,s){void 0===r&&(r=!1),void 0===n&&(n=!1),void 0===o&&(o=!1),this.isPrivate=r,this.isNoExtendsGlobal=n,this.isGlobalName=o,this.rule={},this.list=e(),this.classMap=e(),this.key=o?"":"V"+y.newID,t||(t=document.createElement("style"),t.type="text/css",r&&t.setAttribute("Private",""),n&&t.setAttribute("NoExtendsGlobal",""),t.setAttribute("key",this.key),r&&y.global.length>0?document.head.insertBefore(t,y.global[0].styleElement):document.head.appendChild(t)),this.styleElement=t,y.all.push(this),r?y.private.push(this):y.global.push(this),s&&this.registerClassRule(s)}return r.reMountAllStyle=function(){for(var t=0,e=this.global;t<e.length;t++){var r=e[t];document.head.appendChild(r.styleElement)}for(var n=0,o=this.private;n<o.length;n++){var r=o[n];r.isPrivate&&y.global.length>0?document.head.insertBefore(r.styleElement,y.global[0].styleElement):document.head.appendChild(r.styleElement)}},r.prototype.extendsClassRule=function(t){var e=this.rule,r=e.__proto__;t.__proto__=r,e.__proto__=t},r.prototype.getStyleByName=function(t){if(t in this.classMap){t=this.getNameByInfo(this.parseInfo(t),!1);var e=this.list[t],r="";if(Object(h.a)(e))for(var n=0,o=e;n<o.length;n++){var s=o[n];r+=s.textNode.data+"\n"}else r=e.textNode.data;return r}return null},r.prototype.registerClassRule=function(t,e){if(Object(h.c)(t))for(var r in t)this.registerClassRuleItem(r,t[r]);else{if(void 0===e)throw new Error("\u672a\u63d0\u4f9brule\u53c2\u6570\uff01");this.registerClassRuleItem(t,e)}},r.prototype.getNameByInfo=function(t,e){void 0===e&&(e=!0);var r=t.name;return e&&t.selector&&(r+="-"+t.selector),t.index&&(r+="-"+t.index),t.moreInfo&&(r+="-"+t.moreInfo),r},r.prototype.registerClass=function(t,e){var r=this.parseInfo(t);if(!r)return void console.warn(new Error("can' t register class '"+t+"',because unknown."));if(e&&(r.selector=e,t=this.getNameByInfo(r),r.input=t),t in this.classMap)return this.key+t;return this.getNameByInfo(r,!1)in this.list?this.addSelector(r):this.create(r)},r.prototype.updateRule=function(t){for(var e in t){var r=t[e];this.getRule(e).map[e]=r,this.updateClass(e)}},r.prototype.updateClass=function(t){var e=this.parseInfo(t);if(!e)return void console.warn(new Error("can' t update class '"+t+"',because unknown."));return this.getNameByInfo(e,!1)in this.list?this.updateSelector(e):this.create(e)},r.prototype.parseToElement=function(t,e,r){this.parse(e,r).forEach(function(e){t.classList.add(e)})},r.prototype.parse=function(t,e){for(var r=t.split(/\s+/),n=[],o=0,s=r;o<s.length;o++){var a=s[o];if(""!==a){var i=this.registerClass(a,e);i?n.push(i):console.warn("cssClass:"+a+" can't be parse!")}}return n},r.prototype.clear=function(){this.styleElement.innerHTML="",this.list=e(),this.classMap=e()},r.prototype.updateAllSelector=function(){var t=e();for(var r in this.classMap)t[r]=this.classMap[r];this.clear();for(var r in t)this.registerClass(r)},r.prototype.updateSelector=function(t){var e=this.getNameByInfo(t,!1);if(e in this.list){var r=this.list[e];if(delete this.list[e],Object(h.a)(r))for(var n=0,o=r;n<o.length;n++){var s=o[n];s.textNode.remove()}else r.textNode.remove()}return this.create(t)},r.prototype.getCSSClassDataByName=function(t){var e=this.parseInfo(t);return e?this.list[this.getNameByInfo(e,!1)]:null},r.prototype.addSelector=function(t){var e=this.list[this.getNameByInfo(t,!1)];if(Object(h.a)(e))for(var r=0,n=e;r<n.length;r++){var o=n[r];this.doAddSelector(o,t)}else this.doAddSelector(e,t);return this.key+t.input},r.prototype.makeStyleString=function(t){t.textNode.data=t.selectors.join(",")+"{"+t.rule+"}"},r.prototype.getRuleString=function(t,e,r){return Object(h.a)(t)?this.getRuleStringByArray(t,e,r):Object(h.d)(t)?t:t.call(e,r.index,r.moreInfo)},r.prototype.getRuleStringByArray=function(t,e,r){for(var n="/* "+t.length+" in 1 */",o=0,s=t;o<s.length;o++){var a=s[o];if(Object(h.d)(a)){var i=this.parseInfo(a);if(i){var c=this.getRule(i.name),l=c.rule,u=c.map;l&&(n+="\n  /*from "+i.input+"*/\n  "+this.getRuleString(l,u,i))}else n+="\n  /*from "+a+"*/\n\n",y.missingClass[a]=null}else Object(h.a)(a)&&(n+=this.getRuleStringByArray(a,e,r))}return n},r.prototype.create=function(t){var e=this.getRule(t.name),r=e.rule,n=e.map,o=e.cssClass;return r?Object(h.a)(r)?this.list[this.getNameByInfo(t,!1)]=this.createByArray(o.styleElement,n,r,t):Object(h.d)(r)?this.list[this.getNameByInfo(t,!1)]=this.doCreate(o.styleElement,r,t):Object(h.b)(r)?this.list[this.getNameByInfo(t,!1)]=this.doCreate(o.styleElement,this.getRuleString(r,n,t),t):this.list[this.getNameByInfo(t,!1)]=this.createByObject(o.styleElement,n,r,t):this.list[this.getNameByInfo(t,!1)]=this.doCreate(o.styleElement,"",t),this.classMap[t.input]=null,this.key+t.input},r.prototype.replace=function(t,e,r){t&&e&&r&&(e=this.key+e,r=this.key+r,t.className=t.className.replace(e,r))},r.prototype.removeArray=function(t,e){if(t)for(var r=t.classList,n=0;n<e.length;n++){var o=this.key+e[n];r.contains(o)&&r.remove(o)}},r.prototype.remove=function(t){for(var e=[],r=1;r<arguments.length;r++)e[r-1]=arguments[r];this.removeArray(t,e)},r.prototype.addArray=function(t,e){if(t)for(var r=t.classList,n=0;n<e.length;n++){var o=this.registerClass(e[n]);o&&!r.contains(o)&&r.add(o)}},r.prototype.add=function(t){for(var e=[],r=1;r<arguments.length;r++)e[r-1]=arguments[r];this.addArray(t,e)},r.prototype.getRule=function(t){var e=this.rule[t],r=this.rule,n=this;if(!e&&!this.isNoExtendsGlobal)for(var o=0,s=y.global;o<s.length;o++){var a=s[o];if(a!==this&&(e=a.rule[t],r=a.rule,n=a,e))break}return{map:r,rule:e,cssClass:n}},r.prototype.registerClassRuleItem=function(t,e){this.rule[t]=e},r.prototype.parseInfo=function(t){var e=t.match(d);if(!e)return null;var r=void 0!==e[6]?Number(e[6]):void 0;return{input:t,name:e[2],selector:e[4],index:r,moreInfo:e[8]}},r.prototype.getSelectorSuffix=function(e){if(!(e in t.cssClassSelectorMap)){var n="."+this.key;return e.split(",").map(function(t){return t.replace(r.regExp.keyName,n)})}var o=t.cssClassSelectorMap[e],s="";return 32&o&&(s+=">*"),4&o&&(s+=":active"),8&o&&(s+=":hover"),16&o&&(s+=":target"),1&o&&(s+="::before"),2&o&&(s+="::after"),s},r.prototype.getClassNameBySuffix=function(t,e){return Object(h.a)(e)?t.input+e.join("\n,."+this.key+t.input):t.input+e},r.prototype.getClassNameByInfo=function(t){return t.selector?this.getClassNameBySuffix(t,this.getSelectorSuffix(t.selector)):t.input},r.prototype.doAddSelector=function(t,e){var r=this.getClassNameByInfo(e);r in t.selectorsMap||(t.selectors.push("."+this.key+r),t.selectorsMap[r]=null,this.classMap[e.input]=null,this.makeStyleString(t))},r.prototype.createByArrayItemNoObject=function(t,e,r,n){var o;return Object(h.a)(e)?o=this.getRuleStringByArray(e,t,r):Object(h.d)(e)?o=e:Object(h.b)(e)&&(o=e.call(t,r.index,r.moreInfo)),o},r.prototype.createByArrayItem=function(t,e,r,n,o){if(Object(h.a)(r))return this.getRuleStringByArray(r,e,n);if(Object(h.d)(r))return r;if(Object(h.b)(r))return r.call(e,n.index,n.moreInfo);for(var s in r){var a=void 0,i=r[s];if(Object(h.a)(i)){a="";for(var c=0,l=i;c<l.length;c++){var u=l[c];a+=this.createByArrayItemNoObject(e,u,n,o)}}else a=Object(h.d)(i)?i:Object(h.b)(i)?i.call(e,n.index,n.moreInfo):"";o.push(this.doCreate(t,a,n,this.getClassNameBySuffix(n,this.getSelectorSuffix(s))))}return""},r.prototype.createByArray=function(t,e,r,n){for(var o="",s=[],a=0,i=r;a<i.length;a++){var c=i[a];o+=this.createByArrayItem(t,e,c,n,s)}return s.push(this.doCreate(t,o,n)),s},r.prototype.doCreate=function(t,e,r,n){void 0===n&&(n=this.getClassNameByInfo(r));var o=document.createTextNode(""),s={textNode:o,selectors:["."+this.key+n],selectorsMap:(a={},a[n]=null,a),rule:e};return this.makeStyleString(s),t.appendChild(o),s;var a},r.prototype.createByObject=function(t,e,r,n){var o,s=[];for(o in r){var a=r[o];s.push(this.doCreate(t,this.getRuleString(a,e,n),n,this.getClassNameBySuffix(n,this.getSelectorSuffix(o))))}return s},Object.defineProperty(r,"newID",{get:function(){return y.cssIDIndex++},enumerable:!0,configurable:!0}),Object.defineProperty(r,"instance",{get:function(){var t=y.priInstance;return null===t&&(t=y.priInstance=new r(void 0,!1,!1,!0)),t},enumerable:!0,configurable:!0}),r.regExp={keyName:/\.&/g},r.global=[],r.private=[],r.all=[],r.missingClass={},r.cssIDIndex=0,r.priInstance=null,r}();t.CSSClass=r}(p=p||(p={})),void 0===window.CSSClass&&(window.CSSClass=p.CSSClass);var y=window.CSSClass},13:function(t,e,r){"use strict";function n(t){return"[object String]"===Object.prototype.toString.call(t)}function o(t){return"[object Function]"===Object.prototype.toString.call(t)}function s(t){var e=typeof t;return"function"===e||"object"===e&&!!t}function a(t){return"[object Array]"===Object.prototype.toString.call(t)}e.d=n,e.b=o,e.c=s,e.a=a},14:function(t,e,r){"use strict";function n(t){var e=null;return o.render(s.createElement("div",{ref:function(t){e=t.style.cssText},style:t}),document.createElement("div")),function(){return e||""}}e.a=n;var o=r(7),s=(r.n(o),r(1));r.n(s)},16:function(t,e){t.exports=r},17:function(t,e,r){"use strict";r.d(e,"a",function(){return o});var n=r(16),o=(r.n(n),n);e.b={Affix:n.Affix,BackTop:n.BackTop,Breadcrumb:n.Breadcrumb,Dropdown:n.Dropdown,Icon:n.Icon,Layout:n.Layout,Menu:n.Menu,Spin:n.Spin,Tabs:n.Tabs,Button:n.Button,Tooltip:n.Tooltip,Checkbox:n.Checkbox,InputNumber:n.InputNumber,Switch:n.Switch,Slider:n.Slider,Modal:n.Modal},void 0===o?alert("\u672a\u5bfc\u5165\u4efb\u4f55Antd\u7ec4\u4ef6"):void 0===o.Affix&&alert("\u672a\u5bfc\u5165Antd.Base")},20:function(t,e,r){"use strict";function n(t,e,r){var n=window,o=n.Page||(n.Page={}),s=o[e]||(o[e]={});(s.Content||(s.Content={}))[t]=r}e.a=n},563:function(t,e,r){t.exports=r(564)},564:function(t,e,r){"use strict";Object.defineProperty(e,"__esModule",{value:!0});var n=r(17),o=r(0),s=r(20),a=this&&this.__extends||function(){var t=Object.setPrototypeOf||{__proto__:[]}instanceof Array&&function(t,e){t.__proto__=e}||function(t,e){for(var r in e)e.hasOwnProperty(r)&&(t[r]=e[r])};return function(e,r){function n(){this.constructor=e}t(e,r),e.prototype=null===r?Object.create(r):(n.prototype=r.prototype,new n)}}(),i=function(t){function e(){return null!==t&&t.apply(this,arguments)||this}return a(e,t),e.prototype.render=function(){return o.a.createElement("div",{style:{height:1e3}},o.a.createElement(n.b.BackTop,null),"Scroll down to see the bottom-right",o.a.createElement("strong",{style:{color:"rgba(64, 64, 64, 0.6)"}}," gray "),"button.")},e}(o.a.Component);e.default=i,Object(s.a)("BackTop","Document",i)},7:function(t,r){t.exports=e}})});
+(function webpackUniversalModuleDefinition(root, factory) {
+	if(typeof exports === 'object' && typeof module === 'object')
+		module.exports = factory(require("react"), require("react-dom"), require("Antd"));
+	else if(typeof define === 'function' && define.amd)
+		define(["react", "react-dom", "Antd"], factory);
+	else {
+		var a = typeof exports === 'object' ? factory(require("react"), require("react-dom"), require("Antd")) : factory(root["React"], root["ReactDOM"], root["Antd"]);
+		for(var i in a) (typeof exports === 'object' ? exports : root)[i] = a[i];
+	}
+})(this, function(__WEBPACK_EXTERNAL_MODULE_1__, __WEBPACK_EXTERNAL_MODULE_7__, __WEBPACK_EXTERNAL_MODULE_16__) {
+return /******/ (function(modules) { // webpackBootstrap
+/******/ 	// The module cache
+/******/ 	var installedModules = {};
+/******/
+/******/ 	// The require function
+/******/ 	function __webpack_require__(moduleId) {
+/******/
+/******/ 		// Check if module is in cache
+/******/ 		if(installedModules[moduleId]) {
+/******/ 			return installedModules[moduleId].exports;
+/******/ 		}
+/******/ 		// Create a new module (and put it into the cache)
+/******/ 		var module = installedModules[moduleId] = {
+/******/ 			i: moduleId,
+/******/ 			l: false,
+/******/ 			exports: {}
+/******/ 		};
+/******/
+/******/ 		// Execute the module function
+/******/ 		modules[moduleId].call(module.exports, module, module.exports, __webpack_require__);
+/******/
+/******/ 		// Flag the module as loaded
+/******/ 		module.l = true;
+/******/
+/******/ 		// Return the exports of the module
+/******/ 		return module.exports;
+/******/ 	}
+/******/
+/******/
+/******/ 	// expose the modules object (__webpack_modules__)
+/******/ 	__webpack_require__.m = modules;
+/******/
+/******/ 	// expose the module cache
+/******/ 	__webpack_require__.c = installedModules;
+/******/
+/******/ 	// define getter function for harmony exports
+/******/ 	__webpack_require__.d = function(exports, name, getter) {
+/******/ 		if(!__webpack_require__.o(exports, name)) {
+/******/ 			Object.defineProperty(exports, name, {
+/******/ 				configurable: false,
+/******/ 				enumerable: true,
+/******/ 				get: getter
+/******/ 			});
+/******/ 		}
+/******/ 	};
+/******/
+/******/ 	// getDefaultExport function for compatibility with non-harmony modules
+/******/ 	__webpack_require__.n = function(module) {
+/******/ 		var getter = module && module.__esModule ?
+/******/ 			function getDefault() { return module['default']; } :
+/******/ 			function getModuleExports() { return module; };
+/******/ 		__webpack_require__.d(getter, 'a', getter);
+/******/ 		return getter;
+/******/ 	};
+/******/
+/******/ 	// Object.prototype.hasOwnProperty.call
+/******/ 	__webpack_require__.o = function(object, property) { return Object.prototype.hasOwnProperty.call(object, property); };
+/******/
+/******/ 	// __webpack_public_path__
+/******/ 	__webpack_require__.p = "/";
+/******/
+/******/ 	// Load entry module and return exports
+/******/ 	return __webpack_require__(__webpack_require__.s = 566);
+/******/ })
+/************************************************************************/
+/******/ ({
+
+/***/ 0:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__CSS_CSSClass__ = __webpack_require__(13);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_src_CSS_CalcStyle__ = __webpack_require__(15);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_src_Lib_is__ = __webpack_require__(12);
+
+
+
+
+var ReactEx;
+(function (ReactEx) {
+    let renderCSSClass = __WEBPACK_IMPORTED_MODULE_1__CSS_CSSClass__["a" /* CSS */].instance;
+    let isHookCreateElement = false;
+    let createElementReactNodes = [];
+    const _ReactcreateElement = __WEBPACK_IMPORTED_MODULE_0_react__["createElement"];
+    // function isObject(a: any): a is string {
+    //     return '[object Object]' === Object.prototype.toString.call(a);
+    // }
+    function createElement(type, props, ...children) {
+        if (isHookCreateElement) {
+            createElementReactNodes.push({
+                type: type,
+                props: Object.assign({}, props, { children }),
+            });
+        }
+        if (props) {
+            const eClass = props.EClass;
+            if (eClass !== undefined) {
+                const css = renderCSSClass;
+                if (Object(__WEBPACK_IMPORTED_MODULE_3_src_Lib_is__["d" /* isString */])(eClass)) {
+                    if (eClass.trim() !== '') {
+                        const clses = css.parse(eClass);
+                        if (props.className === undefined) {
+                            props.className = clses.join(' ');
+                        }
+                        else {
+                            props.className += ' ' + clses.join(' ');
+                        }
+                        delete props.EClass;
+                    }
+                }
+                else if ('setClass' in eClass) {
+                    // 加ref
+                    let oldRef = undefined;
+                    if ('ref' in props) {
+                        oldRef = props.ref;
+                    }
+                    props.ref = function (instance) {
+                        // 在ref里设置instance
+                        eClass.instance = instance;
+                        if (oldRef) {
+                            oldRef(instance);
+                        }
+                    };
+                    let oldList;
+                    eClass.onChange = function (newEClass) {
+                        const elem = eClass.instance;
+                        let clsList = undefined;
+                        if (elem) {
+                            clsList = css.parse(newEClass);
+                            const lst = elem.classList;
+                            if (oldList) {
+                                for (let i = 0; i < oldList.length; i++) {
+                                    if (lst.contains(oldList[i])) {
+                                        lst.remove(oldList[i]);
+                                    }
+                                }
+                            }
+                            for (let i = 0; i < clsList.length; i++) {
+                                if (!lst.contains(clsList[i])) {
+                                    lst.add(clsList[i]);
+                                }
+                            }
+                        }
+                        oldList = clsList;
+                    };
+                    if (eClass.fixedClass.trim() !== '') {
+                        const fixedClsList = css.parse(eClass.fixedClass);
+                        if (props.className === undefined) {
+                            props.className = fixedClsList.join(' ');
+                        }
+                        else {
+                            props.className += ' ' + fixedClsList.join(' ');
+                        }
+                    }
+                    if (eClass.defaultClass.trim() !== '') {
+                        oldList = css.parse(eClass.defaultClass);
+                        if (props.className === undefined) {
+                            props.className = oldList.join(' ');
+                        }
+                        else {
+                            props.className += ' ' + oldList.join(' ');
+                        }
+                    }
+                    delete props.EClass;
+                }
+            }
+            for (const v in __WEBPACK_IMPORTED_MODULE_1__CSS_CSSClass__["b" /* cssClassNS */].cssClassSelectorMap) {
+                const vEClass = props['EClass-' + v];
+                if (vEClass) {
+                    const clses = renderCSSClass.parse(vEClass, v);
+                    if (props.className === undefined) {
+                        props.className = clses.join(' ');
+                    }
+                    else {
+                        props.className += ' ' + clses.join(' ');
+                    }
+                    delete props['EClass-' + v];
+                }
+            }
+        }
+        return _ReactcreateElement.apply(__WEBPACK_IMPORTED_MODULE_0_react__, arguments);
+    }
+    Object.defineProperty(__WEBPACK_IMPORTED_MODULE_0_react__, 'createElement', { value: createElement });
+    // /* 注册私有eclass并立即写入到style */
+    // export function estyle(
+    //     rule: Record<string, CSSRuleEx>,
+    //     isNoExtendsGlobal: boolean = false/* false 不从全局继承rule ;true 继承*/) {
+    //     const cssClass = new cssClassNS.CSSClass(undefined, true, isNoExtendsGlobal, true, rule);
+    //     return function (ctor: any) {
+    //         for (const key in rule) {
+    //             cssClass.registerClass(key);
+    //         }
+    //     };
+    // }
+    class AsyncEClass {
+        constructor(fixedClass, defaultClass) {
+            this.fixedClass = fixedClass;
+            this.defaultClass = defaultClass;
+        }
+        setClass(newClass) {
+            if (this.onChange) {
+                this.onChange(newClass);
+            }
+        }
+    }
+    ReactEx.AsyncEClass = AsyncEClass;
+    /**
+     * 注册eclass
+     * @param rule
+     * @param isPrivate
+     * @param isExtendsGlobal
+     * @param isGlobalName
+     */
+    function eclass(rule, isPrivate = true /* true 不允许被继承 ; false 允许*/, isExtendsGlobal = false /* false 不从全局继承rule ;true 继承*/, isGlobalName = false /* false 不加名字前缀 ; true 加*/) {
+        return function (ctor) {
+            const render = ctor.prototype.render;
+            ctor.cssClass = new __WEBPACK_IMPORTED_MODULE_1__CSS_CSSClass__["b" /* cssClassNS */].CSSClass(undefined, isPrivate, isExtendsGlobal, isGlobalName, rule);
+            ctor.prototype.render = function () {
+                const oldcssClass = renderCSSClass;
+                renderCSSClass = this.cssClass;
+                const result = render.call(this);
+                renderCSSClass = oldcssClass;
+                return result;
+            };
+            // return {
+            //     [ctor.name](props: any) {
+            //         debugger;
+            //         const ret = new (ctor as any)(props);
+            //         ret.cssClass = new cssClassNS.CSSClass(undefined, isPrivate, isExtendsGlobal, isGlobalName, rule);
+            //         return ret;
+            //     }
+            // }[ctor.name] as T;
+        };
+    }
+    ReactEx.eclass = eclass;
+    function hookCreateElement(cb) {
+        isHookCreateElement = true;
+        createElementReactNodes = [];
+        const reactNode = cb();
+        isHookCreateElement = false;
+        return {
+            source: createElementReactNodes.pop(),
+            result: reactNode
+        };
+    }
+    ReactEx.hookCreateElement = hookCreateElement;
+    // region 待测
+    /* function isArray(a: any): a is Array<any> {
+        const type = Object.prototype.toString.call(a);
+        return '[object Array]' === type || ('[object Object]' === type && a.length !== undefined);
+    }
+    function isStringNumberBoolean(a: any): a is boolean | number | string {
+        switch (Object.prototype.toString.call(a)) {
+            case '[object String]':
+                return true;
+            case '[object Number]':
+                return true;
+            case '[object Boolean]':
+                return true;
+            default:
+                return false;
+        }
+    }
+    export function cloneReactNode(chd: React.ReactNode): React.ReactNode {
+
+        if (chd) {
+            if (isArray(chd)) {
+                const clone: React.ReactNode[] = [];
+                for (let i = 0; i < chd.length; i++) {
+                    const itm = chd[i];
+                    clone.push(cloneReactNode(itm));
+                }
+                return clone;
+            } else if (isStringNumberBoolean(chd)) {
+                return chd;
+            } else {
+                const node: any = chd;
+                if (node.props && node.props.children) {
+
+                    let props = node.props;
+                    return {
+                        ...node, ...{ props: { ...props, ...{ chilren: cloneReactNode(node.props.children) } } }
+                    };
+                } else {
+                    return { ...node };
+                }
+            }
+        }
+        return chd;
+    } */
+    // endregion
+    class Component extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
+        get cssClass() {
+            if (this.instanceCssClass) {
+                return this.instanceCssClass;
+            }
+            const cssClass = this.constructor.cssClass;
+            if (cssClass) {
+                return cssClass;
+            }
+            return __WEBPACK_IMPORTED_MODULE_1__CSS_CSSClass__["b" /* cssClassNS */].CSSClass.instance;
+        }
+        set cssClass(v) {
+            this.instanceCssClass = v;
+        }
+        renderReactNode(fn) {
+            if (this.cssClass) {
+                const oldcssClass = renderCSSClass;
+                renderCSSClass = this.cssClass;
+                const result = fn();
+                renderCSSClass = oldcssClass;
+                return result;
+            }
+            else {
+                return fn();
+            }
+        }
+    }
+    ReactEx.Component = Component;
+})(ReactEx || (ReactEx = {}));
+/* harmony default export */ __webpack_exports__["a"] = (Object.assign({}, __WEBPACK_IMPORTED_MODULE_0_react__, ReactEx, { calcStyle: __WEBPACK_IMPORTED_MODULE_2_src_CSS_CalcStyle__["a" /* calcStyle */] }));
+if (__WEBPACK_IMPORTED_MODULE_0_react__ === undefined) {
+    alert('未导入React');
+}
+
+
+/***/ }),
+
+/***/ 1:
+/***/ (function(module, exports) {
+
+module.exports = __WEBPACK_EXTERNAL_MODULE_1__;
+
+/***/ }),
+
+/***/ 12:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (immutable) */ __webpack_exports__["d"] = isString;
+/* harmony export (immutable) */ __webpack_exports__["b"] = isFunction;
+/* harmony export (immutable) */ __webpack_exports__["c"] = isObject;
+/* harmony export (immutable) */ __webpack_exports__["a"] = isArray;
+/* harmony export (immutable) */ __webpack_exports__["e"] = isStringNumberBoolean;
+function isString(v) {
+    return Object.prototype.toString.call(v) === '[object String]';
+}
+function isFunction(v) {
+    return '[object Function]' === Object.prototype.toString.call(v);
+}
+function isObject(v) {
+    let type = typeof v;
+    return type === 'function' || type === 'object' && !!v;
+}
+function isArray(v) {
+    return '[object Array]' === Object.prototype.toString.call(v);
+}
+function isStringNumberBoolean(a) {
+    switch (Object.prototype.toString.call(a)) {
+        case '[object String]':
+            return true;
+        case '[object Number]':
+            return true;
+        case '[object Boolean]':
+            return true;
+        default:
+            return false;
+    }
+}
+
+
+/***/ }),
+
+/***/ 13:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* unused harmony export getRGBA */
+/* harmony export (immutable) */ __webpack_exports__["e"] = getRGB;
+/* unused harmony export getRGBByArea */
+/* unused harmony export getRGBAByArea */
+/* unused harmony export getRGBAColorByArea */
+/* harmony export (immutable) */ __webpack_exports__["i"] = getRGBString;
+/* harmony export (immutable) */ __webpack_exports__["f"] = getRGBA2String;
+/* harmony export (immutable) */ __webpack_exports__["h"] = getRGBACSSString;
+/* harmony export (immutable) */ __webpack_exports__["d"] = getColorByMoreInfo;
+/* harmony export (immutable) */ __webpack_exports__["g"] = getRGBAByMoreInfo;
+/* harmony export (immutable) */ __webpack_exports__["c"] = getColorByArea;
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return cssClassNS; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return CSS; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_src_Lib_is__ = __webpack_require__(12);
+
+// const classNameRuleRE = /^(([\w_]+)(-(bf|af|ac|hv|chd|bfac|afac|bfhv|afhv|chdbf|chdaf|chdac|chdhv|chdbfac|chdbfhv|chdafhv))?(-(\d+))?(-([\w\_\#][\.\w\_\#\d]*))?)$/;
+const classNameRuleRE = /^(([\w_]+)(-(bf|af|ac|hv|tg|chd|bfac|afac|bfhv|afhv|bftg|aftg|chdbf|chdaf|chdac|chdhv|chdtg|chdbfac|chdbfhv|chdafhv|chdbftg|chdaftg))?(-(\d+))?(-([\w\_\#][\.\w\_\#\d]*))?)$/;
+function rightString(str, count) {
+    return str.substr(str.length - count, count);
+}
+function getRGBA(color) {
+    const colorInt = Number('0x' + color);
+    const colorAlphaInt = (0xFF000000 & colorInt) / 0xFF000000;
+    const colorRedInt = (0xFF0000 & colorInt) / 0x10000;
+    const colorGreenInt = (0xFF00 & colorInt) / 0x100;
+    const colorBlueInt = 0xFF & colorInt;
+    return { R: colorRedInt, G: colorGreenInt, B: colorBlueInt, A: colorAlphaInt };
+}
+function getRGB(color) {
+    const colorInt = Number('0x' + color);
+    const colorRedInt = (0xFF0000 & colorInt) / 0x10000;
+    const colorGreenInt = (0xFF00 & colorInt) / 0x100;
+    const colorBlueInt = 0xFF & colorInt;
+    return { R: colorRedInt, G: colorGreenInt, B: colorBlueInt };
+}
+function getRGBByArea(color1, color2, index, max) {
+    const persent = index / max;
+    let colorRedInt = (Math.floor((color2.R - color1.R) * persent + 0.5) + color1.R) & 0xFF;
+    let colorGreenInt = (Math.floor((color2.G - color1.G) * persent + 0.5) + color1.G) & 0xFF;
+    let colorBlueInt = (Math.floor((color2.B - color1.B) * persent + 0.5) + color1.B) & 0xFF;
+    return { R: colorRedInt, G: colorGreenInt, B: colorBlueInt };
+}
+function getRGBAByArea(color1, color2, index, max) {
+    const persent = index / max;
+    let colorRedInt = (Math.floor((color2.R - color1.R) * persent + 0.5) + color1.R) & 0xFF;
+    let colorGreenInt = (Math.floor((color2.G - color1.G) * persent + 0.5) + color1.G) & 0xFF;
+    let colorBlueInt = (Math.floor((color2.B - color1.B) * persent + 0.5) + color1.B) & 0xFF;
+    let colorAlphaInt = ((Math.floor((color2.A - color1.A) * persent + 0.5) + color1.A) & 0xFF) / 255;
+    return { R: colorRedInt, G: colorGreenInt, B: colorBlueInt, A: colorAlphaInt };
+}
+function getRGBAColorByArea(color1, color2, index, max) {
+    const color1RGBA = getRGBA(color1);
+    const color2RGBA = getRGBA(color2);
+    const color3RGBA = getRGBAByArea(color1RGBA, color2RGBA, index, max);
+    return `rgba(${color3RGBA.R},${color3RGBA.G},${color3RGBA.B},${color3RGBA.A})`;
+}
+function getRGBString(color) {
+    const ret = rightString('0' + color.R.toString(16), 2) +
+        rightString('0' + color.G.toString(16), 2) +
+        rightString('0' + color.B.toString(16), 2);
+    return '#' + ret;
+}
+function getRGBA2String(color) {
+    return rightString('0' + Math.round(color.A * 255).toString(16), 2) +
+        rightString('0' + color.R.toString(16), 2) +
+        rightString('0' + color.G.toString(16), 2) +
+        rightString('0' + color.B.toString(16), 2);
+}
+function getRGBACSSString(color) {
+    return `rgba(${color.R},${color.G},${color.B},${color.A})`;
+}
+function getColorByMoreInfo(moreInfo) {
+    switch (moreInfo.length) {
+        case 3:
+            return '#' + moreInfo[0] + moreInfo[0] + moreInfo[1] + moreInfo[1] + moreInfo[2] + moreInfo[2];
+        case 6:
+            return '#' + moreInfo;
+        case 8:
+            let alpha = parseInt(moreInfo.substr(0, 2), 16) / 255;
+            let red = parseInt(moreInfo.substr(2, 2), 16);
+            let green = parseInt(moreInfo.substr(4, 2), 16);
+            let blue = parseInt(moreInfo.substr(6, 2), 16);
+            return `rgba(${red},${green},${blue},${alpha})`;
+        default:
+            return null;
+    }
+}
+function getRGBAByMoreInfo(moreInfo) {
+    switch (moreInfo.length) {
+        case 8:
+            let A = parseInt(moreInfo.substr(0, 2), 16) / 255;
+            let R = parseInt(moreInfo.substr(2, 2), 16);
+            let G = parseInt(moreInfo.substr(4, 2), 16);
+            let B = parseInt(moreInfo.substr(6, 2), 16);
+            return { R, G, B, A };
+        default:
+            return null;
+    }
+}
+function getColorByArea(color1, color2, index, max) {
+    const color1RGB = getRGB(color1);
+    const color2RGB = getRGB(color2);
+    const color3RGB = getRGBByArea(color1RGB, color2RGB, index, max);
+    return getRGBString(color3RGB);
+}
+var cssClassNS;
+(function (cssClassNS) {
+    function createDictionaryObject() {
+        return Object.create(null);
+    }
+    cssClassNS.cssClassSelectorMap = {
+        bf: 1 /* Before */,
+        af: 2 /* After */,
+        ac: 4 /* Active */,
+        hv: 8 /* Hover */,
+        tg: 16 /* Target */,
+        chd: 32 /* Child */,
+        bfac: 1 /* Before */ + 4 /* Active */,
+        afac: 2 /* After */ + 4 /* Active */,
+        bfhv: 1 /* Before */ + 8 /* Hover */,
+        afhv: 2 /* After */ + 8 /* Hover */,
+        bftg: 1 /* Before */ + 16 /* Target */,
+        aftg: 2 /* After */ + 16 /* Target */,
+        chdbf: 1 /* Before */ + 32 /* Child */,
+        chdaf: 2 /* After */ + 32 /* Child */,
+        chdac: 4 /* Active */ + 32 /* Child */,
+        chdhv: 8 /* Hover */ + 32 /* Child */,
+        chdtg: 16 /* Target */ + 32 /* Child */,
+        chdbfac: 1 /* Before */ + 4 /* Active */ + 32 /* Child */,
+        chdafac: 2 /* After */ + 4 /* Active */ + 32 /* Child */,
+        chdbfhv: 1 /* Before */ + 8 /* Hover */ + 32 /* Child */,
+        chdafhv: 2 /* After */ + 8 /* Hover */ + 32 /* Child */,
+        chdbftg: 1 /* Before */ + 16 /* Target */ + 32 /* Child */,
+        chdaftg: 2 /* After */ + 16 /* Target */ + 32 /* Child */
+    };
+    class CSSClass {
+        constructor(styleElement, isPrivate = false /* 不允许被继承 */, isNoExtendsGlobal = false /* 不从全局继承rule */, isGlobalName = false /* 不加名字前缀 */, rule) {
+            this.isPrivate = isPrivate; /* 不允许被继承 */
+            this.isNoExtendsGlobal = isNoExtendsGlobal; /* 不从全局继承rule */
+            this.isGlobalName = isGlobalName; /* 不加名字前缀 */
+            this.rule = {}; // = createDictionaryObject<CSSRuleEx>()
+            /* class结果列表 */
+            this.list = createDictionaryObject();
+            /* 类名映射表 */
+            this.classMap = createDictionaryObject();
+            if (!isGlobalName) {
+                this.key = 'V' + CSS.newID;
+            }
+            else {
+                this.key = '';
+            }
+            if (!styleElement) {
+                let styleElem = document.createElement('style');
+                styleElem.type = 'text/css';
+                if (isPrivate) {
+                    styleElem.setAttribute('Private', '');
+                }
+                if (isNoExtendsGlobal) {
+                    styleElem.setAttribute('NoExtendsGlobal', '');
+                }
+                styleElem.setAttribute('key', this.key);
+                // setTimeout(function(){
+                if (isPrivate && CSS.global.length > 0) {
+                    document.head.insertBefore(styleElem, CSS.global[0].styleElement);
+                }
+                else {
+                    // document.head.insertBefore2(style!,$t.turtleScriptElement!);
+                    document.head.appendChild(styleElem);
+                }
+                this.styleElement = styleElem;
+                // },100);
+            }
+            else {
+                this.styleElement = styleElement;
+            }
+            CSS.all.push(this);
+            if (!isPrivate) {
+                CSS.global.push(this);
+            }
+            else {
+                CSS.private.push(this);
+            }
+            if (rule) {
+                this.registerClassRule(rule);
+            }
+        }
+        static reMountAllStyle() {
+            for (const item of this.global) {
+                document.head.appendChild(item.styleElement);
+            }
+            for (const item of this.private) {
+                if (item.isPrivate && CSS.global.length > 0) {
+                    document.head.insertBefore(item.styleElement, CSS.global[0].styleElement);
+                }
+                else {
+                    // document.head.insertBefore2(style!,$t.turtleScriptElement!);
+                    document.head.appendChild(item.styleElement);
+                }
+            }
+        }
+        clone() {
+            // 新key,新styleElement,新rule
+            return new CSSClass(undefined, this.isPrivate, this.isNoExtendsGlobal, this.isGlobalName, this.rule);
+        }
+        extendsClassRule(rule) {
+            const thisRule = this.rule;
+            const __proto__ = thisRule.__proto__;
+            rule.__proto__ = __proto__;
+            thisRule.__proto__ = rule;
+        }
+        getStyleByName(name) {
+            if (name in this.classMap) {
+                name = this.getNameByInfo(this.parseInfo(name), false);
+                const cssClass = this.list[name];
+                let str = '';
+                if (Object(__WEBPACK_IMPORTED_MODULE_0_src_Lib_is__["a" /* isArray */])(cssClass)) {
+                    for (const item of cssClass) {
+                        str += item.textNode.data + '\n';
+                    }
+                }
+                else {
+                    str = cssClass.textNode.data;
+                }
+                return str;
+            }
+            return null;
+        }
+        registerClassRule(nameOrRuleObject, rule) {
+            if (Object(__WEBPACK_IMPORTED_MODULE_0_src_Lib_is__["c" /* isObject */])(nameOrRuleObject)) {
+                for (const key in nameOrRuleObject) {
+                    this.registerClassRuleItem(key, nameOrRuleObject[key]);
+                }
+            }
+            else if (rule !== undefined) {
+                this.registerClassRuleItem(nameOrRuleObject, rule);
+            }
+            else {
+                throw new Error('未提供rule参数！');
+            }
+        }
+        getNameByInfo(info, hasSelector = true) {
+            let name = info.name;
+            if (hasSelector && info.selector) {
+                name += '-' + info.selector;
+            }
+            if (info.index) {
+                name += '-' + info.index;
+            }
+            if (info.moreInfo) {
+                name += '-' + info.moreInfo;
+            }
+            return name;
+        }
+        /**
+         * 注册eclass样式到style并返回class名字
+         * @param name
+         */
+        registerClass(name, selector) {
+            const info = this.parseInfo(name);
+            if (!info) {
+                console.warn(new Error('can\' t register class \'' + name + '\',because unknown.'));
+                return;
+            }
+            if (selector) {
+                info.selector = selector;
+                name = this.getNameByInfo(info);
+                info.input = name;
+            }
+            if (name in this.classMap) {
+                return this.key + name;
+            }
+            let className;
+            if (this.getNameByInfo(info, false) in this.list) {
+                // 如果已经加了，检查selector
+                className = this.addSelector(info);
+            }
+            else {
+                // 创建一个
+                className = this.create(info);
+            }
+            return className;
+        }
+        updateRule(ruleList) {
+            for (const key in ruleList) {
+                const rule = ruleList[key];
+                const oldRule = this.getRule(key);
+                oldRule.map[key] = rule;
+                this.updateClass(key);
+            }
+        }
+        updateClass(name) {
+            const info = this.parseInfo(name);
+            if (!info) {
+                console.warn(new Error('can\' t update class \'' + name + '\',because unknown.'));
+                return;
+            }
+            let className;
+            if (this.getNameByInfo(info, false) in this.list) {
+                // 如果已经加了，update
+                className = this.updateSelector(info);
+            }
+            else {
+                // 创建一个
+                className = this.create(info);
+            }
+            return className;
+        }
+        parseToElement(elem, clses, selector) {
+            const clsList = this.parse(clses, selector);
+            clsList.forEach(cls => { elem.classList.add(cls); });
+        }
+        /**
+         * 解析出class数组，解析出的新class会立即注册到style
+         * @param clses eclass like pdip-1,mdip-1
+         */
+        parse(clses, selector) {
+            const clsList = clses.split(/\s+/);
+            const clsNames = [];
+            for (let cls of clsList) {
+                if (cls !== '') {
+                    const className = this.registerClass(cls, selector);
+                    if (className) {
+                        clsNames.push(className);
+                    }
+                    else {
+                        console.warn('cssClass:' + cls + ' can\'t be parse!');
+                    }
+                }
+            }
+            return clsNames;
+        }
+        clear() {
+            this.styleElement.innerHTML = '';
+            this.list = createDictionaryObject();
+            this.classMap = createDictionaryObject();
+        }
+        /**
+         * 更新全部内容
+         * @param info
+         */
+        updateAllSelector() {
+            // 获取旧的所有class
+            const oldMap = createDictionaryObject();
+            for (const key in this.classMap) {
+                oldMap[key] = this.classMap[key];
+            }
+            // 重置自身
+            this.clear();
+            // create
+            for (const key in oldMap) {
+                this.registerClass(key);
+            }
+        }
+        /**
+         * 更新内容
+         * @param info
+         */
+        updateSelector(info) {
+            const name = this.getNameByInfo(info, false);
+            if (name in this.list) {
+                const item = this.list[name];
+                delete this.list[name];
+                if (Object(__WEBPACK_IMPORTED_MODULE_0_src_Lib_is__["a" /* isArray */])(item)) {
+                    for (const innerItem of item) {
+                        innerItem.textNode.remove();
+                    }
+                }
+                else {
+                    item.textNode.remove();
+                }
+            }
+            return this.create(info);
+        }
+        getCSSClassDataByName(name) {
+            const info = this.parseInfo(name);
+            if (!info) {
+                return null;
+            }
+            return this.list[this.getNameByInfo(info, false)];
+        }
+        /**
+         * 添加更多选择器
+         * @param info
+         */
+        addSelector(info) {
+            const item = this.list[this.getNameByInfo(info, false)];
+            if (Object(__WEBPACK_IMPORTED_MODULE_0_src_Lib_is__["a" /* isArray */])(item)) {
+                for (const innerItem of item) {
+                    this.doAddSelector(innerItem, info);
+                }
+            }
+            else {
+                this.doAddSelector(item, info);
+            }
+            return this.key + info.input;
+        }
+        /**
+         * 设置样式内容:seletor{ ...  }
+         */
+        makeStyleString(item) {
+            item.textNode.data = `${item.selectors.join(',')}{${item.rule}}`;
+        }
+        getRuleString(rule, ruleMap, info) {
+            let strRule;
+            if (Object(__WEBPACK_IMPORTED_MODULE_0_src_Lib_is__["a" /* isArray */])(rule)) {
+                // 合并
+                strRule = this.getRuleStringByArray(rule, ruleMap, info);
+            }
+            else if (Object(__WEBPACK_IMPORTED_MODULE_0_src_Lib_is__["d" /* isString */])(rule)) {
+                strRule = rule;
+            }
+            else {
+                strRule = rule.call(ruleMap, info.index, info.moreInfo);
+            }
+            return strRule;
+        }
+        getRuleStringByArray(rules, ruleMap, info) {
+            let strRule = `/* ${rules.length} in 1 */`;
+            // 合并
+            for (const rule of rules) {
+                if (Object(__WEBPACK_IMPORTED_MODULE_0_src_Lib_is__["d" /* isString */])(rule)) {
+                    const subInfo = this.parseInfo(rule);
+                    if (subInfo) {
+                        const ruleInfo = this.getRule(subInfo.name);
+                        if (ruleInfo === null) {
+                            console.warn(`classRule '${subInfo.name}' can't be found.`);
+                            break;
+                        }
+                        const subRule = ruleInfo.rule;
+                        const map = ruleInfo.map;
+                        if (subRule) {
+                            strRule += '\n  /*from ' + subInfo.input + '*/\n  ' + this.getRuleString(subRule, map, subInfo);
+                        }
+                    }
+                    else {
+                        strRule += '\n  /*from ' + rule + '*/\n\n';
+                        CSS.missingClass[rule] = null;
+                    }
+                }
+                else if (Object(__WEBPACK_IMPORTED_MODULE_0_src_Lib_is__["a" /* isArray */])(rule)) {
+                    strRule += this.getRuleStringByArray(rule, ruleMap, info);
+                }
+            }
+            return strRule;
+        }
+        create(info) {
+            const ruleInfo = this.getRule(info.name);
+            if (ruleInfo === null) {
+                this.list[this.getNameByInfo(info, false)] = this.doCreate(this.styleElement, '', info);
+                return;
+            }
+            const { rule, map, cssClass } = ruleInfo;
+            if (Object(__WEBPACK_IMPORTED_MODULE_0_src_Lib_is__["a" /* isArray */])(rule)) {
+                this.list[this.getNameByInfo(info, false)] = this.createByArray(cssClass.styleElement, map, rule, info);
+            }
+            else if (Object(__WEBPACK_IMPORTED_MODULE_0_src_Lib_is__["d" /* isString */])(rule)) {
+                this.list[this.getNameByInfo(info, false)] = this.doCreate(cssClass.styleElement, rule, info);
+            }
+            else if (Object(__WEBPACK_IMPORTED_MODULE_0_src_Lib_is__["b" /* isFunction */])(rule)) {
+                this.list[this.getNameByInfo(info, false)] = this.doCreate(cssClass.styleElement, this.getRuleString(rule, map, info), info);
+            }
+            else {
+                this.list[this.getNameByInfo(info, false)] = this.createByObject(cssClass.styleElement, map, rule, info);
+            }
+            this.classMap[info.input] = null;
+            return this.key + info.input;
+        }
+        replace(elem, oldClass, newClass) {
+            if (elem && oldClass && newClass) {
+                oldClass = this.key + oldClass;
+                newClass = this.key + newClass;
+                elem.className = elem.className.replace(oldClass, newClass);
+            }
+        }
+        removeArray(elem, clses) {
+            if (!elem) {
+                return;
+            }
+            const lst = elem.classList;
+            for (let i = 0; i < clses.length; i++) {
+                const clsName = this.key + clses[i];
+                if (lst.contains(clsName)) {
+                    lst.remove(clsName);
+                }
+            }
+        }
+        remove(elem, ...clses) {
+            this.removeArray(elem, clses);
+        }
+        addArray(elem, clses) {
+            if (!elem) {
+                return;
+            }
+            const lst = elem.classList;
+            for (let i = 0; i < clses.length; i++) {
+                const clsName = this.registerClass(clses[i]);
+                if (clsName && !lst.contains(clsName)) {
+                    lst.add(clsName);
+                }
+            }
+        }
+        add(elem, ...clses) {
+            this.addArray(elem, clses);
+        }
+        getRule(ruleName) {
+            let rule = this.rule[ruleName];
+            let map = this.rule;
+            let thatCssClass = this;
+            if (!rule && !this.isNoExtendsGlobal) {
+                for (const cssClass of CSS.global) {
+                    if (cssClass !== this) {
+                        rule = cssClass.rule[ruleName];
+                        map = cssClass.rule;
+                        thatCssClass = cssClass;
+                        if (rule) {
+                            break;
+                        }
+                    }
+                }
+            }
+            if (rule !== undefined) {
+                return {
+                    map: map,
+                    rule: rule,
+                    cssClass: thatCssClass
+                };
+            }
+            else {
+                return null;
+            }
+        }
+        registerClassRuleItem(name, rule) {
+            // if (name in this.rule) {
+            //     console.log(name + ' be replaced by ' + JSON.stringify(rule));
+            // }
+            this.rule[name] = rule;
+        }
+        /**
+         * 从eclass名字中解析出有用信息
+         * @param name
+         */
+        parseInfo(name) {
+            const match = name.match(classNameRuleRE);
+            if (!match) {
+                return null;
+            }
+            let idx = match[6] !== undefined ? Number(match[6]) : undefined;
+            // if(isNaN(idx!)){
+            //     idx=undefined;
+            // }
+            return {
+                input: name,
+                name: match[2],
+                selector: match[4],
+                index: idx,
+                moreInfo: match[8]
+            };
+        }
+        /**
+         * 获取伪类等后缀
+         * @param selector
+         */
+        getSelectorSuffix(selector) {
+            if (!(selector in cssClassNS.cssClassSelectorMap)) {
+                const key = '.' + this.key;
+                const selectorList = selector.split(',').map(v => v.replace(CSSClass.regExp.keyName, key));
+                return selectorList;
+            }
+            const selectorEnum = cssClassNS.cssClassSelectorMap[selector];
+            let selectorSuffix = '';
+            if (selectorEnum & 32 /* Child */) {
+                // selectorName+='in';
+                selectorSuffix += '>*';
+            }
+            if (selectorEnum & 4 /* Active */) {
+                // selectorName+='ac';
+                selectorSuffix += ':active';
+            }
+            if (selectorEnum & 8 /* Hover */) {
+                // selectorName+='hv';
+                selectorSuffix += ':hover';
+            }
+            if (selectorEnum & 16 /* Target */) {
+                // selectorName+='tg';
+                selectorSuffix += ':target';
+            }
+            if (selectorEnum & 1 /* Before */) {
+                // selectorName+='bf';
+                selectorSuffix += '::before';
+            }
+            if (selectorEnum & 2 /* After */) {
+                // selectorName+='af';
+                selectorSuffix += '::after';
+            }
+            return selectorSuffix;
+        }
+        getClassNameBySuffix(info, suffix) {
+            if (Object(__WEBPACK_IMPORTED_MODULE_0_src_Lib_is__["a" /* isArray */])(suffix)) {
+                return info.input + suffix.join('\n,.' + this.key + info.input);
+            }
+            else {
+                return info.input + suffix;
+            }
+        }
+        /**
+         *
+         * @param info
+         */
+        getClassNameByInfo(info) {
+            if (info.selector) {
+                return this.getClassNameBySuffix(info, this.getSelectorSuffix(info.selector));
+            }
+            return info.input;
+        }
+        /**
+         * 添加更多选择器或更新内容
+         * @param info
+         */
+        doAddSelector(item, info) {
+            const className = this.getClassNameByInfo(info);
+            if (!(className in item.selectorsMap)) {
+                // 如果未添加此selector,先添加;
+                item.selectors.push('.' + this.key + className);
+                item.selectorsMap[className] = null;
+                this.classMap[info.input] = null;
+                this.makeStyleString(item);
+            }
+        }
+        createByArrayItemNoObject(map, rule, info, items) {
+            let strRule;
+            if (Object(__WEBPACK_IMPORTED_MODULE_0_src_Lib_is__["a" /* isArray */])(rule)) {
+                // 寻找rule，再次解析
+                strRule = this.getRuleStringByArray(rule, map, info);
+            }
+            else if (Object(__WEBPACK_IMPORTED_MODULE_0_src_Lib_is__["d" /* isString */])(rule)) {
+                // 直接生成一个字符串
+                strRule = rule;
+            }
+            else if (Object(__WEBPACK_IMPORTED_MODULE_0_src_Lib_is__["b" /* isFunction */])(rule)) {
+                strRule = rule.call(map, info.index, info.moreInfo);
+            }
+            return strRule;
+        }
+        createByArrayItem(styleElement, map, rule, info, items) {
+            if (Object(__WEBPACK_IMPORTED_MODULE_0_src_Lib_is__["a" /* isArray */])(rule)) {
+                // 寻找rule，再次解析
+                return this.getRuleStringByArray(rule, map, info);
+            }
+            else if (Object(__WEBPACK_IMPORTED_MODULE_0_src_Lib_is__["d" /* isString */])(rule)) {
+                // 直接生成一个字符串
+                return rule;
+            }
+            else if (Object(__WEBPACK_IMPORTED_MODULE_0_src_Lib_is__["b" /* isFunction */])(rule)) {
+                return rule.call(map, info.index, info.moreInfo);
+            }
+            else {
+                // 从对象中解析后者
+                for (let key in rule) {
+                    let strRule;
+                    const subRule = rule[key];
+                    if (Object(__WEBPACK_IMPORTED_MODULE_0_src_Lib_is__["a" /* isArray */])(subRule)) {
+                        strRule = '';
+                        for (const subRule2 of subRule) {
+                            strRule += this.createByArrayItemNoObject(map, subRule2, info, items);
+                        }
+                    }
+                    else if (Object(__WEBPACK_IMPORTED_MODULE_0_src_Lib_is__["d" /* isString */])(subRule)) {
+                        // 直接生成一个字符串
+                        strRule = subRule;
+                    }
+                    else if (Object(__WEBPACK_IMPORTED_MODULE_0_src_Lib_is__["b" /* isFunction */])(subRule)) {
+                        strRule = subRule.call(map, info.index, info.moreInfo);
+                    }
+                    else {
+                        strRule = '';
+                    }
+                    items.push(this.doCreate(styleElement, strRule, info, this.getClassNameBySuffix(info, this.getSelectorSuffix(key))));
+                }
+                return '';
+            }
+        }
+        createByArray(styleElement, map, rule, info) {
+            let strRule = '';
+            const items = [];
+            for (const subRule of rule) {
+                strRule += this.createByArrayItem(styleElement, map, subRule, info, items);
+            }
+            items.push(this.doCreate(styleElement, strRule, info));
+            return items;
+            // this.doCreate(strRule,info,this.getClassNameByInfo(info));
+        }
+        doCreate(styleElement, rule, info, className = this.getClassNameByInfo(info)) {
+            const textNode = document.createTextNode('');
+            const item = {
+                textNode: textNode,
+                selectors: ['.' + this.key + className],
+                selectorsMap: { [className]: null },
+                rule: rule
+            };
+            this.makeStyleString(item);
+            styleElement.appendChild(textNode);
+            return item;
+        }
+        createByObject(styleElement, map, rule, info) {
+            let key;
+            const items = [];
+            for (key in rule) {
+                const subRule = rule[key];
+                items.push(this.doCreate(styleElement, this.getRuleString(subRule, map, info), info, this.getClassNameBySuffix(info, this.getSelectorSuffix(key))));
+            }
+            return items;
+        }
+        static get newID() {
+            return CSS.cssIDIndex++;
+        }
+        static get instance() {
+            let instance = CSS.priInstance;
+            if (instance === null) {
+                instance = CSS.priInstance = new CSSClass(undefined, false, false, true);
+            }
+            return instance;
+        }
+    }
+    CSSClass.regExp = {
+        keyName: /\.&/g
+    };
+    CSSClass.global = [];
+    CSSClass.private = [];
+    CSSClass.all = [];
+    CSSClass.missingClass = {};
+    CSSClass.cssIDIndex = 0;
+    CSSClass.priInstance = null;
+    cssClassNS.CSSClass = CSSClass;
+})(cssClassNS = cssClassNS || (cssClassNS = {}));
+if (window.CSSClass === undefined) {
+    window.CSSClass = cssClassNS.CSSClass;
+}
+var CSS = window.CSSClass;
+
+
+/***/ }),
+
+/***/ 15:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (immutable) */ __webpack_exports__["a"] = calcStyle;
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react_dom__ = __webpack_require__(7);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react_dom___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react_dom__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_react__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_react__);
+
+
+function calcStyle(style) {
+    let str = null;
+    __WEBPACK_IMPORTED_MODULE_0_react_dom__["render"](__WEBPACK_IMPORTED_MODULE_1_react__["createElement"]('div', {
+        // tslint:disable-next-line:typedef
+        ref: function (elem) {
+            str = elem.style.cssText;
+        },
+        style: style
+    }), document.createElement('div'));
+    return function () {
+        return str ? str : '';
+    };
+}
+
+
+/***/ }),
+
+/***/ 16:
+/***/ (function(module, exports) {
+
+module.exports = __WEBPACK_EXTERNAL_MODULE_16__;
+
+/***/ }),
+
+/***/ 17:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_antd__ = __webpack_require__(16);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_antd___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_antd__);
+
+const Antd = __WEBPACK_IMPORTED_MODULE_0_antd__;
+/* harmony export (immutable) */ __webpack_exports__["a"] = Antd;
+
+/* harmony default export */ __webpack_exports__["b"] = ({
+    Affix: __WEBPACK_IMPORTED_MODULE_0_antd__["Affix"],
+    BackTop: __WEBPACK_IMPORTED_MODULE_0_antd__["BackTop"],
+    Breadcrumb: __WEBPACK_IMPORTED_MODULE_0_antd__["Breadcrumb"],
+    Dropdown: __WEBPACK_IMPORTED_MODULE_0_antd__["Dropdown"],
+    Icon: __WEBPACK_IMPORTED_MODULE_0_antd__["Icon"],
+    Layout: __WEBPACK_IMPORTED_MODULE_0_antd__["Layout"],
+    Menu: __WEBPACK_IMPORTED_MODULE_0_antd__["Menu"],
+    Spin: __WEBPACK_IMPORTED_MODULE_0_antd__["Spin"],
+    Tabs: __WEBPACK_IMPORTED_MODULE_0_antd__["Tabs"],
+    Button: __WEBPACK_IMPORTED_MODULE_0_antd__["Button"],
+    Tooltip: __WEBPACK_IMPORTED_MODULE_0_antd__["Tooltip"],
+    Checkbox: __WEBPACK_IMPORTED_MODULE_0_antd__["Checkbox"],
+    InputNumber: __WEBPACK_IMPORTED_MODULE_0_antd__["InputNumber"],
+    Switch: __WEBPACK_IMPORTED_MODULE_0_antd__["Switch"],
+    Slider: __WEBPACK_IMPORTED_MODULE_0_antd__["Slider"],
+    Modal: __WEBPACK_IMPORTED_MODULE_0_antd__["Modal"],
+    notification: __WEBPACK_IMPORTED_MODULE_0_antd__["notification"]
+});
+if (Antd === undefined) {
+    alert('未导入任何Antd组件');
+}
+else if (Antd.Affix === undefined) {
+    alert('未导入Antd.Base');
+}
+
+
+/***/ }),
+
+/***/ 20:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (immutable) */ __webpack_exports__["a"] = AddEntryComponent;
+function AddEntryComponent(name, pageName, ctor) {
+    const global = window;
+    const page = global.Page || (global.Page = {});
+    const index = page[pageName] || (page[pageName] = {});
+    const content = index.Content || (index.Content = {});
+    content[name] = ctor;
+}
+
+
+/***/ }),
+
+/***/ 23:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (immutable) */ __webpack_exports__["a"] = entry;
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_src_Page_EntryComponent__ = __webpack_require__(20);
+
+function entry(ctor) {
+    Object(__WEBPACK_IMPORTED_MODULE_0_src_Page_EntryComponent__["a" /* default */])(ctor.name, 'Document', ctor);
+}
+
+
+/***/ }),
+
+/***/ 566:
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = __webpack_require__(567);
+
+
+/***/ }),
+
+/***/ 567:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_antd_min__ = __webpack_require__(17);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_react_ex__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__Entry__ = __webpack_require__(23);
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+
+
+
+let BackTop = class BackTop extends __WEBPACK_IMPORTED_MODULE_1_react_ex__["a" /* default */].Component {
+    render() {
+        return (__WEBPACK_IMPORTED_MODULE_1_react_ex__["a" /* default */].createElement("div", { style: { height: 1000 } },
+            __WEBPACK_IMPORTED_MODULE_1_react_ex__["a" /* default */].createElement(__WEBPACK_IMPORTED_MODULE_0_antd_min__["b" /* default */].BackTop, null),
+            "Scroll down to see the bottom-right",
+            __WEBPACK_IMPORTED_MODULE_1_react_ex__["a" /* default */].createElement("strong", { style: { color: 'rgba(64, 64, 64, 0.6)' } }, " gray "),
+            "button."));
+    }
+};
+BackTop = __decorate([
+    __WEBPACK_IMPORTED_MODULE_2__Entry__["a" /* default */]
+], BackTop);
+/* harmony default export */ __webpack_exports__["default"] = (BackTop);
+
+
+/***/ }),
+
+/***/ 7:
+/***/ (function(module, exports) {
+
+module.exports = __WEBPACK_EXTERNAL_MODULE_7__;
+
+/***/ })
+
+/******/ });
+});
 //# sourceMappingURL=BackTop.js.map
