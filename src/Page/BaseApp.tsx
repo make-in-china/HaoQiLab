@@ -32,7 +32,10 @@ export default abstract class BaseApp
     }
     getComponentAsync = () => {
         const template = (window as any).Template;
-        const Cpt: ThemeApp = template[`${this.props.theme}_App`] as any;
+        const Cpt: ThemeApp = template[`${this.props.theme}_App`];
+        if (Cpt === undefined) {
+            return null;
+        }
         return (
             <Cpt
                 page={this}

@@ -5,6 +5,6 @@ import { IReactComponent } from 'mobx-react';
 export const Key = 'ReactEx';
 export default function entry<T extends IReactComponent>(name: string) {
     return function (ctor: T) {
-        AddEntryComponent(ctor.name, Key, ctor);
+        AddEntryComponent(name, Key, ctor);
     };
 }

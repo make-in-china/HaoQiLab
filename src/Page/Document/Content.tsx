@@ -1,6 +1,6 @@
 import React from 'react-ex';
 
-import { observer , observable } from 'mobx-index';
+import { observer, observable } from 'mobx-index';
 import Antd from 'antd-min';
 import CPNLoader from '../../Components/CPNLoader';
 @observer
@@ -87,8 +87,10 @@ export default class App
             for (var i = 1; i < path.length; i++) {
                 Obj = Obj[path[i]];
             }
-            return (<Obj />);
-
+            if (Obj !== undefined) {
+                return (<Obj />);
+            }
+            return null;
         };
     }
     render() {

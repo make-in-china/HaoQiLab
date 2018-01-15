@@ -1,6 +1,6 @@
 import React from 'react-ex';
 import Antd from 'antd-min';
-import { observer , observable } from 'mobx-index';
+import { observer, observable } from 'mobx-index';
 @React.eclass(
     {
         box: [React.calcStyle({ position: 'absolute', left: 0, top: '40%', right: 0, textAlign: 'center' })]
@@ -11,7 +11,7 @@ export default class CPNLoader
     extends React.Component
     <
     {
-        getComponentAsync: () => JSX.Element
+        getComponentAsync: (() => JSX.Element | null)
         src: string
     }
     > {
@@ -34,7 +34,7 @@ export default class CPNLoader
         const component = this.component;
         if (component) {
             return component;
-        // } else if (component === null) {
+            // } else if (component === null) {
 
         } else {
             return (
