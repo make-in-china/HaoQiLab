@@ -415,7 +415,13 @@ export namespace cssClassNS {
                     if (className) {
                         clsNames.push(className);
                     } else {
-                        console.warn('cssClass:' + cls + ' can\'t be parse!');
+                        const info = this.parseInfo(cls);
+                        if (info) {
+                            clsNames.push(this.key + info.name);
+                            console.warn('rule:' + cls + ' isMissing!');
+                        } else {
+                            console.error('rule:' + cls + ' isWrong!');
+                        }
                     }
 
                 }
