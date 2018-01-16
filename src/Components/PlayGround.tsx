@@ -42,11 +42,12 @@ export default class App
     private previewEClass = `${this.props.sourceMaxHeight ? ' maxhdip-' + this.props.sourceMaxHeight : ''}`;
 
     private previewRule = this.eclassList.map(eclass => {
-        const ruleInfo = this.props.cssClass.getRule(eclass);
+        const name = this.props.cssClass.getNameByClass(eclass);
+        const ruleInfo = this.props.cssClass.getRule(name);
         if (ruleInfo === null) {
             return '';
         }
-        return formatJSON({ [eclass]: ruleInfo.rule });
+        return formatJSON({ [name]: ruleInfo.rule });
     }).join('\n').split('\n');
 
     render() {

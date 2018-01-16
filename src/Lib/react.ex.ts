@@ -21,11 +21,11 @@ namespace ReactEx {
         props: EClassProps & { className?: string, children?: React.ReactNode[] } | undefined,
 
     }[] = [];
-    const _ReactcreateElement = _React.createElement;
+    // const _ReactcreateElement = _React.createElement;
     // function isObject(a: any): a is string {
     //     return '[object Object]' === Object.prototype.toString.call(a);
     // }
-    function createElement(type: JSX.Element | string, props?: Record<string, any>, ...children: React.ReactNode[]) {
+    export function createElement(type: JSX.Element | string, props?: Record<string, any>, ...children: React.ReactNode[]) {
         if (isHookCreateElement) {
             createElementReactNodes.push({
                 type: type,
@@ -116,9 +116,9 @@ namespace ReactEx {
                 }
             }
         }
-        return _ReactcreateElement.apply(_React, arguments);
+        return _React.createElement.apply(_React, arguments);
     }
-    Object.defineProperty(_React, 'createElement', { value: createElement });
+    // Object.defineProperty(_React, 'createElement', { value: createElement });
     export interface EClassProps {
         EClass?: string;
         ['EClass-bf']?: string;
@@ -284,17 +284,6 @@ namespace ReactEx {
             }
         }
 
-        /* hook createElement */
-        // constructor(props: _React.Component['props']) {
-        //     const propsEClass = props.EClass;
-        //     if (propsEClass) {
-        //         delete props.EClass;
-        //         const arrClass = Component.cssClass!.parse(propsEClass);
-        //         debugger;
-        //         props.className = props.className + ' ' + arrClass.join(' ');
-        //     }
-        //     super(props as any);
-        // }
     }
 }
 export default { ..._React, ...ReactEx, calcStyle: calcStyle };

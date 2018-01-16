@@ -6,7 +6,7 @@ import PlayGround from 'src/Components/PlayGround';
 export default class B extends React.Component {
     playGroundData = React.hookCreateElement(() => {
         return this.renderReactNode(() => (
-            <div EClass="box">{/* 动态样式 */}
+            <div EClass="box">
                 B组件
             </div>
         ));

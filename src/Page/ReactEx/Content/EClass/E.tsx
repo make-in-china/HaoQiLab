@@ -1,13 +1,13 @@
 import React from 'react-ex';
 import PlayGround from 'src/Components/PlayGround';
 @React.eclass({
-    box: 'color:#f00;'
+    frame: [['rdip-5', 'inline', 'ladip']]
 })
-export default class A extends React.Component {
+export default class E extends React.Component {
     playGroundData = React.hookCreateElement(() => {
         return this.renderReactNode(() => (
-            <div EClass="box">
-                A组件
+            <div EClass="frame">
+                frame
             </div>
         ));
     });

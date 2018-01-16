@@ -324,7 +324,13 @@ export namespace cssClassNS {
                 throw new Error('未提供rule参数！');
             }
         }
-
+        getNameByClass(name: string) {
+            const info = this.parseInfo(name);
+            if (info) {
+                return info.name;
+            }
+            return '';
+        }
         getNameByInfo(info: CSSClassInfo, hasSelector: boolean = true) {
             let name = info.name;
             if (hasSelector && info.selector) {

@@ -30,6 +30,7 @@ export default class App extends React.Component {
     render() {
         return (
             <div>
+                <div>这个页面下的显示都是渲染结果，查看数据源请翻看源码。源码下载请访问右上角</div>
                 <div EClass="uof floatr-chd mdipr-chd-15">
                     <div EClass="pdipt-7">高度容差：<RadioGroup onChange={this.onRadioGroupChange} defaultValue={this.permissibleHeightGaps} size="small">
                         <RadioButton value={60}>60</RadioButton>

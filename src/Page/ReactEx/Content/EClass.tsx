@@ -1,141 +1,58 @@
 import React from 'react-ex';
-import PlayGround from '../../../Components/PlayGround';
 import entry from '../Entry';
-import CodeList from 'src/Components/CodeList';
-import { highlightString } from 'src/Lib/highlightStyle';
-import { formatJSON } from 'src/Lib/Format';
-import { G } from 'src/CSS/G';
 import B from 'src/Page/ReactEx/Content/EClass/B';
 import A from 'src/Page/ReactEx/Content/EClass/A';
+import C from 'src/Page/ReactEx/Content/EClass/C';
+import RuleSamples from 'src/Page/ReactEx/Content/EClass/RuleSamples';
+import D from 'src/Page/ReactEx/Content/EClass/D';
+import E from 'src/Page/ReactEx/Content/EClass/E';
+import F from 'src/Page/ReactEx/Content/EClass/F';
+import D2 from 'src/Page/ReactEx/Content/EClass/D2';
+import F2 from 'src/Page/ReactEx/Content/EClass/F2';
+import F3 from 'src/Page/ReactEx/Content/EClass/F3';
 @entry('EClass')
 @React.eclass({
-    box: [
-        ['pdip-10', 'ladip', 'rdip-20', 'bg-gray', 'inline'],
-        {
-            chd: [['mdip-5', 'pdip-5', 'rdip-5', 'bg-blue', 'f-gray', 'inline']]
-        }
-    ]
+    table: {
+        ' td': ['ladip pdip-10 bd-12-gray'.split(' ')]
+    }
 })
 export default class EClass extends React.Component {
-    playGroundData = React.hookCreateElement(() => {
-        return this.renderReactNode(() => (
-            <div EClass="box">{/* 动态样式 */}
-                <div>如果</div>
-                <div>,</div>
-                <div>我是DJ</div>
-                <div>,</div>
-                <div>你会爱我吗</div>
-                <div>?</div>
-            </div>
-        ));
-    });
+
     render() {
         return (
             <div>
                 <div>
-                    <p>该增强一言难尽，先展示个示例，后面逐步讲解如何获得EClass的特性的</p>
+                    <h1>简介</h1>
                     <p>
-                        简介：观察本项目源码，可以看到项目构建的绝大多数组件都使用了一个eclass（@React.eclass）的装饰器,该装饰器注册了一个类隔离级别的样式rule，并装饰了render方法，被装饰过的render方法会在运行期间切换cssClass上下文，此时，当render方法内的代码调用预先替换掉的React.createElement，createElement会使用正确的cssClass实例来注册EClass并转换为className属性。
+                        观察本项目源码，可以看到项目构建的绝大多数组件都使用了一个eclass（import
+                        &nbsp;<span style={{ color: 'purple' }}>React</span>
+                        &nbsp;from '<span style={{ color: 'blue' }}>react-ex</span>';@
+                        <span style={{ color: 'purple' }}>React</span>.
+                        <span style={{ color: 'red' }}>eclass</span>
+                        ）的装饰器,该装饰器注册了一个类隔离级别的样式rule，并装饰了render方法，被装饰过的render方法会在运行期间切换cssClass上下文，此时，当render方法内的代码调用预先替换掉的React.createElement（非React原版createElement,这里是
+                        <span style={{ color: 'blue' }}>react-ex</span>
+                        的React），createElement会使用正确的cssClass实例来注册EClass并转换为className属性。
                     </p>
-                    <p>
-                        效果如下：
-                    </p>
+                    <h1>示例</h1>
+                    <C />
                 </div>
-                <PlayGround
-                    source={this.playGroundData.source}
-                    sourceMaxHeight={300}
-                    cssClass={this.cssClass}
-                >
-                    {this.playGroundData.result}
-                </PlayGround>
                 <div>
-                    <h3>rule的一些例子</h3>
+                    <h1>Rule</h1>
+                    <h2>例子</h2>
                     <div>
                         rule的结构是一个多层混合结构，以下是一些合法的rule:
-                        <div EClass="inline-chd mdip-chd-5 pdip-chd-5 alignTop-chd">
-                            <div className={G.Class.map.frm_border}>
-                                直接输出字符串
-                                <CodeList
-                                    datas={formatJSON({
-                                        color: 'color:#f00;'
-                                    }).split('\n')}
-                                    highLight={highlightString}
-                                />
-                            </div>
-                            <div className={G.Class.map.frm_border}>
-                                函数调用
-                                <CodeList
-                                    datas={formatJSON({
-                                        border: function (idx: number = 1, moreInfo: string = 'solid') { return `border:${idx}px #808080 ${moreInfo};`; }
-                                    }).split('\n')}
-                                    highLight={highlightString}
-                                />
-                            </div>
-                            <div className={G.Class.map.frm_border}>
-                                子选择
-                                <CodeList
-                                    datas={formatJSON({
-                                        lineBox: {
-                                            chd: 'display:inline-block;'
-                                        }
-                                    }).split('\n')}
-                                    highLight={highlightString}
-                                />
-                            </div>
-                            <div className={G.Class.map.frm_border}>
-                                多个输出
-                                <CodeList
-                                    datas={formatJSON({
-                                        border: [
-                                            'color:#f00;',
-                                            function (idx: number = 1, moreInfo: string = 'solid') { return `border:${idx}px #808080 ${moreInfo};`; }
-                                        ]
-                                    }).split('\n')}
-                                    highLight={highlightString}
-                                />
-                            </div>
-                            <div className={G.Class.map.frm_border}>
-                                多层输出
-                                <CodeList
-                                    datas={formatJSON({
-                                        border: [
-                                            'color:#f00;',
-                                            {
-                                                chd1: [
-                                                    'color:#ff0;',
-                                                    {
-                                                        chd2: [
-                                                            'color:#fff;',
-                                                        ]
-                                                    }
-                                                ]
-                                            }
-                                        ]
-                                    }).split('\n')}
-                                    highLight={highlightString}
-                                />
-                            </div>
-                            <div className={G.Class.map.frm_border}>
-                                组合
-                                <CodeList
-                                    datas={formatJSON({
-                                        color: 'color:#f00;',
-                                        border: function (idx: number = 1, moreInfo: string = 'solid') { return `border:${idx}px #808080 ${moreInfo};`; },
-                                        borderAndColor: [['color', 'border-10-dashed']]
-                                    }).split('\n')}
-                                    highLight={highlightString}
-                                />
-                            </div>
-                        </div>
+                        <RuleSamples />
                     </div>
                 </div>
                 <div>
-                    <h3>class的隔离</h3>
+                    <h1>隔离</h1>
+                    <h2>历史教训</h2>
                     <p>
-                        历史教训：早期前端样式的编写免不了class污染，比如A君写了个轮播，使用了box做class name，B君写了个取色器，也使用了box做class name，当你同时使用了轮播和取色器，这2个box就被互相污染了。
+                        早期前端样式的编写免不了class污染，比如A君写了个轮播，使用了box做class name，B君写了个取色器，也使用了box做class name，当你同时使用了轮播和取色器，这2个box就被互相污染了。
                     </p>
+                    <h2>思考</h2>
                     <p>
-                        思考：那么，我们如何保证没有使用到冲突的class nmae呢？同学们可能能找到不少方案，我这里提供的是一种透明隔离机制，自增key类组件隔离样式
+                        那么，我们如何保证没有使用到冲突的class nmae呢？同学们可能能找到不少方案，我这里提供的是一种透明隔离机制，自增key类组件隔离样式。
                     </p>
                     <p>
                         下面我们来演示2个组件，他们均使用了叫做box的class name
@@ -151,6 +68,87 @@ export default class EClass extends React.Component {
                     <p>
                         可以看到，他们虽然都用了box做class name，但最终使用的是VNbox(N全局自增)
                     </p>
+                </div>
+                <div>
+                    <h1>class参数</h1>
+                    <p>
+                        eclass支持输入参数，参数会传递给rule，当rule使用函数描述的时候，会处理这些额外的参数，以下是class参数的完整形式
+                    </p>
+                    <p>
+                        classname[-reset][-index][-moreinfo]
+                    </p>
+                    <p>
+                        一些参数可以省略，但是顺序不能错。
+                    </p>
+                    <h3>index和moreinfo的例子</h3>
+                    <D />
+                    <p>
+                        我们传入了一个border-10-dashed，函数接收到了index=10,和moreinfo=dashed,计算出了根据参数变化的边框样式。
+                    </p>
+
+                    <h3>reset的例子</h3>
+                    <D2 />
+                    <p>
+                        我们传入了一个box-chd-2-dashed，这时，传参给函数的逻辑没变，rule的函数同样接收到了index=10,和moreinfo=dashed，计算出了根据参数变化的边框样式。
+                        rule的数组['inline','mdip-5','pdip-5']组合了其他rule（这个知识点下面会讲），然后是关键的reset重置子“chd”，这个参数是一个选择器重置参数，选择器参数有以下几种。
+                    </p>
+                    <table EClass="table">
+                        <tr><td>选择器重置子</td><td>重置模式</td></tr>
+                        <tr><td>bf</td><td>+ ::before </td></tr>
+                        <tr><td>af</td><td>+ ::after </td></tr>
+                        <tr><td>ac</td><td>+ :active </td></tr>
+                        <tr><td>hv</td><td>+ :hover </td></tr>
+                        <tr><td>tg</td><td>+ :target </td></tr>
+                        <tr><td>bfac</td><td>+ ::before:active </td></tr>
+                        <tr><td>afac</td><td>+ ::after:active </td></tr>
+                        <tr><td>bfhv</td><td>+ ::before:hover </td></tr>
+                        <tr><td>afhv</td><td>+ ::after:hover </td></tr>
+                        <tr><td>bftg</td><td>+ ::before:target </td></tr>
+                        <tr><td>aftg</td><td>+ ::after:target </td></tr>
+                        <tr><td>chd</td><td>+ >* </td></tr>
+                        <tr><td>chdbf</td><td>+ >*::before </td></tr>
+                        <tr><td>chdaf</td><td>+ >*::after </td></tr>
+                        <tr><td>chdac</td><td>+ >*:active </td></tr>
+                        <tr><td>chdhv</td><td>+ >*:hover </td></tr>
+                        <tr><td>chdtg</td><td>+ >*:target </td></tr>
+                        <tr><td>chdbfac</td><td>+ >*::before:active </td></tr>
+                        <tr><td>chdafac</td><td>+ >*::after:active </td></tr>
+                        <tr><td>chdbfhv</td><td>+ >*::before:hover </td></tr>
+                        <tr><td>chdafhv</td><td>+ >*::after:hover </td></tr>
+                        <tr><td>chdbftg</td><td>+ >*::before:target </td></tr>
+                        <tr><td>chdaftg</td><td>+ >*::after:target </td></tr>
+                    </table>
+                    <p>
+                        查上表得知，chd会添加>*重置子，选择目标重定向到了4个div子元素，也就是说，我们定义的rule可以通过重置多种选择方式达到一对多重用的效果。
+                    </p>
+                </div>
+                <div>
+                    <h1>rule的组合</h1>
+                    <p>
+                        当你需要将多个rule组合成一个的时候，你可能会想把rule写成function，但我觉得这样太麻烦了，所以我构思了一个组合方式，当在rule里定义这种rule的时候
+                    </p>
+                    <E />
+                    <p>
+                        我们可以看到，最终的frame结合了'rdip-5', 'inline', 'ladip'的样式。
+                    </p>
+                </div>
+                <div>
+                    <h1>rule选择器</h1>
+                    <p>
+                        前面我们知道，class可以通过重置子改变选择的目标，但是，重置子并不适合全部场景，我们如果想区别选择子元素里的2个不同元素，重置子就做不到了（内置过多重置子等于要记忆过多的定向，所以保持少量的重置子），因此，我构思了这种写法
+                    </p>
+                    <F />
+                    <p>
+                        上面例子的rule先写了一个对象，然后对象下面有三个属性，这里的属性名会组合成额外的两组样式，分别以“.VNmain>.a”和“.VNmain>.b”为选择路径构建样式。
+                        值得注意的是，这里有特殊用法2个
+                    </p>
+                    <ul><li>1.使用重置子</li>
+                    <li>2.使用key</li></ul>
+                    <h3>1.使用重置子</h3>
+                    <F2 />
+                    <h3>2.使用key</h3>
+                    <F3 />
+                    <p>为什么要使用key呢？前面有个例子使用了className='a'和className='b',这2个类名是不保证不被污染的，所以，这个例子使用了EClass='a'和EClass='b'，这时候，为了保证样式能定位到a，b，我们需要补充key，补充的方式是在a和b前加一个&符号。</p>
                 </div>
             </div>
         );
