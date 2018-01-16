@@ -27,9 +27,20 @@ namespace ReactEx {
     // }
     export function createElement(type: JSX.Element | string, props?: Record<string, any>, ...children: React.ReactNode[]) {
         if (isHookCreateElement) {
+            let chds: React.ReactNode[] | undefined = undefined;
+            if (children.length > 0) {
+                chds = [];
+                for (let i = 0; i < children.length; i++) {
+                    if (isString(children[i])) {
+                        chds.push(children[i]);
+                    } else {
+                        chds.push(createElementReactNodes[createElementReactNodes.length - children.length + i]);
+                    }
+                }
+            }
             createElementReactNodes.push({
                 type: type,
-                props: { ...props, children },
+                props: { ...props, children: chds },
             });
         }
         if (props) {
@@ -205,8 +216,10 @@ namespace ReactEx {
         createElementReactNodes = [];
         const reactNode = cb();
         isHookCreateElement = false;
+        const source = createElementReactNodes.pop()!;
+
         return {
-            source: createElementReactNodes.pop()!,
+            source: source,
             result: reactNode
         };
     }
