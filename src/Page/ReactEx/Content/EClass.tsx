@@ -10,6 +10,7 @@ import F from 'src/Page/ReactEx/Content/EClass/F';
 import D2 from 'src/Page/ReactEx/Content/EClass/D2';
 import F2 from 'src/Page/ReactEx/Content/EClass/F2';
 import F3 from 'src/Page/ReactEx/Content/EClass/F3';
+import E2 from 'src/Page/ReactEx/Content/EClass/E2';
 @entry('EClass')
 @React.eclass({
     table: {
@@ -125,12 +126,20 @@ export default class EClass extends React.Component {
                 <div>
                     <h1>rule的组合</h1>
                     <p>
-                        当你需要将多个rule组合成一个的时候，你可能会想把rule写成function，但我觉得这样太麻烦了，所以我构思了一个组合方式，当在rule里定义这种rule的时候
+                        当你需要将多个rule组合成一个的时候，你可能会依据前面的例子得出“把rule写成function，手动调用其他的rule”的想法，但这样可能还是麻烦，所以我构思了一个组合方式，当在rule里定义这种rule的时候
                     </p>
                     <E />
                     <p>
                         我们可以看到，最终的frame结合了'rdip-5', 'inline', 'ladip'的样式。
                     </p>
+                    <p style={{ color: 'red' }}>
+                        （注意：此种组合[]的数量必须大于2才识别，比如[[]]，只写一个[]，然后里面写'rdip-5'，会识别成直接常量，当写2个[[]]的时候，才能知道是eclass数组）
+                    </p>
+                    <h3>
+                        错误例子
+                    </h3>
+                    <E2 />
+                    <p>观察这个错误例子生成的style，会看到他们只是简单的连接到了一起，没有当成组合。</p>
                 </div>
                 <div>
                     <h1>rule选择器</h1>
@@ -139,16 +148,16 @@ export default class EClass extends React.Component {
                     </p>
                     <F />
                     <p>
-                        上面例子的rule先写了一个对象，然后对象下面有三个属性，这里的属性名会组合成额外的两组样式，分别以“.VNmain>.a”和“.VNmain>.b”为选择路径构建样式。
+                        上面例子的rule先写了一个对象，然后对象下面有2个属性，这里的属性名会组合成额外的两组样式，分别以“.VNmain>.a”和“.VNmain>.b”为选择路径构建样式。
                         值得注意的是，这里有特殊用法2个
                     </p>
                     <ul><li>1.使用重置子</li>
-                    <li>2.使用key</li></ul>
+                        <li>2.使用key</li></ul>
                     <h3>1.使用重置子</h3>
                     <F2 />
                     <h3>2.使用key</h3>
                     <F3 />
-                    <p>为什么要使用key呢？前面有个例子使用了className='a'和className='b',这2个类名是不保证不被污染的，所以，这个例子使用了EClass='a'和EClass='b'，这时候，为了保证样式能定位到a，b，我们需要补充key，补充的方式是在a和b前加一个&符号。</p>
+                    <p>为什么要使用key呢？前面有个例子使用了className='a'和className='b',这2个类名是不保证不被污染的，所以，这个例子使用了EClass='a'和EClass='b'，这时候，为了保证样式能定位到a，b，我们需要补充key，补充的方式是在a和b前加一个&符号，补充完之后，我们观察右边的输出样式和输出dom，可以看到输出的是VNa和VNb，达到了隔离目的。</p>
                 </div>
             </div>
         );
