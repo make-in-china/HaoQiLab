@@ -90,7 +90,7 @@ export default class EClass extends React.Component {
                     <h3>reset的例子</h3>
                     <D2 />
                     <p>
-                        我们传入了一个box-chd-2-dashed，这时，传参给函数的逻辑没变，rule的函数同样接收到了index=10,和moreinfo=dashed，计算出了根据参数变化的边框样式。
+                        我们传入了一个box-chd-2-dashed，这时，传参给函数的逻辑没变，rule的函数同样接收到了index=2,和moreinfo=dashed，计算出了根据参数变化的边框样式。
                         rule的数组['inline','mdip-5','pdip-5']组合了其他rule（这个知识点下面会讲），然后是关键的reset重置子“chd”，这个参数是一个选择器重置参数，选择器参数有以下几种。
                     </p>
                     <table EClass="table">
