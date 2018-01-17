@@ -3,7 +3,7 @@ import BaseApp from '../BaseApp';
 class App extends BaseApp {
     // region static
     static content = (
-        <div>产品中心</div>
+        <div>此网站就是产品（/捂脸）</div>
     );
     // endregion
     noContent= false;
