@@ -13,7 +13,7 @@ export default class Content
     }
     > {
     render() {
-        let elseHeight = 192;
+        let elseHeight = 100;
         // 如果屏幕宽度比内容宽度小，再减去滚动条高度
         if (this.props.layout && document.documentElement.clientWidth < this.props.layout.clientWidth) {
             elseHeight += Size.scrollBarHeight;

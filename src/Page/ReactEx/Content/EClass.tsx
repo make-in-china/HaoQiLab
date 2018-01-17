@@ -13,6 +13,9 @@ import F3 from 'src/Page/ReactEx/Content/EClass/F3';
 import E2 from 'src/Page/ReactEx/Content/EClass/E2';
 @entry('EClass')
 @React.eclass({
+    box: {
+        ' p': ['tiem-2'.split(' ')]
+    },
     table: {
         ' td': ['ladip pdip-10 bd-12-gray'.split(' ')]
     }
@@ -21,9 +24,10 @@ export default class EClass extends React.Component {
 
     render() {
         return (
-            <div>
+            <div EClass="box">
                 <div>
                     <h1>简介</h1>
+                    <p>此扩展实现了一个带有隔离性，组合性，动态选择，动态样式的样式系统</p>
                     <p>
                         观察本项目源码，可以看到项目构建的绝大多数组件都使用了一个eclass（import
                         &nbsp;<span style={{ color: 'purple' }}>React</span>
@@ -36,6 +40,7 @@ export default class EClass extends React.Component {
                     </p>
                     <h1>示例</h1>
                     <C />
+                    <p style={{ color: 'gray' }}>说明：pdip-10 ladip rdip-20 bg-gray inline mdip-5 pdip-5 rdip-5 bg-blue f-gray等样式的rule来自于项目文件src/CSS/CSSClassRule.ts</p>
                 </div>
                 <div>
                     <h1>Rule</h1>
@@ -76,7 +81,7 @@ export default class EClass extends React.Component {
                         eclass支持输入参数，参数会传递给rule，当rule使用函数描述的时候，会处理这些额外的参数，以下是class参数的完整形式
                     </p>
                     <p>
-                        classname[-reset][-index][-moreinfo]
+                        classname=ruleName[-reset][-index][-moreinfo]
                     </p>
                     <p>
                         一些参数可以省略，但是顺序不能错。
@@ -86,7 +91,9 @@ export default class EClass extends React.Component {
                     <p>
                         我们传入了一个border-10-dashed，函数接收到了index=10,和moreinfo=dashed,计算出了根据参数变化的边框样式。
                     </p>
-
+                    <p>
+                        （此时，如果border-10-dashed之前已激活生成过的话，会直接忽略生成过程，不重复造车。）
+                    </p>
                     <h3>reset的例子</h3>
                     <D2 />
                     <p>
@@ -159,6 +166,7 @@ export default class EClass extends React.Component {
                     <F3 />
                     <p>为什么要使用key呢？前面有个例子使用了className='a'和className='b',这2个类名是不保证不被污染的，所以，这个例子使用了EClass='a'和EClass='b'，这时候，为了保证样式能定位到a，b，我们需要补充key，补充的方式是在a和b前加一个&符号，补充完之后，我们观察右边的输出样式和输出dom，可以看到输出的是VNa和VNb，达到了隔离目的。</p>
                 </div>
+                <p>以上说明大概描述了这个实验性的eclass扩展的用途和用法，以后如果实践得好的话，将把eclass从这个实验项目里独立出去作为单独的库。</p>
             </div>
         );
     }
