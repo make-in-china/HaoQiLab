@@ -27,7 +27,7 @@ export default class EClass extends React.Component {
             <div EClass="box">
                 <div>
                     <h1>简介</h1>
-                    <p>此扩展实现了一个带有隔离性，组合性，动态选择，动态样式的样式系统</p>
+                    <p>此扩展实现了一个带有隔离性，组合性，动态性的样式系统</p>
                     <p>
                         观察本项目源码，可以看到项目构建的绝大多数组件都使用了一个eclass（import
                         &nbsp;<span style={{ color: 'purple' }}>React</span>
@@ -51,7 +51,7 @@ export default class EClass extends React.Component {
                     </div>
                 </div>
                 <div>
-                    <h1>隔离</h1>
+                    <h1>隔离性</h1>
                     <h2>历史教训</h2>
                     <p>
                         早期前端样式的编写免不了class污染，比如A君写了个轮播，使用了box做class name，B君写了个取色器，也使用了box做class name，当你同时使用了轮播和取色器，这2个box就被互相污染了。
@@ -76,7 +76,8 @@ export default class EClass extends React.Component {
                     </p>
                 </div>
                 <div>
-                    <h1>class参数</h1>
+                    <h1>动态样</h1>
+                    <h3>class参数-内容计算</h3>
                     <p>
                         eclass支持输入参数，参数会传递给rule，当rule使用函数描述的时候，会处理这些额外的参数，以下是class参数的完整形式
                     </p>
@@ -94,7 +95,7 @@ export default class EClass extends React.Component {
                     <p>
                         （此时，如果border-10-dashed之前已激活生成过的话，会直接忽略生成过程，不重复造车。）
                     </p>
-                    <h3>reset的例子</h3>
+                    <h3>class参数-选择重置子</h3>
                     <D2 />
                     <p>
                         我们传入了一个box-chd-2-dashed，这时，传参给函数的逻辑没变，rule的函数同样接收到了index=2,和moreinfo=dashed，计算出了根据参数变化的边框样式。
@@ -131,7 +132,7 @@ export default class EClass extends React.Component {
                     </p>
                 </div>
                 <div>
-                    <h1>rule的组合</h1>
+                    <h1>组合性</h1>
                     <p>
                         当你需要将多个rule组合成一个的时候，你可能会依据前面的例子得出“把rule写成function，手动调用其他的rule”的想法，但这样可能还是麻烦，所以我构思了一个组合方式，当在rule里定义这种rule的时候
                     </p>
@@ -149,7 +150,7 @@ export default class EClass extends React.Component {
                     <p>观察这个错误例子生成的style，会看到他们只是简单的连接到了一起，没有当成组合。</p>
                 </div>
                 <div>
-                    <h1>rule选择器</h1>
+                    <h3>自定义子rule选择器</h3>
                     <p>
                         前面我们知道，class可以通过重置子改变选择的目标，但是，重置子并不适合全部场景，我们如果想区别选择子元素里的2个不同元素，重置子就做不到了（内置过多重置子等于要记忆过多的定向，所以保持少量的重置子），因此，我构思了这种写法
                     </p>
@@ -160,12 +161,13 @@ export default class EClass extends React.Component {
                     </p>
                     <ul><li>1.使用重置子</li>
                         <li>2.使用key</li></ul>
-                    <h3>1.使用重置子</h3>
+                    <h4>1.使用重置子</h4>
                     <F2 />
-                    <h3>2.使用key</h3>
+                    <h4>2.使用key</h4>
                     <F3 />
                     <p>为什么要使用key呢？前面有个例子使用了className='a'和className='b',这2个类名是不保证不被污染的，所以，这个例子使用了EClass='a'和EClass='b'，这时候，为了保证样式能定位到a，b，我们需要补充key，补充的方式是在a和b前加一个&符号，补充完之后，我们观察右边的输出样式和输出dom，可以看到输出的是VNa和VNb，达到了隔离目的。</p>
                 </div>
+                <h1>结语</h1>
                 <p>以上说明大概描述了这个实验性的eclass扩展的用途和用法，以后如果实践得好的话，将把eclass从这个实验项目里独立出去作为单独的库。</p>
             </div>
         );

@@ -130,6 +130,7 @@ const reset = {
 
         helper.addEntrys("Page/Document/Content");
         helper.addEntrys("Page/ReactEx/Content");
+        helper.addEntrys("Page/CPN/Content");
         console.dir(config.entry);
         return config;
     },

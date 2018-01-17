@@ -15,6 +15,11 @@
         "reactex.html"
     ],
     [
+        "小组件一览",
+        "CPN",
+        "component.html"
+    ],
+    [
         "antd",
         "Document",
         "document.html",

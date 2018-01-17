@@ -1,7 +1,6 @@
 import React from 'react-ex';
 import BaseApp from '../BaseApp';
 import Content from '../Document/Content';
-import './index.css';
 class App extends BaseApp {
     noContent= false;
     noFooter= false;
