@@ -2,7 +2,6 @@
 import React from 'react-ex';
 
 import CPNLoader from '../Components/CPNLoader';
-import '../index.css';
 import CSSClassRule from '../CSS/CSSClassRule';
 import { G } from '../CSS/G';
 
