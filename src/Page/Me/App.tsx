@@ -1,5 +1,6 @@
 import React from 'react-ex';
 import BaseApp from '../BaseApp';
+import Content from './Content';
 class App extends BaseApp {
 
     noContent= false;
@@ -7,6 +8,6 @@ class App extends BaseApp {
     constructor(props: App['props']) {
         super( props);
     }
-    renderContent() { return (<div>我，功夫茶猫</div>); }
+    renderContent() { return (<Content/>); }
 }
 export default App;

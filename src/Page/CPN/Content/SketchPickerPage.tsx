@@ -27,9 +27,12 @@ export default class SketchPickerPage
 
     // #endregion
     render() {
-        return (
-            <SketchPicker color={{ R: 255, G: 0, B: 0, A: 1 }} />
-        );
+        return [
+            (
+                <SketchPicker color={{ R: 255, G: 0, B: 0, A: 1 }} />
+            ),
+            '有空再加说明'
+        ];
     }
 
     // #region private methods

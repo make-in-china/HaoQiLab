@@ -10,8 +10,9 @@ export default class App extends BaseApp {
                 page={this}
                 menuTitle="小组件列表"
                 info={{
-                    'SketchPicker 取色面板': `Page/${this.props.name}/Content/SketchPickerPage`,
-                    'Button 可调按钮': `Page/${this.props.name}/Content/ButtonPage`
+                    '取色面板': `Page/${this.props.name}/Content/SketchPickerPage`,
+                    '多列自分组竖向容器': `Page/${this.props.name}/Content/MultipleColumnsContainerPage`,
+                    'Logo': `Page/${this.props.name}/Content/LogoPage`
                 }}
             />
         );

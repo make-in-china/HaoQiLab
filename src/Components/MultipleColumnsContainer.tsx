@@ -1,8 +1,9 @@
 import React from 'react-ex';
 import ContentList from './ContentList';
+import { ReactNode } from 'react';
 export default class MultipleColumnsContainer
     extends React.Component<{
-        datas: JSX.Element[]
+        datas: ReactNode[]
         cols?: number
         permissibleHeightGaps?: number
     }> {

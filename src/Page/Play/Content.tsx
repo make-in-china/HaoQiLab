@@ -7,7 +7,6 @@ import BurrowBox from './Component/BurrowBox';
 import Animation from '../../Components/Animation';
 import Antd from 'antd-more';
 import { observer, observable } from 'mobx-index';
-import Logo from 'src/Template/Default/Logo';
 import { G } from 'src/CSS/G';
 import BindFunctionList from 'src/Page/Play/Component/BindFunctionList';
 const RadioGroup = Antd.Radio.Group;
@@ -61,11 +60,6 @@ export default class App extends React.Component {
 
                                     </CircularText>
                                 </div>
-                            </BurrowBox>
-                        ), (
-                            <BurrowBox title="Logo组件" >
-                                default theme的Logo
-                                <Logo fill="#555" />
                             </BurrowBox>
                         ), (
                             <BurrowBox title="扩散算法">

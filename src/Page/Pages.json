@@ -15,12 +15,12 @@
         "reactex.html"
     ],
     [
-        "小组件一览",
+        "自产小组件",
         "CPN",
         "component.html"
     ],
     [
-        "antd",
+        "仿antd文档玩",
         "Document",
         "document.html",
         true

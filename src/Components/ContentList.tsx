@@ -1,15 +1,16 @@
 import React from 'react-ex';
 import { observer , observable } from 'mobx-index';
+import { ReactNode } from 'react';
 @observer
 export default class ContentList
     extends React.Component<{
         onDidUpdate: (cc: ContentList) => void
         onDidMount: (cc: ContentList) => void
     }> {
-    elements: JSX.Element[] = [];
+    elements: ReactNode[] = [];
     @observable renderRandom = Math.random();
 
-    add(item: JSX.Element) {
+    add(item: ReactNode) {
         this.elements.push(item);
         this.renderRandom = Math.random();
     }

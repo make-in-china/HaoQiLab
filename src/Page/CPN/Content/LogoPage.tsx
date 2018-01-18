@@ -1,12 +1,10 @@
 // #region import
 import React from 'react-ex';
 import entry from '../Entry';
+import Logo from 'src/Template/Default/Logo';
 // #endregion
-@entry('ButtonPage')
-@React.eclass(/*local eclass rule */{
-    box: [[]]
-})
-export default class ButtonPage
+@entry('LogoPage')
+export default class LogoPage
     extends React.Component<{
         /* props */
     }> {
@@ -27,8 +25,9 @@ export default class ButtonPage
     // #endregion
     render() {
         return (
-            <div EClass="box" className={this.props.className}>
-                {this.props.children}
+            <div>
+                default theme的Logo
+                <Logo fill="#555" />
             </div >
         );
     }
