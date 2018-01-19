@@ -8,3 +8,7 @@ start和build的配置文件:./config-overriders.js ( 重写 react-scripts-ts/co
 
     如果遇到[at-loader] ./node_modules/@types/react/index.d.ts:3566:13
     替换此文件内容为./src/Lib/react.d.ts的内容
+
+
+推荐组件snippets
+    ./snippets.txt
