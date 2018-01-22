@@ -93,7 +93,7 @@ const reset = {
                 before: [tsImportPluginFactory({
                     libraryName: 'antd',
                     libraryDirectory: 'es',
-                    style: false,
+                    style: false,/* 不加载样式 */
                 })]
             })
         };
@@ -156,7 +156,7 @@ const reset = {
     module(config) {
         const rules = config.module.rules;
 
-
+        // 嵌入vdir“虚拟目录”
         for (var j = 0; j < rules.length; j++) {
             const rule = rules[j];
             const oneOf = rule.oneOf;
@@ -263,7 +263,7 @@ const reset = {
 }
 module.exports = {
     webpack: function override(config, env) {
-
+        
         config = reset.tsloader(config, env);
 
         config = reset.entrys(config, env);
