@@ -29,21 +29,6 @@ export default abstract class BaseApp
             window.location.href = './' + BaseApp.router[e.key][2];
         }
     }
-    getComponentAsync = () => {
-        const template = (window as any).Template;
-        const Cpt: ThemeApp = template[`${this.props.theme}_App`];
-        if (Cpt === undefined) {
-            return null;
-        }
-        return (
-            <Cpt
-                page={this}
-                noContent={this.noContent}
-                noFooter={this.noFooter}
-            >
-                {this.renderContent()}
-            </Cpt>);
-    }
     constructor(props: BaseApp['props']) {
         super(props);
         const len = BaseApp.router.length;
@@ -69,4 +54,19 @@ export default abstract class BaseApp
         );
     }
     abstract renderContent(): React.ReactNode;
+    private getComponentAsync = () => {
+        const template = (window as any).Template;
+        const Cpt: ThemeApp = template[`${this.props.theme}_App`];
+        if (Cpt === undefined) {
+            return null;
+        }
+        return (
+            <Cpt
+                page={this}
+                noContent={this.noContent}
+                noFooter={this.noFooter}
+            >
+                {this.renderContent()}
+            </Cpt>);
+    }
 }

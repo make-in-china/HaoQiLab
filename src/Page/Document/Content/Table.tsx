@@ -110,52 +110,54 @@ export default class Table extends React.Component {
 
     render() {
         const state = this.state;
-        return (
-            <div style={{ minWidth: 800 }}>
-                <div className="components-table-demo-control-bar">
-                    <Antd.Form layout="inline">
-                        <FormItem label="Bordered">
-                            <Antd.Switch checked={state.bordered} onChange={this.handleToggle('bordered')} />
-                        </FormItem>
-                        <FormItem label="loading">
-                            <Antd.Switch checked={state.loading} onChange={this.handleToggle('loading')} />
-                        </FormItem>
-                        <FormItem label="Pagination">
-                            <Antd.Switch checked={state.pagination} onChange={this.handleToggle('pagination')} />
-                        </FormItem>
-                        <FormItem label="Title">
-                            <Antd.Switch checked={!!state.title} onChange={this.handleTitleChange} />
-                        </FormItem>
-                        <FormItem label="Column Header">
-                            <Antd.Switch checked={!!state.showHeader} onChange={this.handleHeaderChange} />
-                        </FormItem>
-                        <FormItem label="Footer">
-                            <Antd.Switch checked={!!state.footer} onChange={this.handleFooterChange} />
-                        </FormItem>
-                        <FormItem label="Expandable">
-                            <Antd.Switch checked={!!state.expandedRowRender} onChange={this.handleExpandChange} />
-                        </FormItem>
-                        <FormItem label="Checkbox">
-                            <Antd.Switch checked={!!state.rowSelection} onChange={this.handleRowSelectionChange} />
-                        </FormItem>
-                        <FormItem label="Fixed Header">
-                            <Antd.Switch checked={!!state.scroll} onChange={this.handleScollChange} />
-                        </FormItem>
-                        <FormItem label="Size">
-                            <Antd.Radio.Group size="default" value={state.size} onChange={this.handleSizeChange}>
-                                <Antd.Radio.Button value="default">Default</Antd.Radio.Button>
-                                <Antd.Radio.Button value="middle">Middle</Antd.Radio.Button>
-                                <Antd.Radio.Button value="small">Small</Antd.Radio.Button>
-                            </Antd.Radio.Group>
-                        </FormItem>
-                    </Antd.Form>
+        return [
+            '后面的不仿了，演示下动态加载',
+            (
+                <div style={{ minWidth: 800 }}>
+                    <div className="components-table-demo-control-bar">
+                        <Antd.Form layout="inline">
+                            <FormItem label="Bordered">
+                                <Antd.Switch checked={state.bordered} onChange={this.handleToggle('bordered')} />
+                            </FormItem>
+                            <FormItem label="loading">
+                                <Antd.Switch checked={state.loading} onChange={this.handleToggle('loading')} />
+                            </FormItem>
+                            <FormItem label="Pagination">
+                                <Antd.Switch checked={state.pagination} onChange={this.handleToggle('pagination')} />
+                            </FormItem>
+                            <FormItem label="Title">
+                                <Antd.Switch checked={!!state.title} onChange={this.handleTitleChange} />
+                            </FormItem>
+                            <FormItem label="Column Header">
+                                <Antd.Switch checked={!!state.showHeader} onChange={this.handleHeaderChange} />
+                            </FormItem>
+                            <FormItem label="Footer">
+                                <Antd.Switch checked={!!state.footer} onChange={this.handleFooterChange} />
+                            </FormItem>
+                            <FormItem label="Expandable">
+                                <Antd.Switch checked={!!state.expandedRowRender} onChange={this.handleExpandChange} />
+                            </FormItem>
+                            <FormItem label="Checkbox">
+                                <Antd.Switch checked={!!state.rowSelection} onChange={this.handleRowSelectionChange} />
+                            </FormItem>
+                            <FormItem label="Fixed Header">
+                                <Antd.Switch checked={!!state.scroll} onChange={this.handleScollChange} />
+                            </FormItem>
+                            <FormItem label="Size">
+                                <Antd.Radio.Group size="default" value={state.size} onChange={this.handleSizeChange}>
+                                    <Antd.Radio.Button value="default">Default</Antd.Radio.Button>
+                                    <Antd.Radio.Button value="middle">Middle</Antd.Radio.Button>
+                                    <Antd.Radio.Button value="small">Small</Antd.Radio.Button>
+                                </Antd.Radio.Group>
+                            </FormItem>
+                        </Antd.Form>
+                    </div>
+                    <Antd.Table
+                        size={this.state.size}
+                        columns={columns}
+                        dataSource={data}
+                    />
                 </div>
-                <Antd.Table
-                    size={this.state.size}
-                    columns={columns}
-                    dataSource={data}
-                />
-            </div>
-        );
+            )];
     }
 }

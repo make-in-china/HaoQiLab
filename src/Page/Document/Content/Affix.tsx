@@ -7,6 +7,7 @@ export default class Affix extends React.Component {
     container: HTMLElement | null = null;
     render() {
         return [
+            '后面的不仿了，演示下动态加载',
             (
                 <section className="markdown">
                     <h1>Affix

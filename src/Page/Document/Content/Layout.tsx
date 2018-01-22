@@ -5,7 +5,9 @@ const { Header, Footer, Sider, Content } = Antd.Layout;
 @entry('Layout')
 export default class Layout extends React.Component {
     render() {
-        return [(
+        return [
+            '后面的不仿了，演示下动态加载',
+            (
             <Antd.Layout>
                 <Sider>Sider</Sider>
                 <Antd.Layout>

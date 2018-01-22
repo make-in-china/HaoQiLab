@@ -37,34 +37,36 @@ export default class Grid
             );
             colCode += `  <Col span={${24 / colCount}} />\n`;
         }
-        return (
-            <div className="grid-demo-playground">
-                <div style={{ marginBottom: 16 }}>
-                    <span style={{ marginRight: 6 }}>Gutter (px): </span>
-                    <div style={{ width: '50%' }}>
-                        <Antd.Slider
-                            min={0}
-                            max={Object.keys(this.gutters).length - 1}
-                            value={gutterKey}
-                            onChange={this.onGutterChange}
-                            marks={this.gutters}
-                            step={null}
-                        />
+        return [
+            '后面的不仿了，演示下动态加载',
+            (
+                <div className="grid-demo-playground">
+                    <div style={{ marginBottom: 16 }}>
+                        <span style={{ marginRight: 6 }}>Gutter (px): </span>
+                        <div style={{ width: '50%' }}>
+                            <Antd.Slider
+                                min={0}
+                                max={Object.keys(this.gutters).length - 1}
+                                value={gutterKey}
+                                onChange={this.onGutterChange}
+                                marks={this.gutters}
+                                step={null}
+                            />
+                        </div>
+                        <span style={{ marginRight: 6 }}>Column Count:</span>
+                        <div style={{ width: '50%' }}>
+                            <Antd.Slider
+                                min={0}
+                                max={Object.keys(this.colCounts).length - 1}
+                                value={colCountKey}
+                                onChange={this.onColCountChange}
+                                marks={this.colCounts}
+                                step={null}
+                            />
+                        </div>
                     </div>
-                    <span style={{ marginRight: 6 }}>Column Count:</span>
-                    <div style={{ width: '50%' }}>
-                        <Antd.Slider
-                            min={0}
-                            max={Object.keys(this.colCounts).length - 1}
-                            value={colCountKey}
-                            onChange={this.onColCountChange}
-                            marks={this.colCounts}
-                            step={null}
-                        />
-                    </div>
-                </div>
-                <Antd.Row gutter={this.gutters[gutterKey]}>{cols}</Antd.Row>
-                <pre>{`<Row gutter={${this.gutters[gutterKey]}}>\n${colCode}</Row>`}</pre>
-            </div>);
+                    <Antd.Row gutter={this.gutters[gutterKey]}>{cols}</Antd.Row>
+                    <pre>{`<Row gutter={${this.gutters[gutterKey]}}>\n${colCode}</Row>`}</pre>
+                </div>)];
     }
 }

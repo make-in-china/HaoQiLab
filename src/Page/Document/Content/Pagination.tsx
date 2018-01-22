@@ -17,6 +17,7 @@ export default class Pagination extends React.Component {
 
     render() {
         return [
+            '后面的不仿了，演示下动态加载',
             <Antd.Pagination key="1" simple={undefined} defaultCurrent={2} total={50} />,
             <Antd.Pagination key="2" size="small" total={50} />,
             <Antd.Pagination key="3" size="small" total={50} showSizeChanger={undefined} showQuickJumper={undefined} />,
