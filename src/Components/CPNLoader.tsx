@@ -3,7 +3,13 @@ import Antd from 'antd-min';
 import { observer, observable } from 'mobx-index';
 @React.eclass(
     {
-        box: css`position:absolute;left:0;top:40%;right:0;text-align:center;`
+        box: css`
+            position:absolute;
+            left:0;
+            top:40%;
+            right:0;
+            text-align:center;
+        `
     }
 )
 @observer

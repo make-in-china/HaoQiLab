@@ -299,7 +299,7 @@ namespace ReactEx {
 
     }
 }
-export function css(x: any, ...args: any[]) {
+export function css(x: TemplateStringsArray, ...args: string[]) {
     var arr = [x[0]];
     for (var i = 0; i < args.length; i++) {
         arr.push(args[i]);
@@ -307,6 +307,7 @@ export function css(x: any, ...args: any[]) {
     }
     return arr.join('');
 }
+
 export default { ..._React, ...ReactEx, calcStyle: calcStyle };
 if (_React === undefined) {
     alert('未导入React');
