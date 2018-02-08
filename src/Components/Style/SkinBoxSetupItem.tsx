@@ -1,4 +1,4 @@
-import React from 'react-ex';
+import React, { css } from 'react-ex';
 import Antd from 'antd-min';
 import { observer, observable } from 'mobx-index';
 import { ClassRule } from 'src/CSS/G.Class';
@@ -6,7 +6,7 @@ import { ClassRule } from 'src/CSS/G.Class';
     line: [
         'nowrap mdipt-5'.split(' '),
         {
-            ' .&name': ['text-align:right;', 'mdipr-10 wem-5 inline'.split(' ')],
+            ' .&name': [css`text-align:right;`, 'mdipr-10 wem-5 inline'.split(' ')],
             '>input': ['wem-4 inline'.split(' ')]// 待抽离
         }
     ],

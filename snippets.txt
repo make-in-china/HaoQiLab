@@ -8,7 +8,7 @@
 		"prefix": "react",
 		"body": [
 			"// #region import",
-			"import React from 'react-ex';",
+			"import React, { css } from 'react-ex';",
 			"// #endregion",
 			"@React.eclass(/*local eclass rule */{",
 			"    box: [[]]",

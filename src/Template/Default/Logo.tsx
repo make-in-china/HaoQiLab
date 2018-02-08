@@ -1,5 +1,5 @@
 
-import React from 'react-ex';
+import React, { css } from 'react-ex';
 import CircularText from '../../Components/CircularText';
 import project from '../../Project.Config';
 import Animation from '../../Components/Animation';
@@ -10,10 +10,10 @@ const logo = require('../assert/logo.png');
         'f-gray fb'.split(' '),
         {
             ' .logo': [
-                `background-image:url(${logo});background-size:100%;`,
+                css`background-image:url(${logo});background-size:100%;`,
                 'wem-6 hem-6 inline memt-2'.split(' ')
             ],
-            ' span': ['vertical-align:top;', 'meml_-5 inline'.split(' ')]
+            ' span': [css`vertical-align:top;`, 'meml_-5 inline'.split(' ')]
         }
     ]
 })

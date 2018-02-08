@@ -1,9 +1,10 @@
-import React from 'react-ex';
+import React, { css } from 'react-ex';
+
 @React.eclass({
     box: ['wem-4 hem-4 f-gray mdipt-20'.split(' '), {
-        ' svg': 'display:block;overflow:visible;',
-        ' path': 'fill:none;',
-        ' text': 'font-size:2em;'
+        ' svg': css`display:block;overflow:visible;`,
+        ' path': css`fill:none;`,
+        ' text': css`font-size:2em;`
     }]
 })
 export default class PathText

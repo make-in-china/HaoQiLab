@@ -46,10 +46,10 @@ namespace ReactEx {
         if (props) {
             const eClass: string | AsyncEClass = props.EClass;
             if (eClass !== undefined) {
-                const css = renderCSSClass;
+                const cssClass = renderCSSClass;
                 if (isString(eClass)) {
                     if (eClass.trim() !== '') {
-                        const clses = css.parse(eClass);
+                        const clses = cssClass.parse(eClass);
                         if (props.className === undefined) {
                             props.className = clses.join(' ');
                         } else {
@@ -76,7 +76,7 @@ namespace ReactEx {
                         const elem = eClass.instance;
                         let clsList: string[] | undefined = undefined;
                         if (elem) {
-                            clsList = css.parse(newEClass);
+                            clsList = cssClass.parse(newEClass);
                             const lst = elem.classList;
                             if (oldList) {
                                 for (let i = 0; i < oldList.length; i++) {
@@ -94,7 +94,7 @@ namespace ReactEx {
                         oldList = clsList;
                     };
                     if (eClass.fixedClass.trim() !== '') {
-                        const fixedClsList = css.parse(eClass.fixedClass);
+                        const fixedClsList = cssClass.parse(eClass.fixedClass);
                         if (props.className === undefined) {
                             props.className = fixedClsList.join(' ');
                         } else {
@@ -102,7 +102,7 @@ namespace ReactEx {
                         }
                     }
                     if (eClass.defaultClass.trim() !== '') {
-                        oldList = css.parse(eClass.defaultClass);
+                        oldList = cssClass.parse(eClass.defaultClass);
                         if (props.className === undefined) {
                             props.className = oldList.join(' ');
                         } else {
@@ -298,6 +298,9 @@ namespace ReactEx {
         }
 
     }
+}
+export function css(x: any, ...args: any[]) {
+    return x;
 }
 export default { ..._React, ...ReactEx, calcStyle: calcStyle };
 if (_React === undefined) {

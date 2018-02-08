@@ -1,15 +1,15 @@
 // #region import
-import React from 'react-ex';
+import React, { css } from 'react-ex';
 // #endregion
 @React.eclass(/*local eclass rule */{
     pre: [
         'inline minw-100 mdipb-0'.split(' '),
         {
-            chd: 'display:block;'
+            chd: css`display:block;`
         }
     ],
-    code1: ['background-color:rgba(0,0,0,0.025);'],
-    code2: ['background-color:rgba(0,0,0,0.05);']
+    code1: [css`background-color:rgba(0,0,0,0.025);`],
+    code2: [css`background-color:rgba(0,0,0,0.05);`]
 })
 export default class CodeList
     extends React.Component<{

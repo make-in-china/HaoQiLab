@@ -1,4 +1,4 @@
-import React from 'react-ex';
+import React, { css } from 'react-ex';
 import { RGBA, getRGBString, HSL, RGB } from 'src/CSS/CSSClass';
 import { default as RenderData, OnChange } from 'src/Components/RenderData';
 import { TouchMove } from 'src/Lib/TouchMove';
@@ -6,9 +6,9 @@ import ColorBooth from 'src/Components/ColorBooth';
 import { getPos } from 'src/Lib/getPos';
 import { G } from 'src/CSS/G';
 
-const white = 'linear-gradient(to right, #fff, rgba(255,255,255,0));';
-const black = 'linear-gradient(to top, #000, rgba(0,0,0,0));';
-const horizontal = 'linear-gradient(to right, #f00 0%, #ff0 16.3333%, #0f0 33.6666%, #0ff 50%, #00f 66.3333%, #f0f 83.6666%, #f00 100%);';
+const white = 'linear-gradient(to right, #fff, rgba(255,255,255,0))';
+const black = 'linear-gradient(to top, #000, rgba(0,0,0,0))';
+const horizontal = 'linear-gradient(to right, #f00 0%, #ff0 16.3333%, #0f0 33.6666%, #0ff 50%, #00f 66.3333%, #f0f 83.6666%, #f00 100%)';
 const colorSlideWidth = 230;
 const colorWidth = 256;
 const colorHeight = 200;
@@ -19,19 +19,19 @@ const colorHeight = 200;
         chd: ['pdiptb-3 inline alignTop'.split(' ')]
     }],
     circle: ['noevent bd-gray shadow-1 bds-double inline rdip-8 bdwdip-6 relative'.split(' ')],
-    slide: ['height:0.6em;top:-0.4em;border-width:0.2em;', 'shadow-1 noevent bd-gray bds-solid inline rdip-8 relative'.split(' ')],
+    slide: [css`height:0.6em;top:-0.4em;border-width:0.2em;`, 'shadow-1 noevent bd-gray bds-solid inline rdip-8 relative'.split(' ')],
     colorboxmaskwhite: [
         React.calcStyle({ width: colorWidth, height: colorHeight }),
-        `background-image:${white}background-image:-webkit-${white}`
+        css`background-image:${white};background-image:-webkit-${white};`
     ],
     colorboxmaskblack: [
         React.calcStyle({ width: colorWidth, height: colorHeight }),
-        `background-image:${black}background-image:-webkit-${black}`
+        css`background-image:${black};background-image:-webkit-${black};`
     ],
     horizontal: [
         'mdiptb-4'.split(' '),
         React.calcStyle({ width: colorSlideWidth, height: 10 }),
-        `background-image:${horizontal}background-image:-webkit-${horizontal}`
+        css`background-image:${horizontal};background-image:-webkit-${horizontal};`
     ],
     // vertical: [
     // 'mdiptb-3'.split(' '),
@@ -43,7 +43,7 @@ const colorHeight = 200;
         React.calcStyle({ width: colorSlideWidth, height: 10 })
     ],
     show: [
-        'border-color:rgba(0,0,0,0.05);',
+        css`border-color:rgba(0,0,0,0.05);`,
         'wdip-26 hdip-26 mdipl-5 mdipt-4'.split(' ')
     ],
     colorboxbg: [],

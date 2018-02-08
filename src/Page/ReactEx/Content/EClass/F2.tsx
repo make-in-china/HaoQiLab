@@ -1,8 +1,8 @@
-import React from 'react-ex';
+import React, { css } from 'react-ex';
 import PlayGround from 'src/Components/PlayGround';
 @React.eclass({
     main: {
-        chd: 'color:red;'
+        chd: css`color:red;`
     }
 })
 export default class F2 extends React.Component {

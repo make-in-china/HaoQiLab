@@ -1,4 +1,4 @@
-import React from 'react-ex';
+import React, { css } from 'react-ex';
 
 import Antd from 'antd-min';
 import BreadcrumbItems from './BreadcrumbItems';
@@ -7,21 +7,21 @@ import { G } from '../../../CSS/G';
 const logo = require('../../assert/logo.png');
 @React.eclass({
     box: [{
-        '.Affix': 'float:left;',
+        '.Affix': css`float:left;`,
         '.Affix .Breadcrumb .BreadcrumbItem,.Affix .Breadcrumb .BreadcrumbItem a': React.calcStyle({ transition: 'color .3s' })
     }],
     box1: [{
-        '.Affix .logo': [`background-image:url(${logo});background-size:100%;transform:rotate(180deg);`, 'wem-4 hem-4 float'.split(' ')],
-        '.Affix': 'padding-left:25px;',
-        '.Affix .Breadcrumb': 'float:left;margin:8px 0;',
-        '.Affix .ant-affix': 'left:0 !important;height:2.5em;background-color:rgba(0,0,0,0.75);border-bottom-right-radius:1em;',
-        '.Affix,.Affix .Breadcrumb, .ant-breadcrumb-separator,.Affix .Breadcrumb .BreadcrumbItem,.Affix .Breadcrumb .BreadcrumbItem a': 'color:#fff;'
+        '.Affix .logo': [css`background-image:url(${logo});background-size:100%;transform:rotate(180deg);`, 'wem-4 hem-4 float'.split(' ')],
+        '.Affix': css`padding-left:25px;`,
+        '.Affix .Breadcrumb': css`float:left;margin:8px 0;`,
+        '.Affix .ant-affix': css`left:0 !important;height:2.5em;background-color:rgba(0,0,0,0.75);border-bottom-right-radius:1em;`,
+        '.Affix,.Affix .Breadcrumb, .ant-breadcrumb-separator,.Affix .Breadcrumb .BreadcrumbItem,.Affix .Breadcrumb .BreadcrumbItem a': css`color:#fff;`
     }],
     box2: [{
         ' .logo': ['uof'.split(' ')],
-        '.Affix': 'padding-left:50px;',
-        '.Affix .Breadcrumb': 'float:left;margin:16px 0;',
-        '.Affix>div': 'padding-right:5em;'
+        '.Affix': css`padding-left:50px;`,
+        '.Affix .Breadcrumb': css`float:left;margin:16px 0;`,
+        '.Affix>div': css`padding-right:5em;`
     }],
     affix: ['uof zidx-999 inline meml-7'.split(' ')]
 })

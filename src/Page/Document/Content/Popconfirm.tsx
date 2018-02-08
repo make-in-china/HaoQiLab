@@ -1,5 +1,5 @@
 
-import React from 'react-ex';
+import React, { css } from 'react-ex';
 import Antd from 'antd-more';
 const text = 'Are you sure delete this task?';
 
@@ -10,8 +10,8 @@ import entry from '../Entry';
 @entry('Popconfirm')
 @React.eclass({
     that: [{
-        '.tooltip-demo-placement a': 'display: inline-block;line-height: 32px;height: 32px;width: 60px;font-size: 14px;text-align: center;background: #f5f5f5;margin-right: 1em;margin-bottom: 1em;border-radius: 6px;',
-        '.tooltip-demo-placement button': 'display: inline-block;line-height: 32px;height: 32px;width: 60px;font-size: 14px;text-align: center;background: #f5f5f5;margin-right: 1em;margin-bottom: 1em;border-radius: 6px;',
+        '.tooltip-demo-placement a': css`display: inline-block;line-height: 32px;height: 32px;width: 60px;font-size: 14px;text-align: center;background: #f5f5f5;margin-right: 1em;margin-bottom: 1em;border-radius: 6px;`,
+        '.tooltip-demo-placement button': css`display: inline-block;line-height: 32px;height: 32px;width: 60px;font-size: 14px;text-align: center;background: #f5f5f5;margin-right: 1em;margin-bottom: 1em;border-radius: 6px;`,
     }]
 })
 export default class Popconfirm extends React.Component {

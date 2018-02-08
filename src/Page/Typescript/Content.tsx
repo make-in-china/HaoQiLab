@@ -1,11 +1,11 @@
-import React from 'react-ex';
+import React, { css } from 'react-ex';
 
 // import Antd from 'antd-more';
 import { observer /* , observable */ } from 'mobx-index';
 const pic1 = require('./asserts/1.png');
 @React.eclass({
     box: {
-        ' ul': 'line-height:2em;'
+        ' ul': css`line-height:2em;`
     }
 })
 @observer

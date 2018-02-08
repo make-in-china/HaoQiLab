@@ -1,7 +1,7 @@
-import React from 'react-ex';
+import React, { css } from 'react-ex';
 import PlayGround from 'src/Components/PlayGround';
 @React.eclass({
-    box: 'color:#f00;'
+    box: css`color:#f00;`
 })
 export default class A extends React.Component {
     playGroundData = React.hookCreateElement(() => {

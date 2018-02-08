@@ -1,5 +1,5 @@
 
-import React from 'react-ex';
+import React, { css } from 'react-ex';
 import Antd from 'antd-min';
 import Logo from 'src/Template/Default/Logo';
 import { ModelWindow } from 'src/Lib/ModelWindow';
@@ -11,7 +11,7 @@ import { EModelPanelAlign } from 'src/Lib/ModelPanel';
 const { Header } = Antd.Layout;
 @React.eclass({
     github: [
-        'transform:rotateZ(50deg);',
+        css`transform:rotateZ(50deg);`,
         'hem-2 lhem-2 bg-ff0 bd-bb0 pdiplr-20 fb fz-15 inline mpxr_-12 meml-4'.split(' ')
     ]
 })
