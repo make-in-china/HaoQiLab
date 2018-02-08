@@ -27,7 +27,6 @@
     "react-dom": "^16.2.0",
     "source-map-loader": "^0.2.1",
     "style-loader": "0.18.2",
-    "styled-components": "^3.1.6",
     "sw-precache-webpack-plugin": "0.11.4",
     "swiper": "^4.0.7",
     "ts-jest": "^20.0.7",

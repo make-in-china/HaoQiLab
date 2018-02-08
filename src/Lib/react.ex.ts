@@ -300,7 +300,12 @@ namespace ReactEx {
     }
 }
 export function css(x: any, ...args: any[]) {
-    return x;
+    var arr = [x[0]];
+    for (var i = 0; i < args.length; i++) {
+        arr.push(args[i]);
+        arr.push(x[i + 1]);
+    }
+    return arr.join('');
 }
 export default { ..._React, ...ReactEx, calcStyle: calcStyle };
 if (_React === undefined) {
