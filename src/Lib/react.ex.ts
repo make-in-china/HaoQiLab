@@ -299,11 +299,11 @@ namespace ReactEx {
 
     }
 }
-export function css(x: TemplateStringsArray, ...args: string[]) {
-    var arr = [x[0]];
+export function css(arrTS: TemplateStringsArray, ...args: string[]) {
+    var arr = [arrTS[0]];
     for (var i = 0; i < args.length; i++) {
         arr.push(args[i]);
-        arr.push(x[i + 1]);
+        arr.push(arrTS[i + 1]);
     }
     return arr.join('');
 }
