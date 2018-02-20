@@ -47,37 +47,3 @@ export default class App extends React.Component {
         );
     }
 }
-@addNewPropertyToA({
-    newProperty: 888
-})
-class A {
-    onlyOneProperty: string = '2';
-    // tslint:disable-next-line:no-empty
-    onlyOneMethods(): void { }
-}
-// 利用合并编写新方法声明
-interface A {
-    newMethods(): void;
-}
-// 在厡型链上补完新方法实体
-// tslint:disable-next-line:no-empty
-A.prototype.newMethods = (function () { });
-// 利用合并编写新属性声明
-interface A {
-    newProperty: number;
-}
-// 编写装饰器
-function addNewPropertyToA(initTemplate: Partial<A>) {
-    return function (ctor: typeof A) {
-        return function (this: typeof A) {
-            ctor.apply(this, arguments);
-            // 对新属性赋值
-            for (const key in initTemplate) {
-                this[key] = initTemplate[key];
-            }
-            return this;
-        } as any as typeof A;
-    };
-}
-// 这时候识别出两个方法两个属性
-(new A).
