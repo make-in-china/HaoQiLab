@@ -3,6 +3,9 @@ import React, { css } from 'react-ex';
 // import Antd from 'antd-more';
 import { observer /* , observable */ } from 'mobx-index';
 const pic1 = require('./asserts/1.png');
+const pic2A = require('./asserts/2.1.png');
+const pic2B = require('./asserts/2.2.png');
+const pic2C = require('./asserts/2.3.png');
 @React.eclass({
     box: {
         ' ul': css`line-height:2em;`
@@ -25,6 +28,20 @@ export default class App extends React.Component {
                         <li>1.如何在模块中给已存在的全局变量加属性？</li>
                         <li>2.如何在模块中给已存在的全局变量加属性？</li>
                     </ul> */}
+                </p>
+                <p><h3>2.如何给已存在的类加属性和方法？</h3></p>
+                <p  EClass="pdip-chd-15 lbpx-chd-2-dashed">
+                    如图
+                    <div>第一步.
+                        <img src={pic2A} alt="" />
+                    </div>
+                    <div>第二步.
+                        <img src={pic2B} alt="" />
+                    </div>
+                    <div>第三步.
+                        <img src={pic2C} alt="" />
+                    </div>
+
                 </p>
             </div>
         );
