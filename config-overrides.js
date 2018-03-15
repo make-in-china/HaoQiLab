@@ -6,6 +6,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const theme = require('./theme.config.js');
 const { TsConfigPathsPlugin } = require('awesome-typescript-loader');
+const ModuleConcatenationPlugin  = require('webpack/lib/optimize/ModuleConcatenationPlugin.js');
 const pages = require('./src/Page/Pages.json');
 const fs = require("fs");
 const path = require("path");
@@ -258,6 +259,7 @@ const reset = {
                 addHtmlWebpackPlugin(['Lib/Antd.Base', 'Lib/Mobx', "Page/" + pages[i][1] + '/Index' + prod], pages[i][2])
             }
         }
+        plugins.push(new ModuleConcatenationPlugin());
         return config;
     }
 }
