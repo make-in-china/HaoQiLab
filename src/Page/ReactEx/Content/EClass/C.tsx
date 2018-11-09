@@ -1,17 +1,21 @@
 import React from 'react-ex';
 import PlayGround from 'src/Components/PlayGround';
-@React.eclass({
+import { eClassConfig } from 'src/CSS/G.Class';
+const { config, clsMap } = eClassConfig({
+    
     box: [
         ['pdip-10', 'ladip', 'rdip-20', 'bg-gray', 'inline'],
         {
             chd: [['mdip-5', 'pdip-5', 'rdip-5', 'bg-blue', 'f-gray', 'inline']]
         }
     ]
-})
+});
+@React.eclass(config)
+
 export default class C extends React.Component {
     playGroundData = React.hookCreateElement(() => {
         return this.renderReactNode(() => (
-            <div EClass="box">
+            <div EClass={clsMap.box}>
                 <div>如果</div>
                 <div>,</div>
                 <div>我是DJ</div>

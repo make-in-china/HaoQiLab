@@ -2,7 +2,9 @@ import React, { css } from 'react-ex';
 import Antd from 'antd-min';
 import { observer, observable } from 'mobx-index';
 import { ClassRule } from 'src/CSS/G.Class';
-@React.eclass({
+import { CheckboxChangeEvent } from 'antd/lib/checkbox';
+import { eClassConfig } from 'src/CSS/G.Class';
+const { config, clsMap } = eClassConfig({
     line: [
         'nowrap mdipt-5'.split(' '),
         {
@@ -10,7 +12,10 @@ import { ClassRule } from 'src/CSS/G.Class';
             '>input': ['wem-4 inline'.split(' ')]// 待抽离
         }
     ],
-})
+
+});
+@React.eclass(config)
+
 @observer
 export default class SkinBoxSetupItem
     extends React.Component<
@@ -23,7 +28,7 @@ export default class SkinBoxSetupItem
         onChangeCheck: () => void
     }> {
     @observable private isCheck = this.props.source[this.props.keyName];
-    onChange: React.ChangeEventHandler<HTMLInputElement> = (e) => {
+    onChange: (e: CheckboxChangeEvent) => void = (e) => {
         this.isCheck = this.props.source[this.props.keyName] = e.target.checked;
         this.props.onChangeCheck();
     }
@@ -33,12 +38,12 @@ export default class SkinBoxSetupItem
     render() {
         const isCheck = this.isCheck;
         return (
-            <div EClass={'line' + (isCheck ? '' : ' op-5')}>
+            <div EClass={(isCheck ? clsMap.line : [clsMap.line, 'op-5'])}>
                 <Antd.Tooltip placement="left" title={this.props.keyName}>
                     <Antd.Checkbox onChange={this.onChange} checked={isCheck}>
                         <span EClass="name" >{this.props.title} : </span>
                     </Antd.Checkbox>
-                    <div EClass={isCheck ? 'inline' : 'inline noevent'}>{this.props.children}</div>
+                    <div EClass={isCheck ? clsMap.line : [clsMap.line, clsMap.noevent]}>{this.props.children}</div>
                 </Antd.Tooltip>
             </div>
         );

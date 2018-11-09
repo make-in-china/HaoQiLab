@@ -13,7 +13,7 @@ export class TouchMoveEvent <T> {
             let target = document.elementFromPoint(this.x, this.y);
             if (e.target !== target) {
                 // if(target.parentNode===e.target.parentNode)
-                this.target = target;
+                this.target = target!;
             } else {
                 this.target = e.target;
             }

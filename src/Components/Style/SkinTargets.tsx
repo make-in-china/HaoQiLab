@@ -1,17 +1,19 @@
-import React from 'react-ex';
+import React, { _ } from 'react-ex';
 import Antd from 'antd-min';
 import { observer, observable } from 'mobx-index';
 import StringSelect from 'src/Components/StringSelect';
 import { toList } from 'src/Lib/NamesAndMapAndList';
-
+import { eClassConfig } from 'src/CSS/G.Class';
 const innerType = {
     A: '边框div',
     B: '文字hello',
     AB: '边框+文字'
 };
-@React.eclass({
-    inner: ['ladip minwem-2 minhem-2 rdip-5 inline'.split(' ')]
-})
+const { config, clsMap } = eClassConfig({
+    inner: [_`ladip minwem-2 minhem-2 rdip-5 inline`]
+});
+@React.eclass(config)
+
 @observer
 export default class SkinTargets
     extends React.Component<
@@ -46,13 +48,13 @@ export default class SkinTargets
             if (this.hasInnerTarget) {
                 switch (this.innerType) {
                     case innerType.A:
-                        inner = <div EClass="inner" />;
+                        inner = <div EClass={clsMap.inner} />;
                         break;
                     case innerType.B:
                         inner = 'hello';
                         break;
                     case innerType.AB:
-                        inner = <div EClass="inner">hello</div>;
+                        inner = <div EClass={clsMap.inner}>hello</div>;
                         break;
                     default:
                 }

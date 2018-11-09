@@ -2,6 +2,7 @@ import { cssClassNS } from 'src/CSS/CSSClass';
 import { calcStyle } from 'src/CSS/CalcStyle';
 import { toNamesAndMapAndList } from 'src/Lib/NamesAndMapAndList';
 import { Local } from '../Lib/Local';
+import { ruleMap } from './CSSClassRule';
 export interface ClassRule {
     display?: '' | 'inline-block' | 'block' | 'inline-flex' | 'flex' | 'inline-grid' | 'grid' | 'inline-table' | 'table' | 'list-item' | 'run-in' | 'table-caption' | 'table-cell' | 'table-column' | 'table-column-group' | 'table-footer-group' | 'table-header-group' | 'table-row' | 'table-row-group';
     margin?: number;
@@ -134,5 +135,18 @@ export function registerClass() {
         css.registerClass(key);
     }
 }
-
+export function eClassConfig<T extends { [index: string]: any }>(data: T) {
+    const configA = toNamesAndMapAndList(data);
+    const map = extendsGloalMap(configA.map);
+    return { config: data, list: configA.list, names: configA.names, clsMap: map };
+}
+export function extendsGloalMap<P, T extends { [index: string]: P }>(map: T): T & typeof classNS.map & typeof ruleMap {
+    Object.keys(classNS.map).forEach(k => {
+        map[k] = classNS.map[k];
+    });
+    Object.keys(ruleMap).forEach(k => {
+        map[k] = ruleMap[k];
+    });
+    return map as any;
+}
 export default classNS;

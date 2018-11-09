@@ -5,13 +5,14 @@ import { isArray, isStringNumberBoolean, isFunction } from 'src/Lib/is';
 import { highlightStyleLine, highlightString } from 'src/Lib/highlightStyle';
 import CodeList from 'src/Components/CodeList';
 import { formatJSON } from 'src/Lib/Format';
-
-@React.eclass({
+import { eClassConfig } from 'src/CSS/G.Class';
+const { config, clsMap } = eClassConfig({
     box: [
         'mdip-5 pdip-5 bd-12-gray'.split(' ')
     ],
     box2: ['box pdip-5 minhem-3'.split(' ')]
-})
+});
+@React.eclass(config)
 export default class App
     extends React.Component<{
         source: {
@@ -53,12 +54,12 @@ export default class App
     render() {
         return (
             <div>
-                <div EClass="uof">
+                <div EClass={clsMap.uof}>
                     <div className="ant-col-12">
                         <div>前</div>
-                        <div EClass="box" className={G.Class.map.frm_border}>
+                        <div EClass={clsMap.box} className={G.Class.map.frm_border}>
                             <div>样式rule</div>
-                            <div EClass={'scroll ' + this.previewEClass}>
+                            <div EClass={[clsMap.scroll, this.previewEClass]}>
                                 <CodeList datas={this.previewRule} highLight={highlightString} />
                             </div>
                             <div>dom</div>
@@ -67,9 +68,9 @@ export default class App
                     </div>
                     <div className="ant-col-12">
                         <div>后</div>
-                        <div EClass="box" className={G.Class.map.frm_border}>
+                        <div EClass={clsMap.box} className={G.Class.map.frm_border}>
                             <div>样式style</div>
-                            <div EClass={'scroll ' + this.previewEClass}>
+                            <div EClass={[clsMap.scroll, this.previewEClass]}>
                                 <CodeList datas={this.styleDest} highLight={highlightStyleLine} />
                             </div>
                             <div>dom</div>
@@ -79,7 +80,7 @@ export default class App
                 </div>
                 <div>
                     <div>渲染结果</div>
-                    <div EClass="box2">{this.props.children}</div>
+                    <div EClass={clsMap.box2}>{this.props.children}</div>
                 </div>
             </div>
         );

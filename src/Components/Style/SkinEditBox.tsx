@@ -18,8 +18,8 @@ import { highlightStyle } from 'src/Lib/highlightStyle';
 //#endregion
 const TabPane = Antd.Tabs.TabPane;
 const notification = Antd.notification;
-
-@React.eclass({
+import { eClassConfig } from 'src/CSS/G.Class';
+const { config, clsMap } = eClassConfig({
     view: [
         {
             'chd': ['mhem-5 uof alignTop bdbox pdip-5'.split(' ')]
@@ -40,7 +40,9 @@ const notification = Antd.notification;
         '>pre': 'overflow: initial;'
     }],
     simple: []
-})
+});
+@React.eclass(config)
+
 @observer
 export default class SkinEditBox
     extends React.Component<{
@@ -208,7 +210,7 @@ export default class SkinEditBox
                         &nbsp;
                         <Antd.Button size="small" onClick={this.onClickExport}>导出规则</Antd.Button>
                     </div>
-                    <div EClass="setupbox">
+                    <div EClass={clsMap.setupbox}>
                         <div className={G.Class.map.frm_border} EClass="mdipl_-4">
                             <Antd.Tabs type="card">
                                 <TabPane tab="大小" key="size">
@@ -269,15 +271,15 @@ export default class SkinEditBox
                                 </TabPane>
                             </Antd.Tabs>
                         </div>
-                        <div className={G.Class.map.frm_border} EClass="style">
+                        <div className={G.Class.map.frm_border} EClass={clsMap.style}>
                             <pre><RenderData data="" onRaiseChange={this.onRaiseChange} /></pre>
                         </div>
                     </div>
                 </div>
-                <div EClass="view">
+                <div EClass={clsMap.view}>
                     <div>
-                        <div className={G.Class.map.frm_border} EClass="frame minhem-20">
-                            <SkinTargets count={2} max={10} EClass="simple" />
+                        <div className={G.Class.map.frm_border} EClass={[clsMap.frame, 'minhem-20']}>
+                            <SkinTargets count={2} max={10} EClass={clsMap.simple} />
                         </div>
                     </div>
                 </div>

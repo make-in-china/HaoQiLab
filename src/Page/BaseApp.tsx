@@ -56,7 +56,7 @@ export default abstract class BaseApp
     abstract renderContent(): React.ReactNode;
     private getComponentAsync = () => {
         const template = (window as any).Template;
-        const Cpt: ThemeApp = template[`${this.props.theme}_App`];
+        const Cpt: any = template[`${this.props.theme}_App`];
         if (Cpt === undefined) {
             return null;
         }

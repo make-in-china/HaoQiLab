@@ -2,21 +2,23 @@
 import React, { css } from 'react-ex';
 import Antd from 'antd-more';
 import entry from '../Entry';
-
-const text = <span>prompt text</span>;
-@entry('ToolTip')
-@React.eclass({
+import { eClassConfig } from 'src/CSS/G.Class';
+const { config, clsMap } = eClassConfig({
     that: [{
         '.tooltip-demo-placement a': css`display: inline-block;line-height: 32px;height: 32px;width: 60px;font-size: 14px;text-align: center;background: #f5f5f5;margin-right: 1em;margin-bottom: 1em;border-radius: 6px;`,
         '.tooltip-demo-placement button': css`display: inline-block;line-height: 32px;height: 32px;width: 60px;font-size: 14px;text-align: center;background: #f5f5f5;margin-right: 1em;margin-bottom: 1em;border-radius: 6px;`,
     }]
-})
+});
+const text = <span>prompt text</span>;
+@entry('ToolTip')
+@React.eclass(config)
+
 export default class ToolTip extends React.Component {
     render() {
         return [
             '后面的不仿了，演示下动态加载',
             (
-                <div EClass="that" className="tooltip-demo-placement">
+                <div EClass={clsMap.that} className="tooltip-demo-placement">
                     <div style={{ marginLeft: 60 }}>
                         <Antd.Tooltip placement="topLeft" title={text}>
                             <a href="#">TL</a>

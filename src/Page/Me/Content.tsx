@@ -2,17 +2,20 @@ import React, { css } from 'react-ex';
 
 // import Antd from 'antd-more';
 import { observer /* , observable */ } from 'mobx-index';
-
-@React.eclass({
+import { eClassConfig } from 'src/CSS/G.Class';
+const { config, clsMap } = eClassConfig({
+    
     box: {
         ' ul': css`line-height:2em;`
     }
-})
+});
+@React.eclass(config)
+
 @observer
 export default class App extends React.Component {
     render() {
         return (
-            <div EClass="box">
+            <div EClass={clsMap.box}>
                 <div EClass="pdiptb-10 fb">我，功夫茶猫</div>
                 <div EClass="ltdip bdst-dashed mdiptb-5 mdiplr-3"/>
                 <div>我的github开源列表：

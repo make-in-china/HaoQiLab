@@ -2,9 +2,12 @@ import React from 'react-ex';
 import Antd from 'antd-min';
 import { observer, observable } from 'mobx-index';
 import { SliderValue } from 'antd/es/slider';
-@React.eclass({
+import { eClassConfig } from 'src/CSS/G.Class';
+const { config, clsMap } = eClassConfig({
     width: ['wem-5 pdip-0 hem-0'.split(' ')]
-})
+});
+@React.eclass(config)
+
 @observer
 export default class StepSlider
     extends React.Component<
@@ -58,8 +61,11 @@ export default class StepSlider
         return (
             <div className={this.props.className} EClass="inline inline-chd">
                 <div EClass="pdipr-10 minwem-3">{(this.min + this.value) * this.ratio}</div>
-                <Antd.Slider tipFormatter={null} EClass="width" key="a" defaultValue={this.value} min={1} max={this.stepArea} onChange={this.onChange} />
-                {this.props.step !== 1 && <Antd.Slider tipFormatter={null} EClass="width" key="b" defaultValue={this.index} min={0} max={this.props.step - 1} onChange={this.onChange2} />}
+                <Antd.Slider tipFormatter={null} EClass={clsMap.width} key="a" defaultValue={this.value} min={1} max={this.stepArea} onChange={this.onChange} />
+                {
+                    this.props.step !== 1 && 
+                    <Antd.Slider tipFormatter={null} EClass={clsMap.width} key="b" defaultValue={this.index} min={0} max={this.props.step - 1} onChange={this.onChange2} />
+                }
             </div>
         );
     }

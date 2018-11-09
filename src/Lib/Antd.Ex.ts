@@ -13,6 +13,8 @@ import _Col from 'antd/es/col';
 import _Radio from 'antd/es/radio';
 import _Rate from 'antd/es/rate';
 import _Input from 'antd/es/input';
+import _Tree from 'antd/es/tree';
+import _Select from 'antd/es/select';
 
 (function (that: any) {
     that.Radio = _Radio;
@@ -29,4 +31,6 @@ import _Input from 'antd/es/input';
     that.Table = _Table;
     that.Rate = _Rate;
     that.Input = _Input;
+    that.Tree = _Tree;
+    that.Select = _Select;
 })((window as any).Antd || ((window as any).Antd = {}));

@@ -11,12 +11,7 @@ export default class App extends React.Component {
         this.swiper = new SwiperClass(elem, {
             direction: 'vertical',
             slidesPerView: 1,
-            // spaceBetween: 30,
             mousewheel: true,
-            // pagination: {
-            //   el: '.swiper-pagination',
-            //   clickable: true,
-            // }
         } as any);
     }
     render() {

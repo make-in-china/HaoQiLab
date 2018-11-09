@@ -6,16 +6,18 @@ const pic1 = require('./asserts/1.png');
 const pic2A = require('./asserts/2.1.png');
 const pic2B = require('./asserts/2.2.png');
 const pic2C = require('./asserts/2.3.png');
-@React.eclass({
+import { eClassConfig } from 'src/CSS/G.Class';
+const { config, clsMap } = eClassConfig({
     box: {
         ' ul': css`line-height:2em;`
     }
-})
+});
+@React.eclass(config)
 @observer
 export default class App extends React.Component {
     render() {
         return (
-            <div EClass="box">
+            <div EClass={clsMap.box}>
                 经常回答一些typescript相关问题，发现很多问题具有普遍性，不想重重复复回答，故此记录在此。
                 <p><h3>1.如何给已存在的全局变量加属性？</h3></p>
                 <p>

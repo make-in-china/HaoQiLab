@@ -1,12 +1,15 @@
 import React, { css } from 'react-ex';
 import PlayGround from 'src/Components/PlayGround';
-@React.eclass({
+import { eClassConfig } from 'src/CSS/G.Class';
+const { config, clsMap } = eClassConfig({
     box: css`color:#f00;`
-})
+});
+@React.eclass(config)
+
 export default class A extends React.Component {
     playGroundData = React.hookCreateElement(() => {
         return this.renderReactNode(() => (
-            <div EClass="box">
+            <div EClass={clsMap.box}>
                 A组件
             </div>
         ));

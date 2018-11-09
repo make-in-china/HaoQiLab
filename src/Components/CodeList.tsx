@@ -1,7 +1,9 @@
 // #region import
 import React, { css } from 'react-ex';
 // #endregion
-@React.eclass(/*local eclass rule */{
+
+import { eClassConfig } from 'src/CSS/G.Class';
+const { config, clsMap } = eClassConfig({
     pre: [
         'inline minw-100 mdipb-0'.split(' '),
         {
@@ -10,29 +12,16 @@ import React, { css } from 'react-ex';
     ],
     code1: [css`background-color:rgba(0,0,0,0.025);`],
     code2: [css`background-color:rgba(0,0,0,0.05);`]
-})
+});
+@React.eclass(config)
 export default class CodeList
     extends React.Component<{
         datas: string[]
         highLight?: (str: string) => string
     }> {
-    // #region static
-
-    // #endregion
-
-    // #region public property
-
-    // #endregion
-
-    // #region private property
-
-    // #endregion
-
-    // #region public methods withoutRender
     componentDidMount() {
         this.cssClass.parse('pre code1 code2');
     }
-    // #endregion
     render() {
         const cssKey = this.cssClass.key;
         const code1 = cssKey + 'code1';
@@ -54,7 +43,7 @@ export default class CodeList
             }
             codeStep = 3 - codeStep;
         }
-        return <pre key="rule" EClass="pre" dangerouslySetInnerHTML={{ __html: ret.join('') }} />;
+        return <pre key="rule" EClass={clsMap.pre} dangerouslySetInnerHTML={{ __html: ret.join('') }} />;
     }
 
     // #region private methods

@@ -50,7 +50,7 @@ export interface CSSRuleCallBack<T> {
 
 export type CSSRuleBase = CSSRuleCallBack<any> | (string[]) | string;
 export type CSSRuleBaseEx = {
-    [P in keyof SelectorMap]?: CSSRuleEx
+    [P in Extract<keyof SelectorMap, string>]?: CSSRuleEx
 };
 export type CSSRule = CSSRuleBase[] | CSSRuleCallBack<any> | string;
 export type CSSRuleEx = (CSSRuleBase | CSSRuleBaseEx)[] | CSSRuleCallBack<any> | string | CSSRuleBaseEx;
@@ -59,7 +59,7 @@ const classNameRuleRE = /^(([\w_]+)(-(bf|af|ac|hv|tg|chd|bfac|afac|bfhv|afhv|bft
 export interface CSSClassInfo {
     input: string; /* eclassname */
     name: string; /* 纯名字 */
-    selector?: keyof SelectorMap; /* 选择器 */
+    selector?: Extract<keyof SelectorMap, string>; /* 选择器 */
     index?: number; /* 计数参数 */
     moreInfo?: string; /* 更多参数 */
 }
@@ -348,7 +348,7 @@ export namespace cssClassNS {
          * 注册eclass样式到style并返回class名字
          * @param name 
          */
-        registerClass(name: string, selector?: keyof SelectorMap) {
+        registerClass(name: string, selector?: Extract<keyof SelectorMap, string>) {
             const info = this.parseInfo(name);
             if (!info) {
                 console.warn(new Error('can\' t register class \'' + name + '\',because unknown.'));
@@ -397,7 +397,7 @@ export namespace cssClassNS {
             }
             return className;
         }
-        parseToElement(elem: HTMLElement, clses: string, selector?: keyof SelectorMap) {
+        parseToElement(elem: HTMLElement, clses: string, selector?: Extract<keyof SelectorMap, string>) {
             const clsList = this.parse(clses, selector);
             clsList.forEach(cls => { elem.classList.add(cls); });
         }
@@ -405,7 +405,7 @@ export namespace cssClassNS {
          * 解析出class数组，解析出的新class会立即注册到style
          * @param clses eclass like pdip-1,mdip-1
          */
-        parse(clses: string, selector?: keyof SelectorMap) {
+        parse(clses: string, selector?: Extract<keyof SelectorMap, string>) {
 
             const clsList = clses.split(/\s+/);
             const clsNames: string[] = [];
@@ -656,7 +656,7 @@ export namespace cssClassNS {
          * 获取伪类等后缀
          * @param selector 
          */
-        private getSelectorSuffix<T extends keyof SelectorMap>(selector: T) {
+        private getSelectorSuffix<T extends Extract<keyof SelectorMap, string>>(selector: T) {
             if (!(selector in cssClassSelectorMap)) {
                 const key = '.' + this.key;
                 const selectorList = selector.split(',').map(v => v.replace(CSSClass.regExp.keyName, key));

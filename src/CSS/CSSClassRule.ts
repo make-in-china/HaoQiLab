@@ -6,13 +6,9 @@ const w = {
     wkboxh: 'display:-webkit-box;-webkit-box-orient:horizontal;'
 };
 const rule1 = {
-    // region 2017年12月28日, PM 02:34:32
     nowrap: `white-space:nowrap;`,
-    // endregion
-    // region 2017年12月13日, PM 02:02:53
     uofauto: `overflow:auto;`,
     clr: `clear:both`,
-    // endregion
     uof: `overflow:hidden;`,
     uof_x: `overflow-x:hidden;`,
     uof_y: `overflow-y:hidden;`,
@@ -22,7 +18,7 @@ const rule1 = {
     ub_rev: `-webkit-box-direction:reverse;box-direction:reverse;`,
     ub_ver: `-webkit-box-orient:vertical;box-orient:vertical;`,
     ub_f(idx: number) { return `position:relative;-webkit-box-flex:${idx};box-flex:${idx};`; },
-    ub_img: `-webkit-background-size:contain;background-size:contain;background-repeat no-repeat;background-position:center;`,
+    ub_img: `-webkit-background-size:contain;background-size:contain;background-repeat:no-repeat;background-position:center;`,
     ub_img1: `-webkit-background-size:cover;background-size:cover;background-repeat:no-repeat;background-position:center;`,
     ub_img2: `background-repeat:repeat-x;background-size:auto 100%;`,
     ub_img3: `background-repeat:repeat-y;background-size:100% auto;`,
@@ -49,9 +45,9 @@ const rule1 = {
     ctm(idx: number) { return `margin:0 auto;`; },
     noselect: `-webkit-user-select:none;-khtml-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;`,
 
-    scroll: `overflow:scroll;-webkit-overflow-scrolling:touch;`,
-    scrollx: `overflow-x:scroll;-webkit-overflow-scrolling:touch;`,
-    scrolly: `overflow-y:scroll;-webkit-overflow-scrolling:touch;`,
+    scroll: `overflow:auto;-webkit-overflow-scrolling:touch;`,
+    scrollx: `overflow-x:auto;-webkit-overflow-scrolling:touch;`,
+    scrolly: `overflow-y:auto;-webkit-overflow-scrolling:touch;`,
     nobg: `background:none;`,
     ltspaem(idx: number) { return `letter-spacing:${idx}em;white-space:nowrap;`; },
     ltspaem_(idx: number) { return `letter-spacing:-${idx}em;white-space:nowrap;`; },
@@ -200,9 +196,7 @@ const rule1 = {
 
     float: `float:left;`,
     floatl: `float:left;`,
-    // region 2017年12月28日, AM 08:41:22
     floatr: `float:right;`,
-    // endregion
 
     shadowless: `-webkit-box-shadow: inset 0 0 1px #000,.125em .125em 1em rgba(0,0,0,.2);box-shadow:inset 0 0 1px #000,.125em .125em 1em rgba(0,0,0,.2);`,
     shadowless2: `-webkit-box-shadow: .125em .125em 1em rgba(0,0,0,.2);box-shadow:.125em .125em 1em rgba(0,0,0,.2);`,
@@ -283,9 +277,9 @@ const rule2 = {
     abs: `position:absolute;`,
     fixed: `position:fixed;`,
     // 颜色系列
-    bg(idx: number, moreInfo: string) { return `background-color:${getColorByEClass(idx, moreInfo!)};`; },
-    bd(idx: number, moreInfo: string) { return `border-color:${getColorByEClass(idx, moreInfo!)};`; },
-    f(idx: number, moreInfo: string) { return `color:${getColorByEClass(idx, moreInfo!)};`; },
+    bg(idx: number, moreInfo: string) { return `background-color:${getColorByEClass(idx, moreInfo!)!};`; },
+    bd(idx: number, moreInfo: string) { return `border-color:${getColorByEClass(idx, moreInfo!)!};`; },
+    f(idx: number, moreInfo: string) { return `color:${getColorByEClass(idx, moreInfo!)!};`; },
 
     shadow(idx: number, moreInfo?: string) {
         let color: string;
@@ -424,3 +418,17 @@ export default {
         new cssClassNS.CSSClass(undefined, false, false, true).registerClassRule(rule2);
     }
 };
+
+export const ruleMap: {
+    [U in keyof (typeof rule1 & typeof rule2)]: U
+} = (function () {
+    const map = {} as any;
+
+    Object.keys(rule1).forEach(v => {
+        map[v] = v;
+    });
+    Object.keys(rule2).forEach(v => {
+        map[v] = v;
+    });
+    return map;
+}());

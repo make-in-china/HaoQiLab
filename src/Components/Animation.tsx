@@ -1,5 +1,5 @@
 import React from 'react-ex';
-import { observer , observable } from 'mobx-index';
+import { observer, observable } from 'mobx-index';
 @observer
 export default class Animation
     extends React.Component<{

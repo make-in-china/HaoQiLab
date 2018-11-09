@@ -6,10 +6,13 @@ import { RGBA } from 'src/CSS/CSSClass';
 import { observable, observer } from 'src/Lib/mobx.index';
 import { Ref } from 'react';
 import { ModelPanel } from 'src/Lib/ModelPanel';
-@React.eclass(/*local eclass rule */{
+import { eClassConfig } from 'src/CSS/G.Class';
+const { config, clsMap } = eClassConfig({
     colorbox: ['pdip-5 ladip lhem-0 rdip-10 inline bd-12-gray'.split(' ')],
     color: ['wem-3 hem-1 rdip-5'.split(' ')],
-})
+});
+@React.eclass(config)
+
 @observer
 export default class SketchPicker
     extends React.Component<{
@@ -69,9 +72,9 @@ export default class SketchPicker
     render() {
         const color = this.color;
         return (
-            <div ref={this.onRef} EClass="colorbox">
+            <div ref={this.onRef} EClass={clsMap.colorbox}>
                 <ColorBooth>
-                    <div EClass="color" style={{ backgroundColor: `rgba(${color.R},${color.G},${color.B},${color.A})` }} onClick={this.onClick} />
+                    <div EClass={clsMap.color} style={{ backgroundColor: `rgba(${color.R},${color.G},${color.B},${color.A})` }} onClick={this.onClick} />
                 </ColorBooth>
             </div>
         );

@@ -84,7 +84,6 @@ export default class App
                 ]
             );
         } catch {
-            debugger;
             return null;
         }
 

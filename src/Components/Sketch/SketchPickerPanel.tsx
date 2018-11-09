@@ -12,7 +12,8 @@ const horizontal = 'linear-gradient(to right, #f00 0%, #ff0 16.3333%, #0f0 33.66
 const colorSlideWidth = 230;
 const colorWidth = 256;
 const colorHeight = 200;
-@React.eclass({
+import { eClassConfig } from 'src/CSS/G.Class';
+const { config, clsMap } = eClassConfig({
     box: ['pdip-10 rdip-5 shadow-1 bg-gray inline'.split(' ')],
     colorbox: [React.calcStyle({ width: colorWidth, height: colorHeight })],
     colorbox2: [{
@@ -52,7 +53,10 @@ const colorHeight = 200;
     circlepos: [],
     colorslidepos: [],
     alphaslidepos: []
-})
+
+});
+@React.eclass(config)
+
 export default class SketchPickerPanel
     extends React.Component<{
         color: RGBA
@@ -164,29 +168,29 @@ export default class SketchPickerPanel
     }
     render() {
         return (
-            <div EClass="box">
-                <div EClass="colorbox colorboxbg" onMouseDown={this.onSL.autoDown}>
-                    <div EClass="colorboxmaskwhite">
-                        <div EClass="colorboxmaskblack">
-                            <div EClass="circle circlepos" />
+            <div EClass={clsMap.box}>
+                <div EClass={[clsMap.colorbox, clsMap.colorboxbg]} onMouseDown={this.onSL.autoDown}>
+                    <div EClass={clsMap.colorboxmaskwhite}>
+                        <div EClass={clsMap.colorboxmaskblack}>
+                            <div EClass={[clsMap.circle, clsMap.circlepos]} />
                         </div>
                     </div>
                 </div>
-                <div EClass="colorbox2">
+                <div EClass={clsMap.colorbox2}>
                     <div>
-                        <div EClass="horizontal" onMouseDown={this.onH.autoDown}>
-                            <div EClass="slide colorslidepos" />
+                        <div EClass={clsMap.horizontal} onMouseDown={this.onH.autoDown}>
+                            <div EClass={[clsMap.slide, clsMap.colorslidepos]} />
                         </div>
-                        <div EClass="alpha showAlphaColor" onMouseDown={this.onAlpha.autoDown}>
+                        <div EClass={[clsMap.alpha, clsMap.showAlphaColor]} onMouseDown={this.onAlpha.autoDown}>
                             <ColorBooth>
                                 <div style={{ width: colorSlideWidth, height: 10 }} >
-                                    <div EClass="slide alphaslidepos" />
+                                    <div EClass={[clsMap.slide, clsMap.alphaslidepos]} />
                                 </div>
                             </ColorBooth>
                         </div>
                     </div>
                     <div>
-                        <ColorBooth><div className={G.Class.map.frm_border2} EClass="show showcolor" /></ColorBooth>
+                        <ColorBooth><div className={G.Class.map.frm_border2} EClass={[clsMap.show, clsMap.showcolor]} /></ColorBooth>
                     </div>
                 </div>
                 <div EClass="hem-5">

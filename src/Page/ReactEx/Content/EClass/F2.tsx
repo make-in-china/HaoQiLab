@@ -1,14 +1,18 @@
 import React, { css } from 'react-ex';
 import PlayGround from 'src/Components/PlayGround';
-@React.eclass({
+import { eClassConfig } from 'src/CSS/G.Class';
+const { config, clsMap } = eClassConfig({
+    
     main: {
-        chd: css`color:red;`
+        chd: css `color:red;`
     }
-})
+});
+@React.eclass(config)
+
 export default class F2 extends React.Component {
     playGroundData = React.hookCreateElement(() => {
         return this.renderReactNode(() => (
-            <div EClass="main">
+            <div EClass={clsMap.main}>
                 <div>1</div>
                 <div>2</div>
                 <div>3</div>

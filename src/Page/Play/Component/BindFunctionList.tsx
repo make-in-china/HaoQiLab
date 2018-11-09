@@ -34,39 +34,25 @@ function combine<T>(...args: {
         return returnValue;
     };
 }
-@React.eclass(/*local eclass rule */{
-    box: [[]]
-})
+
 export default class BindFunctionList
     extends React.Component<{
         /* props */
     }> {
-    // #region static
 
-    // #endregion
-
-    // #region public property
-
-    // #endregion
-
-    // #region private property
-
-    // #endregion
-
-    // #region public methods
     render() {
         const value = combine<string>(
             {
                 func(v: string) { return v.length === 3; }
             }, {
-                logic: 0, /* || */
+                logic: FuncListCombineLogic.Or, /* || */
                 func(v: string) { return v[0] === '1'; }
             }, {
-                logic: 1, /* && */
+                logic: FuncListCombineLogic.And, /* && */
                 func(v: string) { return v[1] === '2'; }
             });
         return (
-            <div EClass="box" className={this.props.className} >
+            <div className={this.props.className} >
                 {'value.length===3 || value[0]==="1" && value[1]==="2"'}
                 <br/>
                 {'输入000，返回值：' + value('000')}

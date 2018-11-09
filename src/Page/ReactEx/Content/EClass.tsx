@@ -11,19 +11,22 @@ import D2 from 'src/Page/ReactEx/Content/EClass/D2';
 import F2 from 'src/Page/ReactEx/Content/EClass/F2';
 import F3 from 'src/Page/ReactEx/Content/EClass/F3';
 import E2 from 'src/Page/ReactEx/Content/EClass/E2';
-@entry('EClass')
-@React.eclass({
+import { eClassConfig } from 'src/CSS/G.Class';
+const { config, clsMap } = eClassConfig({
     box: {
         ' p': ['tiem-2'.split(' ')]
     },
     table: {
         ' td': ['ladip pdip-10 bd-12-gray'.split(' ')]
     }
-})
+});
+@entry('EClass')
+@React.eclass(config)
+
 export default class EClass extends React.Component {
     render() {
         return (
-            <div EClass="box">
+            <div EClass={clsMap.box}>
                 <section>
                     <h2>简介</h2>
                     <p>此扩展实现了一个带有隔离性，组合性，动态性的样式系统</p>
@@ -100,7 +103,7 @@ export default class EClass extends React.Component {
                         我们传入了一个box-chd-2-dashed，这时，传参给函数的逻辑没变，rule的函数同样接收到了index=2,和moreinfo=dashed，计算出了根据参数变化的边框样式。
                         rule的数组['inline','mdip-5','pdip-5']组合了其他rule（这个知识点下面会讲），然后是关键的reset重置子“chd”，这个参数是一个选择器重置参数，选择器参数有以下几种。
                     </p>
-                    <table EClass="table">
+                    <table EClass={clsMap.table}>
                         <tr><td>选择器重置子</td><td>重置模式</td></tr>
                         <tr><td>bf</td><td>+ ::before </td></tr>
                         <tr><td>af</td><td>+ ::after </td></tr>

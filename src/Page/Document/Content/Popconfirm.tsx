@@ -1,25 +1,30 @@
 
 import React, { css } from 'react-ex';
 import Antd from 'antd-more';
+import { eClassConfig } from 'src/CSS/G.Class';
+import entry from '../Entry';
+
 const text = 'Are you sure delete this task?';
 
 function confirm() {
     Antd.message.info('Click on Yes.');
 }
-import entry from '../Entry';
-@entry('Popconfirm')
-@React.eclass({
+const { config, clsMap } = eClassConfig({
     that: [{
         '.tooltip-demo-placement a': css`display: inline-block;line-height: 32px;height: 32px;width: 60px;font-size: 14px;text-align: center;background: #f5f5f5;margin-right: 1em;margin-bottom: 1em;border-radius: 6px;`,
         '.tooltip-demo-placement button': css`display: inline-block;line-height: 32px;height: 32px;width: 60px;font-size: 14px;text-align: center;background: #f5f5f5;margin-right: 1em;margin-bottom: 1em;border-radius: 6px;`,
     }]
-})
+    
+});
+@entry('Popconfirm')
+@React.eclass(config)
+
 export default class Popconfirm extends React.Component {
     render() {
         return [
             '后面的不仿了，演示下动态加载',
             (
-                <div EClass="that" className="tooltip-demo-placement">
+                <div EClass={clsMap.that} className="tooltip-demo-placement">
                     <div style={{ marginLeft: 70, whiteSpace: 'nowrap' }}>
                         <Antd.Popconfirm placement="topLeft" title={text} onConfirm={confirm} okText="Yes" cancelText="No">
                             <Antd.Button>TL</Antd.Button>

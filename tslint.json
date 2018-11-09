@@ -22,13 +22,13 @@
         "jsx-no-lambda": false,
         "jsx-no-multiline-js": false,
         "label-position": true,
-        "max-line-length": [ true, 500 ],
-        "member-ordering": [
-            true,
-            "public-before-private",
-            "static-before-instance",
-            "variables-before-functions"
-        ],
+        "max-line-length": [ true, 2000 ],
+        // "member-ordering": [
+        //     // true,
+        //     "public-before-private",
+        //     "static-before-instance",
+        //     "variables-before-functions"
+        // ],
         "no-any": false,
         "no-arg": true,
         "no-bitwise": false,
@@ -71,7 +71,7 @@
         "triple-equals": [ true, "allow-null-check" ],
         "typedef": [
             true,
-            "parameter",
+            // "parameter",
             "property-declaration"
         ],
         "typedef-whitespace": [

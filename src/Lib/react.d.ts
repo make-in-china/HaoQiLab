@@ -294,7 +294,7 @@ declare namespace React {
         // always pass children as variadic arguments to `createElement`.
         // In the future, if we can define its call signature conditionally
         // on the existence of `children` in `P`, then we should remove this.
-        props: Readonly<{ children?: ReactNode }> & { EClass?: string, className?: string } & Readonly<P>;
+        props: Readonly<{ children?: ReactNode }> & { EClass?: string | string[], className?: string } & Readonly<P>;
         state: Readonly<S>;
         context: any;
         refs: {
@@ -584,6 +584,7 @@ declare namespace React {
     type EventHandler<E extends SyntheticEvent<any>> = { bivarianceHack(event: E): void }["bivarianceHack"];
 
     type ReactEventHandler<T> = EventHandler<SyntheticEvent<T>>;
+
 
     type ClipboardEventHandler<T> = EventHandler<ClipboardEvent<T>>;
     type CompositionEventHandler<T> = EventHandler<CompositionEvent<T>>;
@@ -2440,13 +2441,13 @@ declare namespace React {
 
         [propertyName: string]: any;
     }
-
+    type EClass = string | string[] | {
+        instance: HTMLElement | null;
+        onChange?: (newClass: string) => void;
+        setClass(newClass: string): void;
+    }
     interface TurtleAttributes<T> {
-        EClass?: string | {
-            instance: HTMLElement | null;
-            onChange?: (newClass: string) => void;
-            setClass(newClass: string): void;
-        };
+        EClass?: EClass;
         ['EClass-bf']?: string;
         ['EClass-af']?: string;
         ['EClass-ac']?: string;
@@ -3476,7 +3477,7 @@ declare namespace React {
         isRequired: Validator<T>;
     }
 
-    type ValidationMap<T> = {[K in keyof T]?: Validator<T> };
+    type ValidationMap<T> = { [K in keyof T]?: Validator<T> };
 
     interface ReactPropTypes {
         any: Requireable<any>;

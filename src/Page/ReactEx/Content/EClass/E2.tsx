@@ -1,12 +1,15 @@
 import React from 'react-ex';
 import PlayGround from 'src/Components/PlayGround';
-@React.eclass({
+import { eClassConfig } from 'src/CSS/G.Class';
+const { config, clsMap } = eClassConfig({
     frame: ['rdip-5', 'inline', 'ladip']
-})
+});
+@React.eclass(config)
+
 export default class E2 extends React.Component {
     playGroundData = React.hookCreateElement(() => {
         return this.renderReactNode(() => (
-            <div EClass="frame">
+            <div EClass={clsMap.frame}>
                 frame
             </div>
         ));

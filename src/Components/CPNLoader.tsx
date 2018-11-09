@@ -1,17 +1,18 @@
-import React , { css } from 'react-ex';
+import React, { css } from 'react-ex';
 import Antd from 'antd-min';
 import { observer, observable } from 'mobx-index';
-@React.eclass(
-    {
-        box: css`
-            position:absolute;
-            left:0;
-            top:40%;
-            right:0;
-            text-align:center;
-        `
-    }
-)
+import { eClassConfig } from 'src/CSS/G.Class';
+const { config, clsMap } = eClassConfig({
+    
+    box: css`
+    position:absolute;
+    left:0;
+    top:40%;
+    right:0;
+    text-align:center;
+`
+});
+@React.eclass(config)
 @observer
 export default class CPNLoader
     extends React.Component
@@ -44,7 +45,7 @@ export default class CPNLoader
 
         } else {
             return (
-                <div EClass="box">
+                <div EClass={clsMap.box}>
                     <Antd.Spin tip={`加载${this.props.src}`} size="large" />
                 </div>
             );
@@ -64,7 +65,7 @@ export default class CPNLoader
 
             } catch (e) {
                 this.component = (
-                    <div EClass="box">
+                    <div EClass={clsMap.box}>
                         <Antd.Spin tip={`读取组件出错：${this.props.src}`} size="large" />
                     </div>
                 );
@@ -83,7 +84,7 @@ export default class CPNLoader
         // script.setAttribute('key', props.src);
         script.src = '/HaoQiLab/static/js/' + props.src + '.js';
         script.onload = this.makeOnLoad(props);
-        document.head.appendChild(script);
+        document.head!.appendChild(script);
         this.map[props.src] = null;
     }
 

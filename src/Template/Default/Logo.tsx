@@ -4,8 +4,8 @@ import CircularText from '../../Components/CircularText';
 import project from '../../Project.Config';
 import Animation from '../../Components/Animation';
 const logo = require('../assert/logo.png');
-
-@React.eclass({
+import { eClassConfig } from 'src/CSS/G.Class';
+const { config, clsMap } = eClassConfig({
     logo: [
         'f-gray fb'.split(' '),
         {
@@ -16,14 +16,16 @@ const logo = require('../assert/logo.png');
             ' span': [css`vertical-align:top;`, 'meml_-5 inline'.split(' ')]
         }
     ]
-})
+    
+});
+@React.eclass(config)
 export default class Logo
     extends React.Component<{
         fill?: string
     }> {
     render() {
         return (
-            <div EClass="logo" className={this.props.className}>
+            <div EClass={clsMap.logo} className={this.props.className}>
                 <div className="logo" />
                 <span><CircularText fill={this.props.fill}>
                     <Animation

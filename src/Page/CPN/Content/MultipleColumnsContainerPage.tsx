@@ -6,28 +6,12 @@ import { G } from 'src/CSS/G';
 import { ReactNode } from 'react';
 // #endregion
 @entry('MultipleColumnsContainerPage')
-@React.eclass(/*local eclass rule */{
-    box: [[]]
-})
+
 export default class MultipleColumnsContainerPage
     extends React.Component<{
         /* props */
     }> {
-    // #region static
 
-    // #endregion
-
-    // #region public property
-
-    // #endregion
-
-    // #region private property
-
-    // #endregion
-
-    // #region public methods withoutRender
-
-    // #endregion
     render() {
         const border = G.Class.map.frm_border;
         const data: ReactNode[] = [];
@@ -46,7 +30,4 @@ export default class MultipleColumnsContainerPage
         ];
     }
 
-    // #region private methods
-
-    // #endregion
 }

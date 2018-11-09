@@ -1,10 +1,25 @@
 import * as _React from 'react';
 import { CSS, cssClassNS, CSSRuleEx } from '../CSS/CSSClass';
 import { calcStyle } from 'src/CSS/CalcStyle';
-import { isString } from 'src/Lib/is';
+import { isString, isFunction, isArray } from 'src/Lib/is';
 import { ReactNode } from 'react';
+import { toNamesAndMapAndList } from './NamesAndMapAndList';
 
 namespace ReactEx {
+    export function isReactComponent(that: any) {
+        let objProto = (Object as any).__proto__;
+        if (isFunction(that)) {
+            let proto = that.__proto__;
+            while (proto !== objProto) {
+
+                if (proto === _React.Component) {
+                    return true;
+                }
+                proto = proto.__proto__;
+            }
+        }
+        return false;
+    }
     type ComponentClass<P = any> =
         | React.StatelessComponent<P>
         | React.ComponentClass<P>
@@ -44,19 +59,15 @@ namespace ReactEx {
             });
         }
         if (props) {
-            const eClass: string | AsyncEClass = props.EClass;
+            const eClass: string | string[] | AsyncEClass = props.EClass;
             if (eClass !== undefined) {
                 const cssClass = renderCSSClass;
                 if (isString(eClass)) {
-                    if (eClass.trim() !== '') {
-                        const clses = cssClass.parse(eClass);
-                        if (props.className === undefined) {
-                            props.className = clses.join(' ');
-                        } else {
-                            props.className += ' ' + clses.join(' ');
-                        }
-                        delete props.EClass;
-                    }
+                    setEClass(eClass, cssClass, props);
+                } else if (isArray(eClass)) {
+                    eClass.forEach(cls => {
+                        setEClass(cls, cssClass, props);
+                    });
                 } else if ('setClass' in eClass) {
                     // 加ref
                     let oldRef: Function | undefined = undefined;
@@ -173,6 +184,10 @@ namespace ReactEx {
 
         }
     }
+    export function makeEClassConfig<T extends { [index: string]: any }>(data: T) {
+        return { data: data, ...toNamesAndMapAndList(data) };
+    }
+
     /**
      * 注册eclass
      * @param rule 
@@ -207,9 +222,9 @@ namespace ReactEx {
             // }[ctor.name] as T;
         };
     }
-    export interface CreateElementHookCallBack {
-        (type: string, props?: EClassProps & { className?: string }, ...children: React.ReactNode[]): React.ReactNode;
-    }
+    // export interface CreateElementHookCallBack {
+    //     (type: string, props?: EClassProps & { className?: string }, ...children: React.ReactNode[]): React.ReactNode;
+    // }
 
     export function hookCreateElement(cb: () => React.ReactNode) {
         isHookCreateElement = true;
@@ -299,8 +314,27 @@ namespace ReactEx {
 
     }
 }
-export function css(arrTS: TemplateStringsArray, ...args: string[]) {
-    var arr = [arrTS[0]];
+function setEClass(eClass: string, cssClass: cssClassNS.CSSClass, props: Record<string, any>) {
+    if (eClass.trim() !== '') {
+        const clses = cssClass.parse(eClass);
+        if (props.className === undefined) {
+            props.className = clses.join(' ');
+        } else {
+            props.className += ' ' + clses.join(' ');
+        }
+        delete props.EClass;
+    }
+}
+/**
+ * 用空格分隔字符串
+ * @param arrTS 模板字符串
+ * @param args 不允许输入参数
+ */
+export function _(arrTS: TemplateStringsArray, ...args: never[]) {
+    return arrTS[0].split(' ');
+}
+export function css(arrTS: TemplateStringsArray, ...args: (string | number)[]) {
+    var arr: (string | number)[] = [arrTS[0]];
     for (var i = 0; i < args.length; i++) {
         arr.push(args[i]);
         arr.push(arrTS[i + 1]);
