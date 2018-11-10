@@ -3,25 +3,19 @@ import { Skill, SkillType } from '../../../Skill';
 import { War } from '../../../War';
 
 import { Creatures } from '../../../Creatures';
+import { delay } from 'src/Data/TimeNode/Lib';
 
 export class BambooRatBite extends Skill {
     name = '咬';
     fullName = '竹鼠咬咬';
     type = SkillType.attack;
     probability = 300;
-    description = '50%物理伤害攻击血最少的敌人';
-    action(war: War, creatures: Creatures, enemys: Creatures[], teammate: Creatures[]) {
-        let hp = 99999999999;
-        let enemy: Creatures | null = null;
-        for (let i = 0; i < enemys.length; i++) {
-            const m = enemys[i];
-            if (m.hp > 0 && m.hp < hp) {
-                hp = m.hp;
-                enemy = m;
-            }
-        }
+    description = '50%物理伤害攻击血量最少或最多的敌人';
+    async action(war: War, creatures: Creatures, enemys: Creatures[], teammate: Creatures[]): Promise<(() => boolean | void) | void> {
+        let enemy: Creatures | null = war.getHighOrLowHPEnemys(enemys);
 
         war.console.logNormal(`【${creatures.name}】发动【${this.fullName}】。`);
+        await delay(500);
         if (enemy) {
             creatures.attack(war, enemy!, {
                 physical: 0.5

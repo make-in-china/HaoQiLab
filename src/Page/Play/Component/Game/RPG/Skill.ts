@@ -21,7 +21,7 @@ export enum SkillType {
 }
 export abstract class Skill {
 
-    action(war: War, creatures: Creatures, enemys: Creatures[], teammate: Creatures[]): (() => boolean | void) | void {
+    async action(war: War, creatures: Creatures, enemys: Creatures[], teammate: Creatures[]): Promise<(() => boolean | void) | void> {
         throw new Error('Method not implemented.');
     }
     name: string;

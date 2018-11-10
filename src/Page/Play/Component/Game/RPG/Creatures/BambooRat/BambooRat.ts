@@ -7,7 +7,7 @@ export class BambooRat extends Creatures {
 
     baseName = '竹鼠';
     description = '可通过竹鼠厨师召唤获得';
-    featureDescription = '几率攻击，几率睡眠，睡两回合，睡眠结束回血30%，几率闪躲，几率卖萌，卖萌时可再行动一次，几率进食，进食时回血10%';
+    featureDescription = '几率攻击，几率睡眠，睡两行动，睡眠结束回血30%，几率闪躲，几率卖萌，卖萌时可再行动一次，几率进食，进食时回血10%';
 
     passiveSkillList = [
         allSkill.bambooRatDodge

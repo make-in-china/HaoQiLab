@@ -11,7 +11,7 @@ const { config, clsMap } = eClassConfig({
         background-size: 80%;background-repeat: no-repeat;
         transition:background-color 200ms;background-position:50% 50%;
         vertical-align:top;margin-left:-2px;margin-top:-2px;padding:2px;
-        border:2px solid #dde;width:38px;height:38px;line-height:1;
+        border:2px solid rgba(255,255,255,0.1);width:38px;height:38px;line-height:1;
         box-sizing:border-box;display:inline-block;color:#555;
     `,
     no2: css`background-color:#ff0;`,

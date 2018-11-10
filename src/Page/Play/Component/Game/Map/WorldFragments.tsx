@@ -9,7 +9,14 @@ const { config, clsMap } = eClassConfig({
 @React.eclass(config)
 @observer
 export class WorldFragments
-    extends React.Component<{ x: number, y: number, picSrc?: string, onClick: (inst: WorldFragments) => void }> {
+    extends React.Component<{
+        width: number
+        height: number
+        x: number
+        y: number
+        picSrc?: string
+        onClick: (inst: WorldFragments) => void
+    }> {
     @observable nextTick = 0;
     x: number;
     y: number;
@@ -30,21 +37,28 @@ export class WorldFragments
         this.picSrc = props.picSrc;
     }
     rotate = (Math.random() * 360) | 0;
-    render() {
-        // tslint:disable-next-line:no-unused-expression
-        this.nextTick;
-        let left = 1180 / 2 - 90;
-        let top = 580 / 2 - 90;
+
+    get left() {
+        return this.props.width / 2 - 90 + this.x * 152;
+    }
+    get top() {
+        let top = this.props.height / 2 - 90;
         if (this.x % 2 === 0) {
             top += 90;
         }
+        return top + this.y * 180;
+    }
+    render() {
+        // tslint:disable-next-line:no-unused-expression
+        this.nextTick;
+        
         return (
             <div
                 EClass={clsMap.box}
                 onClick={this.onClick}
                 style={{
-                    left: left + this.x * 152,
-                    top: top + this.y * 180,
+                    left: this.left,
+                    top: this.top,
                     backgroundImage: `url(${this.picSrc})`,
                     transform: `rotate(${this.rotate}deg)`
                 }}

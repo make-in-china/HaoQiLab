@@ -13,6 +13,7 @@ export abstract class Creatures {
     passiveSkillList: Skill[];
     description: string;
     featureDescription: string;
+    isTeammate: boolean = false;
 
     protected m = {
         level: 1
@@ -51,6 +52,8 @@ export abstract class Creatures {
         mind: 0,
         // 智慧
         intelligence: 0,
+        // 敏捷
+        dex: 0,
         // 技能几率总值
         probability: 100,
         // 名字
@@ -60,7 +63,8 @@ export abstract class Creatures {
         // 物理伤害
         physicalDamage: [5, 10] as [number, number],
         // 护甲
-        armor: 0
+        armor: 0,
+
     };
     private state = {
         hp: 50,
@@ -79,14 +83,16 @@ export abstract class Creatures {
         // 基础物理伤害
         physicalDamage: [5, 10],
         // 护甲
-        armor: 0
+        armor: 0,
+        // 敏捷
+        dex: 100,
     };
     constructor(
         level: number,
         public picture: [string, string],
         basePhysicalDamage: Property<[number, number]>,
         skillList: Skill[]) {
-        
+
         this.base.physicalDamage = basePhysicalDamage.value;
         this.basePhysicalDamageName = basePhysicalDamage.name;
         this.m.level = level;
@@ -106,6 +112,8 @@ export abstract class Creatures {
         this.computed.power = this.base.power + this.allocation.power;
         this.computed.mind = this.base.mind + this.allocation.mind;
         this.computed.intelligence = this.base.intelligence + this.allocation.intelligence;
+
+        this.computed.dex = this.base.dex + this.m.level;
 
         // 重算技能总几率
         this.computed.probability = 0;
@@ -134,7 +142,7 @@ export abstract class Creatures {
         // 计算总护甲
         this.computed.armor = this.base.armor;
     }
-    private nextActionCallBack: void | (() => boolean | void);
+    nextActionCallBack: void | (() => boolean | void);
     addPower(v: number) {
         if (this.allocation.unuse >= v) {
             this.allocation.unuse -= v;
@@ -157,14 +165,14 @@ export abstract class Creatures {
         }
     }
 
-    usePassiveSkill(war: War, enemys: Creatures[], teammate: Creatures[]) {
-        this.passiveSkillList.forEach(m => {
+    async usePassiveSkill(war: War, enemys: Creatures[], teammate: Creatures[]) {
+        this.passiveSkillList.forEach(async(m) => {
             if (m.type & SkillType.minion) {
-                m.action(war, this, enemys, teammate);
+                await m.action(war, this, enemys, teammate);
             }
         });
     }
-    action(war: War, enemys: Creatures[], teammate: Creatures[]) {
+    async action(war: War, enemys: Creatures[], teammate: Creatures[]) {
         if (this.hp === 0) {
             return;
         }
@@ -182,7 +190,7 @@ export abstract class Creatures {
         let probability = (this.computed.probability * Math.random() | 0);
         for (const skill of this.skillList) {
             if (probability < skill.probability) {
-                this.nextActionCallBack = skill.action(war, this, enemys, teammate);
+                this.nextActionCallBack = await skill.action(war, this, enemys, teammate);
                 war.raiseSkill(this, skill);
                 return;
             } else {
@@ -233,6 +241,9 @@ export abstract class Creatures {
         }
     }
     private deductHP(war: War, from: Creatures, damage: number) {
+        if (this.state.hp <= 0) {
+            debugger;
+        }
         this.state.hp -= damage;
         war.console.logDangerous(`【${this.name}】受到${damage}点伤害。`);
         if (this.state.hp <= 0) {
