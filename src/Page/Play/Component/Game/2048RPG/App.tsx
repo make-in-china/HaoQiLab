@@ -11,6 +11,13 @@ import { allCreatures } from '../RPG/AllCreatures';
 import { BambooRatCook } from '../RPG/Creatures/BambooRatCook/BambooRatCook';
 import { Creatures } from '../RPG/Creatures';
 import { Map } from '../Map/Map';
+import { World } from '../Map/World';
+import { WorldFragments } from '../Map/WorldFragments';
+import { MapData, MapFragmentsNode } from '../Map/MapData';
+import { MapFragments } from '../Map/MapFragments';
+const beginPic = require('../Map/WorldIcon/begin.png');
+const castle = require('../Map/Icon/castle.png');
+const mountain = require('../Map/Icon/mountain.png');
 const enum MoveWay {
     up = 0,
     left = 1,
@@ -29,7 +36,15 @@ const enum MoveStateCellsXOrY {
 const Select = Antd.Select;
 const Option = Select.Option;
 const { config, clsMap } = eClassConfig({
-    box: css`height:640px;overflow:auto;`,
+    box: css`width:1200px;height:640px;overflow:auto;padding:5px;box-sizing:border-box;`,
+    modal: {
+        ' .ant-modal-confirm-content': css`margin:0;`,
+        ' .ant-modal-body': css`padding:0;`,
+        ' .anticon-info-circle': css`display:none;`,
+        ' .ant-modal-confirm-btns': css`display:none;`,
+        ' .ant-modal-close': css`display:none;`
+    },
+    stateBox: css`position: absolute;left:0;top:0;right:0;bottom:0;`,
     showBox: [
         css`margin-left:2px;margin-top:4px;`
     ],
@@ -48,7 +63,8 @@ const { config, clsMap } = eClassConfig({
     power: css`width:8em;margin:5px;display:inline-block;`,
     creatures: css``,
     creaturesBox: css`display:inline-block;`,
-    mapBox: css`width:500px;height:400px;display:inline-block;vertical-align:top;`
+    mapBox: [
+        _`full`, css`height:600px;display:inline-block;vertical-align:top;`]
 });
 @React.eclass(config)
 @observer
@@ -69,6 +85,11 @@ export default class App
         this.setMode(this.mode);
         this.nextTick++;
     }
+    stateBoxStyle = [
+        { display: 'none' },
+        { display: 'block' },
+        { display: 'none' }
+    ];
     cellRefs = {
         left: [] as Cell[],
         right: [] as Cell[],
@@ -77,6 +98,18 @@ export default class App
         center: [] as Cell[][],
     };
     actionCount = 0;
+    onMapReturnWorld = () => {
+        this.stateBoxStyle[0].display = 'none';
+        this.stateBoxStyle[1].display = 'block';
+        this.nextTick++;
+    }
+    onClickWorld = (inst: WorldFragments) => {
+        this.stateBoxStyle[1].display = 'none';
+        this.stateBoxStyle[0].display = 'block';
+
+        this.setCurrentWorld(inst.x, inst.y);
+        this.nextTick++;
+    }
     private setMode(mode: 4 | 5 | 6) {
         this.yCellsList = null;
         this.xCellsList = null;
@@ -191,9 +224,15 @@ export default class App
     gameOver: boolean = false;
     rpg: RPG;
     map: Map;
+    world: World;
     onRefRPG = (inst: RPG | null) => {
         if (inst) {
             this.rpg = inst;
+        }
+    }
+    onRefWorld = (inst: World | null) => {
+        if (inst) {
+            this.world = inst;
         }
     }
     onRefMap = (inst: Map | null) => {
@@ -295,6 +334,12 @@ export default class App
             this.gameOver = true;
         }
         this.nextTick++;
+    }
+    getRandomCellData() {
+        return {
+            creatures: (Math.random() < 0.75) ? null : this.getRandomCreatures(),
+            value: ((Math.random() * 2 + 1) | 0) * 2
+        };
     }
     commitPowerPool() {
         const hash: { [index: number]: number } = {};
@@ -436,70 +481,144 @@ export default class App
         // 生成2个厨师
         this.teammate.push(createBambooRatCook('华农兄'));
         this.teammate.push(createBambooRatCook('华农弟'));
+
         this.setMode(this.mode);
+
+        this.worldMaps = new MapData();
+        const root = this.worldMaps.root!;
+        root.picSrc = beginPic;
+        this.worlds.push({
+            x: root.x,
+            y: root.y,
+            maps: this.createNewWorldMaps()
+        });
+        this.currentWorldMaps = this.worlds[0].maps;
+
+        this.worlds.push(this.createNewWorld());
+        this.worlds.push(this.createNewWorld());
+        this.worlds.push(this.createNewWorld());
+
     }
+    createNewWorld() {
+
+        let next = this.worldMaps.addRandomNode();
+        next.picSrc = beginPic;
+        return {
+            x: next.x,
+            y: next.y,
+            maps: this.createNewWorldMaps()
+        };
+    }
+    worlds: {
+        x: number;
+        y: number;
+        maps: MapData;
+    }[] = [];
+    setCurrentWorld(x: number, y: number) {
+        const world = this.worlds.find(m => {
+            if (m.x === x && m.y === y) {
+                return true;
+            }
+            return false;
+        })!;
+        this.currentWorldMaps = world.maps;
+    }
+
+    createNewWorldMaps() {
+        const map = new MapData();
+        map.root.picSrc = castle;
+        for (let j = 0; j < 15; j++) {
+
+            for (let i = 0; i < 8; i++) {
+                map.addRandomNode();
+            }
+            map.addRandomNode().picSrc = castle;
+
+            for (let i = 0; i < 8; i++) {
+                map.addRandomNode();
+            }
+            map.addRandomNode().picSrc = mountain;
+        }
+        return map;
+
+    }
+    onMoveToMap = (inst: MapFragments, mapNode: MapFragmentsNode) => {
+        return false;
+    }
+    worldMaps: MapData;
+    currentWorldMaps: MapData;
+    content: React.ReactNode;
     render() {
         // tslint:disable-next-line:no-unused-expression
         this.nextTick;
-
+        const wrapClassName = this.cssClass.key + clsMap.modal;
+        this.cssClass.parse(clsMap.modal);
         return (
-            <div EClass={clsMap.box}>
+            <Antd.Modal width={1200} footer={null} visible={true} wrapClassName={wrapClassName}>
+                <div EClass={clsMap.box}>
 
-                <div EClass={clsMap.toolBox}>
-                    {/* <Select defaultValue="6 Ⅹ 6" style={{ width: 120 }} onChange={this.modeChange}>
-                        <Option value="4">4 Ⅹ 4</Option>
-                        <Option value="5">5 Ⅹ 5</Option>
-                        <Option value="6">6 Ⅹ 6</Option>
-                    </Select> */}
-                    <span EClass={clsMap.actionCount}>回合数 {this.actionCount}</span>
-                    <span EClass={clsMap.power}>能量:{this.power}</span>
-                </div>
-                <div EClass={clsMap.creaturesBox}>
-                    <div>角色列表</div>
-                    <Select placeholder="增加角色" defaultValue={['竹鼠厨师']} mode="multiple" style={{ width: 120 }} onChange={this.modeChange}>
-                        {allCreatures.map(m => (<Option value={m.baseName}>{m.baseName}</Option>))}
-                    </Select></div>
-                <div EClass={clsMap.showOutBox} style={{ width: size * (this.mode + 2) + 6, height: size * (this.mode + 2) + 6 }}>
-                    <div EClass={clsMap.showBox}>
-                        <div EClass={clsMap.leftBox}>
-                            {this.cellBox.left}
-                        </div>
-                        <div EClass={clsMap.topBox} style={{ marginTop: -size * (this.mode + 1) }}>
-                            {this.cellBox.top}
-                        </div>
-                        <div EClass={clsMap.centerBox}>
-                            {this.cellBox.center.map(m => (<div style={{ height: size }}>{m}</div>))}
-                        </div>
-                        <div EClass={clsMap.bottomBox}>
-                            {this.cellBox.bottom}
-                        </div>
-                        <div EClass={clsMap.rightBox} style={{ marginTop: -size * (this.mode + 1), marginLeft: size * (this.mode + 1) }}>
-                            {this.cellBox.right}
+                    <div EClass={clsMap.stateBox} style={{ display: this.stateBoxStyle[0].display }}>
+
+                        <div EClass={clsMap.mapBox}>
+                            <Map onMoveToMap={this.onMoveToMap} world={this.currentWorldMaps} creatures={this.teammate[0]} width={1180} height={580} ref={this.onRefMap} return={this.onMapReturnWorld} />
                         </div>
                     </div>
-                </div>
-                <div EClass={clsMap.warBox}>
-                    <RPG ref={this.onRefRPG} teammate={this.teammate} />
-                    {/* this.messages.map((m, i) => {
-                        return <div key={i}>{m}</div>;
-                    }) */}
-                </div>
-                <div EClass={clsMap.mapBox}>
-                    <Map ref={this.onRefMap} />
-                </div>
-                {
-                    this.win ? (<div style={{ width: size * this.mode + 2 }} EClass={clsMap.winBox}><div>游戏胜利！</div></div>) : (
-                        this.gameOver && (<div style={{ width: size * this.mode + 2 }} EClass={clsMap.gameOverBox}><div>游戏失败！</div></div>)
-                    )}
+                    <div EClass={clsMap.stateBox} style={{ display: this.stateBoxStyle[1].display }}>
 
-            </div >
+                        <div EClass={clsMap.mapBox}>
+                            <World worlds={this.worldMaps} ref={this.onRefWorld} onClickWorld={this.onClickWorld} />
+                        </div>
+                    </div>
+                    <div EClass={clsMap.stateBox} style={{ display: this.stateBoxStyle[2].display }}>
+                        <div EClass={clsMap.toolBox}>
+                            {/* <Select defaultValue="6 Ⅹ 6" style={{ width: 120 }} onChange={this.modeChange}>
+                            <Option value="4">4 Ⅹ 4</Option>
+                            <Option value="5">5 Ⅹ 5</Option>
+                            <Option value="6">6 Ⅹ 6</Option>
+                        </Select> */}
+                            <span EClass={clsMap.actionCount}>回合数 {this.actionCount}</span>
+                            <span EClass={clsMap.power}>能量:{this.power}</span>
+                        </div>
+                        <div EClass={clsMap.creaturesBox}>
+                            <div>角色列表</div>
+                            <Select placeholder="增加角色" defaultValue={['竹鼠厨师']} mode="multiple" style={{ width: 120 }} onChange={this.modeChange}>
+                                {allCreatures.map(m => (<Option value={m.baseName}>{m.baseName}</Option>))}
+                            </Select></div>
+                        <div EClass={clsMap.showOutBox} style={{ width: size * (this.mode + 2) + 6, height: size * (this.mode + 2) + 6 }}>
+                            <div EClass={clsMap.showBox}>
+                                <div EClass={clsMap.leftBox}>
+                                    {this.cellBox.left}
+                                </div>
+                                <div EClass={clsMap.topBox} style={{ marginTop: -size * (this.mode + 1) }}>
+                                    {this.cellBox.top}
+                                </div>
+                                <div EClass={clsMap.centerBox}>
+                                    {this.cellBox.center.map(m => (<div style={{ height: size }}>{m}</div>))}
+                                </div>
+                                <div EClass={clsMap.bottomBox}>
+                                    {this.cellBox.bottom}
+                                </div>
+                                <div EClass={clsMap.rightBox} style={{ marginTop: -size * (this.mode + 1), marginLeft: size * (this.mode + 1) }}>
+                                    {this.cellBox.right}
+                                </div>
+                            </div>
+                        </div>
+                        <div EClass={clsMap.warBox}>
+                            <RPG ref={this.onRefRPG} teammate={this.teammate} />
+                            {/* this.messages.map((m, i) => {
+                            return <div key={i}>{m}</div>;
+                        }) */}
+                        </div>
+                        {
+                            this.win ? (<div style={{ width: size * this.mode + 2 }} EClass={clsMap.winBox}><div>游戏胜利！</div></div>) : (
+                                this.gameOver && (<div style={{ width: size * this.mode + 2 }} EClass={clsMap.gameOverBox}><div>游戏失败！</div></div>)
+                            )}
+
+                    </div>
+                </div >
+
+            </Antd.Modal >
         );
-    }
-    getRandomCellData() {
-        return {
-            creatures: (Math.random() < 0.75) ? null : this.getRandomCreatures(),
-            value: ((Math.random() * 2 + 1) | 0) * 2
-        };
     }
 }
 

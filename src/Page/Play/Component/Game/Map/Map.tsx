@@ -1,187 +1,128 @@
 import { observable, observer } from 'mobx-index';
-import React, { css } from 'react-ex';
+import React, { css, _ } from 'react-ex';
 import { eClassConfig } from 'src/CSS/G.Class';
 import { MapFragments } from './MapFragments';
-const castle = require('./Icon/castle.png');
-const mountain = require('./Icon/mountain.png');
-type MapFragmentsNode = {
-    x: number
-    y: number
-    picSrc?: string
-};
+import { MapData, MapFragmentsNode } from './MapData';
+import { Antd } from 'antd-more';
+import { Creatures } from '../RPG/Creatures';
+import { MapBackLines } from './MapBackLines';
 const { config, clsMap } = eClassConfig({
-    box: css`padding:5px;background-color:#466e9e;height:500px;border-radius: 500px;box-shadow: inset 0 0 32px rgba(0,0,0,0.5);`,
+    box: css`left:10px;right:10px;top:10px;bottom:10px;padding:5px;position:absolute;
+    background-color:#466e9e;border-radius: 50px;overflow:hidden;
+    box-shadow: inset 0 0 20px rgba(0,0,0,0.5), 0 0 33px rgba(0,0,0,0.5);border: 2px #bfbfbf solid;`,
+    mapName: [_`abs`, css`
+        top: 5px;
+        left: 50%;
+        color: #fff;
+        padding: 0px 15px;
+        font-size: 18px;
+        border: 1px rgba(0,0,0,0.5) solid;
+        background-color: rgba(0, 255, 255, 0.42);
+        border-radius: 30px;
+        box-shadow: 0 0 3px rgba(0,0,0,.5);
+        transform: translateX(-50%);
+    `],
+    upMapBtn: [_`abs`, css`
+        bottom: 25px;
+        right: 25px;
+        box-shadow: 0 0 3px rgba(0,0,0,.5);
+    `],
+    creatures: [_`abs`
+        , css`transform: translateX(-50%) translateY(-50%);width:30px;height:50px;
+        background-size:30px;background-position:50% 100%;background-repeat:no-repeat;
+        pointer-events:none;`],
 });
 @React.eclass(config)
 @observer
 export class Map
-    extends React.Component<{}> {
+    extends React.Component<{
+        world: MapData
+        width: number
+        height: number
+        return: () => void
+        onMoveToMap: (inst: MapFragments, mapNode: MapFragmentsNode) => boolean
+        creatures: Creatures
+        curent?: MapFragmentsNode
+    }> {
     @observable nextTick = 0;
 
     id: number;
-    constructor(props: Map['props']) {
-        super(props);
-
-    }
     messageList: React.ReactNode[] = [];
-
+    mapBackLines: MapBackLines;
+    onMouseOver = (inst: MapFragments) => {
+        this.mapBackLines.move(inst.left - 110, inst.top - 110);
+    }
+    onRefMapBackLines = (inst: MapBackLines | null) => {
+        if (inst) {
+            this.mapBackLines = inst;
+        }
+    }
+    onMapFragmentsClick = (inst: MapFragments, map: MapFragmentsNode) => {
+        if (inst === this.currentMap) {
+            return;
+        }
+        if (this.props.onMoveToMap(inst, map)) {
+            this.currentMap = inst;
+        }
+        this.nextTick++;
+    }
+    currentMap: MapFragments;
+    centerMap: MapFragments;
     componentWillMount() {
-        this.centerTop[0] = {
-            x: 0, y: 0
-        };
-        let newNode = this.centerTop[0]!;
-        newNode = this.addNode(newNode, 'top');
-        newNode = this.addNode(newNode, 'top');
-        newNode = this.addNode(newNode, 'rightTop');
-        newNode = this.addNode(newNode, 'rightTop');
-        newNode = this.addNode(newNode, 'rightBottom');
-        newNode.picSrc = castle;
-
-        newNode = this.addNode(newNode, 'rightBottom');
-        newNode = this.addNode(newNode, 'bottom');
-        newNode = this.addNode(newNode, 'bottom');
-        newNode.picSrc = mountain;
-        newNode = this.addNode(newNode, 'leftTop');
-        newNode = this.addNode(newNode, 'bottom');
-        newNode = this.addNode(newNode, 'rightBottom');
-        newNode = this.addNode(newNode, 'leftBottom');
-        newNode = this.addNode(newNode, 'bottom');
-        newNode.picSrc = castle;
-        newNode = this.addNode(newNode, 'bottom');
-
-        this.allFragments = this.getAllFragments();
+        //
     }
-    addNode(node: MapFragmentsNode, way: 'leftTop' | 'rightTop' | 'top' | 'bottom' | 'leftBottom' | 'rightBottom'): MapFragmentsNode {
-        let newNode = {
-            x: 0, y: 0
-        };
-        switch (way) {
-            case 'leftTop':
-                newNode.x = node.x - 1;
-                newNode.y = node.y - (newNode.x % 2 === 0 ? 1 : 0);
-                break;
-            case 'rightTop':
-                newNode.x = node.x + 1;
-                newNode.y = node.y - (newNode.x % 2 === 0 ? 1 : 0);
-                break;
-            case 'top':
-                newNode.x = node.x;
-                newNode.y = node.y - 1;
-                break;
-            case 'bottom':
-                newNode.x = node.x;
-                newNode.y = node.y + 1;
-                break;
-            case 'leftBottom':
-                newNode.x = node.x - 1;
-                newNode.y = node.y + (newNode.x % 2);
-                break;
-            case 'rightBottom':
-                newNode.x = node.x + 1;
-                newNode.y = node.y + (newNode.x % 2);
-                break;
-            default:
+    onRefCurrentMap = (inst: MapFragments | null) => {
+        if (inst) {
+            this.currentMap = inst;
         }
-        if (newNode.x === 0) {
-            // 在中线
-            if (newNode.y <= 0) {
-                // 在中上
-                // y=0时，是数组起始点
-                this.centerTop[-newNode.y] = newNode;
-            } else {
-                // 在中下
-                // y=-1时，是数组起始点, -2时，是1，-3时，是2
-                this.centerBottom[newNode.y - 1] = newNode;
-            }
-        } else if (newNode.x < 0) {
-            // 在左
-            if (newNode.y <= 0) {
-                // 在左上
-                // x=-1,y=0时，是数组起始点 
-                let top = this.getMapFragmentsNodeArray(this.leftTop, -newNode.x - 1);
-                top[-newNode.y] = newNode;
-            } else {
-                // 在左下
-                // x=-1,y=-1时，是数组起始点 
-                let top = this.getMapFragmentsNodeArray(this.leftBottom, -newNode.x - 1);
-                top[newNode.y - 1] = newNode;
-            }
-        } else {
-            // 在右
-            if (newNode.y <= 0) {
-                // 在右上
-                // x=1,y=0时，是数组起始点 
-                let top = this.getMapFragmentsNodeArray(this.rightTop, newNode.x - 1);
-                top[-newNode.y] = newNode;
-
-            } else {
-                // 在右下
-                // x=1,y=-1时，是数组起始点 
-                let top = this.getMapFragmentsNodeArray(this.rightBottom, newNode.x - 1);
-                top[newNode.y - 1] = newNode;
-
-            }
-        }
-        return newNode;
     }
-    getMapFragmentsNodeArray(array: (MapFragmentsNode | null)[][], x: number) {
-        let arr = array[x];
-        if (!arr) {
-            arr = [];
-            array[x] = arr;
+    onRefCenterMap = (inst: MapFragments | null) => {
+        if (inst) {
+            this.currentMap = inst;
         }
-        return arr;
-    }
-    allFragments: MapFragmentsNode[];
-    leftTop: (MapFragmentsNode)[][] = [];
-    rightTop: (MapFragmentsNode)[][] = [];
-    leftBottom: (MapFragmentsNode)[][] = [];
-    rightBottom: (MapFragmentsNode)[][] = [];
-    centerTop: (MapFragmentsNode)[] = [];
-    centerBottom: (MapFragmentsNode)[] = [];
-    getAllFragments() {
-        let all: MapFragmentsNode[] = [];
-        this.leftTop.forEach(m => {
-            m.forEach(n => {
-                all.push(n);
-            });
-        });
-        this.rightTop.forEach(m => {
-            m.forEach(n => {
-                all.push(n);
-            });
-        });
-        this.leftBottom.forEach(m => {
-            m.forEach(n => {
-                all.push(n);
-            });
-        });
-        this.rightBottom.forEach(m => {
-            m.forEach(n => {
-                all.push(n);
-            });
-        });
-        this.centerTop.forEach(m => {
-
-            all.push(m);
-
-        });
-        this.centerBottom.forEach(m => {
-            all.push(m);
-        });
-        return all;
     }
     render() {
         // tslint:disable-next-line:no-unused-expression
         this.nextTick;
+        const mapRestParam = {
+            onClick: this.onMapFragmentsClick,
+            onMouseOver: this.onMouseOver,
+            width: this.props.width,
+            height: this.props.height
+        };
+        const allMap = this.props.world.getAllFragments().map(m => {
+            if (!this.currentMap && this.props.curent && m.x === this.props.curent.x && m.y === this.props.curent.y) {
+                return (<MapFragments {...mapRestParam} key={m.x + ',' + m.y} mapNode={m} />);
+            }
+            return (<MapFragments {...mapRestParam} key={m.x + ',' + m.y} mapNode={m} />);
+        });
+        if (!this.currentMap && !this.props.curent) {
+            allMap[0].props.ref = this.onRefCurrentMap;
+        }
+        allMap[0].props.ref = this.onRefCenterMap;
 
+        let left = 0;
+        let top = 0;
+        if (this.currentMap && this.centerMap) {
+            left = this.currentMap.left - this.centerMap.left;
+            top = this.currentMap.left - this.centerMap.left;
+        }
         return (
             <div EClass={clsMap.box}>
-                {
-                    this.allFragments.map(m => {
-                        return (<MapFragments key={m.x + ',' + m.y} x={m.x} y={m.y} picSrc={m.picSrc}/>);
-                    })
-                }
+                <div EClass={clsMap.full} style={{ left, top }}>
+                    <MapBackLines ref={this.onRefMapBackLines} />
+                    {allMap}
+                    <div
+                        EClass={clsMap.creatures}
+                        style={{
+                            left: this.props.width / 2 - 15,
+                            top: this.props.height / 2 + 30,
+                            backgroundImage: `url(${this.props.creatures.picture[1]})`
+                        }}
+                    />
+                </div>
+                <div EClass={clsMap.mapName}>梦大陆</div>
+                <Antd.Button EClass={clsMap.upMapBtn} onClick={this.props.return}>返回无限世界</Antd.Button>
             </div>
         );
     }
