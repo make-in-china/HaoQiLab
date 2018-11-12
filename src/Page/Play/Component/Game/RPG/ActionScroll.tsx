@@ -14,10 +14,11 @@ const { config, clsMap } = eClassConfig({
 export default class ActionScroll
     extends React.Component<{
     }> {
+
     @observable nextTick = 0;
 
     actionStack: War['actionStack'];
-    upDateActionStack(actionStack: War['actionStack']) {
+    updateActionStack(actionStack: War['actionStack']) {
         this.actionStack = actionStack;
         this.nextTick++;
     }
@@ -29,7 +30,10 @@ export default class ActionScroll
             <div EClass={clsMap.scrollBox} className={this.props.className}>
                 {
                     this.actionStack && this.actionStack.map(m => {
-                        return (<span key={m.creatures.name} title={m.creatures.name} style={{ left: 400 * (m.nextActionPos / 1200), marginTop: (m.creatures.isTeammate ? 10 : -10) }}>
+                        if (m.creatures.hp <= 0) {
+                            return null;
+                        }
+                        return (<span key={m.creatures.name} title={m.creatures.name} style={{ left: 500 * (m.nextActionPos / 1200), marginTop: (m.creatures.isTeammate ? 10 : -10) }}>
                             <img style={{ width: 20 }} src={m.creatures.picture[1]} />
                         </span>);
                     })

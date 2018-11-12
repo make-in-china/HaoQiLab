@@ -1,7 +1,7 @@
 import React, { css, _ } from 'react-ex';
 import { observer, observable } from 'mobx-index';
 import { eClassConfig } from 'src/CSS/G.Class';
-import { Creatures } from '../RPG/Creatures';
+import { Creatures } from '../RPG/Creatures/Creatures';
 export interface CellData {
     creatures: Creatures | null;
     value: number;

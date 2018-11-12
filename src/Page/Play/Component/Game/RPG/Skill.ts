@@ -1,4 +1,4 @@
-import { Creatures } from './Creatures';
+import { Creatures } from './Creatures/Creatures';
 import { War } from './War';
 
 export enum SkillType {

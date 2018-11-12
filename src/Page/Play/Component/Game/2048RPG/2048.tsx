@@ -5,9 +5,12 @@ import { eClassConfig } from 'src/CSS/G.Class';
 // import { Antd } from 'antd-more';
 import RPG from '../RPG/APP';
 // import { allCreatures } from '../RPG/AllCreatures';
-import { Creatures } from '../RPG/Creatures';
+import { Creatures } from '../RPG/Creatures/Creatures';
 import Cell, { CellData } from './Cell';
 import OutCell from './OutCell';
+import { Equipment } from '../RPG/Equip/Equipment';
+import EquipmentInfo from '../RPG/Equip/EquipmentInfo';
+import { Antd } from 'antd-more';
 
 const size = 36;
 const enum MoveWay {
@@ -55,13 +58,15 @@ const { config, clsMap } = eClassConfig({
         top: 0;
         bottom: 0;`,
     gameInfoBox: css`
+        min-width:10em;
+        display:inline-block;
         position: absolute;
         font-size: 40px;
         left: 50%;
         top: 50%;
         transform: translateX(-50%) translateY(-50%);
         color:#f55;`,
-    winBox: _`gameInfoBox`,
+    winBox: [_`gameInfoBox`],
     gameOverBox: [_`gameInfoBox`, css`color:#fff;`],
 });
 @React.eclass(config)
@@ -94,15 +99,21 @@ export default class Game2048
         bottom: [] as Cell[],
         center: [] as Cell[][],
     };
-    onWin = () => {
+    awards: Equipment[];
+    onWin = (equipmentList: Equipment[]) => {
+        this.awards = equipmentList;
         // if (this.rpg.war.weWin) {
         this.win = true;
-        setTimeout(() => {
-            this.props.onWin();
-        }, 2000);
+        this.nextTick++;
+        // setTimeout(() => {
+        //     this.props.onWin();
+        // }, 2000);
         // } else if (this.rpg.war.weDead) {
         //     this.gameOver = true;
         // }
+    }
+    goBackMap = () => {
+        this.props.onWin();
     }
     constructor(props: Game2048['props']) {
         super(props);
@@ -275,7 +286,7 @@ export default class Game2048
         }, 200);
 
         this.commitPowerPool();
-        this.rpg.round();
+        // this.rpg.round();
 
         this.nextTick++;
     }
@@ -449,6 +460,10 @@ export default class Game2048
         this.setMode(this.mode);
         this.nextTick++;
     }
+    onStartWar = () => {
+        this.win = false;
+        this.gameOver = false;
+    }
     render() {
         // tslint:disable-next-line:no-unused-expression
         this.nextTick;
@@ -470,7 +485,7 @@ export default class Game2048
                     </Select>
                 </div> */}
                 <div EClass={clsMap.warBox}>
-                    <RPG onWin={this.onWin} enemys={this.props.enemys} ref={this.onRefRPG} teammate={this.props.teammate} />
+                    <RPG onWin={this.onWin} onStartWar={this.onStartWar} enemys={this.props.enemys} ref={this.onRefRPG} teammate={this.props.teammate} />
                 </div>
                 <div EClass={clsMap.showOutBox} style={{ width: size * (this.mode + 2) + 6, height: size * (this.mode + 2) + 6 }}>
                     <div EClass={clsMap.showBox}>
@@ -492,7 +507,22 @@ export default class Game2048
                     </div>
                 </div>
                 {
-                    this.win ? (<div EClass={clsMap.winBox}><div>游戏胜利！</div></div>)
+                    this.win ? (
+                        <div EClass={clsMap.winBox}>
+                            <div EClass={clsMap.winBox}>
+                                <div>游戏胜利！</div>
+                            </div>
+                            <div EClass={clsMap.winBox}>
+                                <div>{this.awards.map((m, i) => {
+                                    return (
+                                        <EquipmentInfo key={i} equipment={m} />
+                                    );
+                                })}</div>
+                            </div>
+                            <div EClass={clsMap.winBox}>
+                                <Antd.Button onClick={this.goBackMap}>{this.awards.length > 0 ? '收取奖励' : ''}继续游戏</Antd.Button>
+                            </div>
+                        </div>)
                         : (this.gameOver && (<div EClass={clsMap.gameOverBox}><div>游戏失败！</div></div>))}
             </div>
         );

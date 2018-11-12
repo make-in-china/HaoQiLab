@@ -15,6 +15,7 @@ import _Rate from 'antd/es/rate';
 import _Input from 'antd/es/input';
 import _Tree from 'antd/es/tree';
 import _Select from 'antd/es/select';
+import _Divider from 'antd/es/divider';
 
 (function (that: any) {
     that.Radio = _Radio;
@@ -33,4 +34,5 @@ import _Select from 'antd/es/select';
     that.Input = _Input;
     that.Tree = _Tree;
     that.Select = _Select;
+    that.Divider = _Divider;
 })((window as any).Antd || ((window as any).Antd = {}));

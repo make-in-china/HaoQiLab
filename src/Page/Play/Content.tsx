@@ -13,6 +13,7 @@ import UndoRedo from './Component/UndoRedo';
 import G2048 from './Component/Game/2048RPG/App';
 import AnimateArticle from './Component/AnimateArticle';
 import { eClassConfig } from 'src/CSS/G.Class';
+import Test2048 from './Component/Game/Test2048';
 const RadioGroup = Antd.Radio.Group;
 const RadioButton = Antd.Radio.Button;
 const { config, clsMap } = eClassConfig({
@@ -73,6 +74,11 @@ export default class App extends React.Component {
                     permissibleHeightGaps={this.permissibleHeightGaps}
                     datas={[
                         (
+                            <BurrowBox {...bbconf} title="测试" >
+                                <Test2048 />
+                            </BurrowBox>
+                        ), (
+
                             <BurrowBox {...bbconf} title="2048小游戏" >
                                 <G2048 />
                             </BurrowBox>

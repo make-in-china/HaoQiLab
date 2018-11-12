@@ -1,5 +1,5 @@
 import { Skill, SkillType } from '../../../Skill';
-import { Creatures } from '../../../Creatures';
+import { Creatures } from '../../Creatures';
 import { War } from '../../../War';
 import { delay } from 'src/Data/TimeNode/Lib';
 

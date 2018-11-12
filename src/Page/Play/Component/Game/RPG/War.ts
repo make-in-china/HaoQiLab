@@ -1,6 +1,8 @@
-import { Creatures } from './Creatures';
+import { Equipment, EquipmentRare } from './Equip/Equipment';
+import { Creatures } from './Creatures/Creatures';
 import { Skill } from './Skill';
 import { Console } from './Console';
+import { delay } from 'src/Data/TimeNode/Lib';
 
 export enum WarAction {
     beAttacked = 'beAttacked',
@@ -10,9 +12,10 @@ export enum WarAction {
 export interface WarActionCallBack {
     beAttacked(creatures: Creatures, from: Creatures): void;
     beKilled(creatures: Creatures, from: Creatures): void;
-    useSkill(skill: Skill): void;
+    useSkill(skill: Skill, creatures: Creatures): void;
 }
 export class War {
+    begin = new Date();
     console = new Console();
     weWin = false;
     weDead = false;
@@ -30,10 +33,37 @@ export class War {
         public enemys: Creatures[],
         private onScrollAction: (actionStack: War['actionStack']) => void,
         private onAction: (creatures: Creatures) => void,
-        private onWin: () => void
+        private onWin: (equipmentList: Equipment[]) => void,
+
+        onSkill: (skill: Skill, from: Creatures) => void,
+        public onHurtByHit: (who: Creatures, from: Creatures, damage: number) => void,
+        public onHurtByDamageOverTime: (who: Creatures, from: Creatures, skill: Skill, damage: number) => void
     ) {
-        enemys.forEach(m => this.console.logNormal(`遭遇` + m.name));
+        this.resetCreatures();
         this.initActionStack();
+        this.on(WarAction.useSkill, onSkill);
+    }
+    private resetCreatures() {
+        this.enemys.forEach(m => {
+            m.fightState = {};
+            m.nextActionCallBack = undefined;
+        });
+        this.teammate.forEach(m => {
+            m.fightState = {};
+            m.nextActionCallBack = undefined;
+        });
+    }
+    getAliveCreatures(creatures: Creatures[]): Creatures[] {
+        return creatures.filter(m => {
+            return m.hp > 0 ? m : null;
+        });
+    }
+    getRandomEnemys(enemys: Creatures[], count: number): Creatures[] {
+        const rnds = this.getAliveCreatures(enemys);
+        while (rnds.length > count) {
+            rnds.splice(Math.random() * rnds.length | 0, 1);
+        }
+        return rnds;
     }
     updateActionStack(): void {
         this.teammate.concat(this.enemys).forEach(m => {
@@ -44,7 +74,7 @@ export class War {
             }
         });
     }
-    initActionStack() {
+    private initActionStack() {
         this.actionStack = this.teammate.concat(this.enemys).map(m => {
             return this.createActionStack(m);
         });
@@ -116,13 +146,13 @@ export class War {
         }
     };
 
-    raiseSkill(target: Creatures, skill: Skill) {
+    raiseSkill(from: Creatures, skill: Skill) {
         this.m.onList['useSkill'].forEach(m => {
-            m(skill);
+            m(skill, from);
         });
         this.m.onWhoList['useSkill'].forEach(m => {
-            if (m[0] === target) {
-                m[1](skill);
+            if (m[0] === from) {
+                m[1](skill, from);
             }
         });
     }
@@ -143,11 +173,12 @@ export class War {
         (this.m.onWhoList[warAction] as any).push([who, fn]);
     }
     async action() {
-
-        this.teammate.forEach(async(m) => {
+        this.enemys.forEach(m => this.console.logNormal(`遭遇lv` + m.level + '的' + m.name));
+        await delay(500);
+        this.teammate.forEach(async (m) => {
             await m.usePassiveSkill(this, this.enemys, this.teammate);
         });
-        this.enemys.forEach(async(m) => {
+        this.enemys.forEach(async (m) => {
             await m.usePassiveSkill(this, this.teammate, this.enemys);
         });
 
@@ -202,11 +233,40 @@ export class War {
         window.clearInterval(this.actionTime);
     }
     roundIndex: number = 0;
+    private getEnemyEquipmentList() {
+        let list: Equipment[] = [];
+        this.enemys.forEach(m => {
+            m.slotList.forEach(n => {
+                if (n.equipment) {
+                    let chance;
+                    if (n.equipment.rare === EquipmentRare.white) {
+                        chance = 40;
+                    } else if (n.equipment.rare === EquipmentRare.magic) {
+                        chance = 20;
+                    } else if (n.equipment.rare === EquipmentRare.rare) {
+                        chance = 10;
+                    } else {
+                        chance = 5;
+                    }
+                    if (chance < Math.random() * 100) {
+                        list.push(n.equipment);
+                    }
+                }
+            });
+        });
+        return list;
+    }
     private checkWin() {
+        if (this.weWin || this.weDead) {
+            debugger;
+            return;
+        }
         this.weWin = this.isAllDead(this.enemys);
         if (this.weWin) {
             this.console.logNormal(`我方胜利！行动数 ${this.roundIndex}`);
-            this.onWin();
+            window.clearInterval(this.actionTime);
+
+            this.onWin(this.getEnemyEquipmentList());
             return;
         }
         this.weDead = this.isAllDead(this.teammate);

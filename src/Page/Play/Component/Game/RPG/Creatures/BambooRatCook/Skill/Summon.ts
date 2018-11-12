@@ -1,5 +1,5 @@
 import { Skill, SkillType } from '../../../Skill';
-import { Creatures } from '../../../Creatures';
+import { Creatures } from '../../Creatures';
 import { BambooRat } from '../../BambooRat/BambooRat';
 import { WarAction, War } from '../../../War';
 import { allSkill } from '../../../AllSkill';
@@ -13,6 +13,9 @@ export class BambooRatCookSummon extends Skill {
     async action(war: War, creatures: Creatures, enemys: Creatures[], teammate: Creatures[]): Promise<(() => boolean | void) | void> {
         let i = 0;
         const callMinion = async () => {
+            if (creatures.hp <= 0) {
+                return true;
+            }
             const bambooRat = new BambooRat(creatures.level);
             if (i === 0) {
 
@@ -34,23 +37,25 @@ export class BambooRatCookSummon extends Skill {
             war.updateActionStack();
             creatures.minions.push(bambooRat);
             // 这些on都没卸载，回头都卸载了
-            war.onWho(bambooRat, WarAction.beAttacked, (who, from) => {
+            war.onWho(bambooRat, WarAction.beAttacked, async (who: Creatures, from: Creatures) => {
                 if (creatures.hp > 0) {
                     war.console.logDangerous(`【${bambooRat.name}】被【${from.name}】攻击，【${creatures.name}】发动【报复】。`);
                     creatures.attack(war, from, { physical: 1 });
+                    await delay(500);
                 }
             });
-            war.onWho(bambooRat, WarAction.beKilled, (who, from) => {
+            war.onWho(bambooRat, WarAction.beKilled, async (who: Creatures, from: Creatures) => {
                 if (creatures.hp > 0) {
                     war.console.logDangerous(`【${bambooRat.name}】被【${from.name}】所杀，【${creatures.name}】发动【暴怒】。`);
                     // this.action(war, creatures, enemys, teammate);bug，越来越多
-                    debugger;
+
                     creatures.nextActionCallBack = () => {
                         callMinion();
                     };
+                    await delay(500);
                 }
             });
-            war.onWho(bambooRat, WarAction.useSkill, (skill: Skill) => {
+            war.onWho(bambooRat, WarAction.useSkill, async (skill: Skill, from: Creatures) => {
                 if (creatures.hp > 0 && 0.1 > Math.random()) {
                     if (skill === allSkill.bambooRatBite) {
                         war.console.logNormal(`【${creatures.name}】发动【想吃】。`);
@@ -75,10 +80,13 @@ export class BambooRatCookSummon extends Skill {
                     war.console.logGood(`【${creatures.name}】很享受，恢复了${recorverdHP}生命。`);
                     creatures.revorverdHP(recorverdHP);
                     enemys.splice(enemys.indexOf(bambooRat), 1);
-                    // this.action(war, creatures, enemys, teammate); // bug，越来越多
-                    creatures.nextActionCallBack = () => {
-                        callMinion();
-                    };
+
+                    await delay(500);
+                    // 被吃的时候，不要再写callback去处理，上面会接到的；
+                    // // this.action(war, creatures, enemys, teammate); // bug，越来越多
+                    // creatures.nextActionCallBack = () => {
+                    //     callMinion();
+                    // };
                 }
             });
             await delay(500);

@@ -4,7 +4,7 @@ import { eClassConfig } from 'src/CSS/G.Class';
 import { WorldFragments } from './WorldFragments';
 import { MapData, MapFragmentsNode } from './MapData';
 import { MapCreatures } from './MapCreatures';
-import { Creatures } from '../RPG/Creatures';
+import { Creatures } from '../RPG/Creatures/Creatures';
 import { Antd } from 'antd-more';
 import { MouseEvent } from 'react';
 

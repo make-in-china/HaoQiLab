@@ -2,7 +2,7 @@ import { Skill, SkillType } from '../../../Skill';
 
 import { War } from '../../../War';
 
-import { Creatures } from '../../../Creatures';
+import { Creatures } from '../../Creatures';
 import { delay } from 'src/Data/TimeNode/Lib';
 
 export class BambooRatBite extends Skill {

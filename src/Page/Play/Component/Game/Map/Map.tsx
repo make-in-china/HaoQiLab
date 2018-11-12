@@ -4,7 +4,7 @@ import { eClassConfig } from 'src/CSS/G.Class';
 import { MapFragments } from './MapFragments';
 import { MapData, MapFragmentsNode } from './MapData';
 import { Antd } from 'antd-more';
-import { Creatures } from '../RPG/Creatures';
+import { Creatures } from '../RPG/Creatures/Creatures';
 import { MapBackLines } from './MapBackLines';
 import { MapCreatures } from './MapCreatures';
 const { config, clsMap } = eClassConfig({

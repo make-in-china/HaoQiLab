@@ -1,3 +1,4 @@
+import { FastAttack } from './Creatures/Swordman/Skill/FastAttack';
 import { BambooRatBite } from './Creatures/BambooRat/Skill/Bite';
 
 import { BambooRatSleep } from './Creatures/BambooRat/Skill/Sleep';
@@ -9,6 +10,7 @@ import { BambooRatFreeze } from './Creatures/BambooRat/Skill/Freeze';
 import { BambooRatCookSummon } from './Creatures/BambooRatCook/Skill/Summon';
 import { BambooRatDodge } from './Creatures/BambooRat/Skill/Dobge';
 import { BambooRatEat } from './Creatures/BambooRat/Skill/Eat';
+import { RighteousFire } from './Skill/RighteousFire';
 
 export const allSkill = {
 
@@ -21,5 +23,10 @@ export const allSkill = {
     bambooRatFreeze: new BambooRatFreeze(),
 
     // 竹鼠厨师技能
-    bambooRatCookSummon: new BambooRatCookSummon()
+    bambooRatCookSummon: new BambooRatCookSummon(),
+
+    // 通用技能
+    righteousFire: new RighteousFire(),
+    fastAttack: new FastAttack(),
+
 };

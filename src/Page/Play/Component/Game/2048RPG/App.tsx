@@ -5,15 +5,18 @@ import { TimeNodeClassInstance } from 'src/Data/TimeNode/TimeNode';
 import { eClassConfig } from 'src/CSS/G.Class';
 import { Antd } from 'antd-more';
 import { BambooRatCook } from '../RPG/Creatures/BambooRatCook/BambooRatCook';
-import { Creatures } from '../RPG/Creatures';
+import { Creatures } from '../RPG/Creatures/Creatures';
 import { Map } from '../Map/Map';
 import { World } from '../Map/World';
 import { WorldFragments } from '../Map/WorldFragments';
 import { MapData, MapFragmentsNode } from '../Map/MapData';
 import { MapFragments } from '../Map/MapFragments';
-import { BambooRat } from '../RPG/Creatures/BambooRat/BambooRat';
+
 import Game2048 from './2048';
 import { allCreatures } from '../RPG/AllCreatures';
+import { AlienApostles } from '../RPG/Creatures/AlienApostles/AlienApostles';
+import { makeRandomEquipment } from '../RPG/Equip/Equipment/allEquipment';
+import { Swordman } from '../RPG/Creatures/Swordman/Swordman';
 const beginPic = require('../Map/WorldIcon/begin.png');
 const worldPic2 = require('../Map/WorldIcon/2.png');
 const worldPic3 = require('../Map/WorldIcon/3.png');
@@ -45,6 +48,24 @@ export default class App
         { display: true },
         { display: false }
     ];
+    currentMap: MapFragmentsNode;
+
+    teammate: Creatures[] = [];
+    map: Map;
+    world: World;
+    enemys: Creatures[];
+    worlds: {
+        x: number;
+        y: number;
+        maps: MapData;
+        curentMap: MapFragmentsNode;
+    }[] = [];
+    worldMaps: MapData;
+    currentWorldMaps: MapData;
+    content: React.ReactNode;
+    wrapClassName = this.cssClass.key + clsMap.modal;
+    fnWin: () => void;
+    fnLose: () => void;
     onMapReturnWorld = () => {
         this.stateBoxStyle[0].display = false;
         this.stateBoxStyle[1].display = true;
@@ -57,11 +78,6 @@ export default class App
         this.setCurrentWorld(inst.x, inst.y);
         this.nextTick++;
     }
-    currentMap: MapFragmentsNode;
-
-    teammate: Creatures[] = [];
-    map: Map;
-    world: World;
     onRefWorld = (inst: World | null) => {
         if (inst) {
             this.world = inst;
@@ -74,10 +90,10 @@ export default class App
     }
     onWin = () => {
         this.stateBoxStyle[2].display = false;
+        
         this.nextTick++;
         this.fnWin();
     }
-    enemys: Creatures[];
 
     constructor(props: App['props']) {
         super(props);
@@ -93,9 +109,9 @@ export default class App
     componentWillMount() {
 
         // 生成队友
-        this.teammate.push(this.createCreatures('比卡丘', 100, BambooRat));
-        this.teammate.push(this.createCreatures('雷丘', 100, BambooRat));
-        this.teammate.push(this.createCreatures('华农兄弟', 100, BambooRatCook));
+        this.teammate.push(this.createCreatures('钢铁剑士', 20, Swordman));
+        this.teammate.push(this.createCreatures('异形使徒', 20, AlienApostles));
+        this.teammate.push(this.createCreatures('华农兄弟', 20, BambooRatCook));
         this.teammate.forEach(m => {
             m.isTeammate = true;
         });
@@ -131,12 +147,6 @@ export default class App
             curentMap: map.root
         };
     }
-    worlds: {
-        x: number;
-        y: number;
-        maps: MapData;
-        curentMap: MapFragmentsNode;
-    }[] = [];
     setCurrentWorld(x: number, y: number) {
 
         const world = this.worlds.find(m => {
@@ -172,11 +182,6 @@ export default class App
     onMoveToMap = (inst: MapFragments, mapNode: MapFragmentsNode) => {
         return true;
     }
-    worldMaps: MapData;
-    currentWorldMaps: MapData;
-    content: React.ReactNode;
-    fnWin: () => void;
-    fnLose: () => void;
     encounters = (fnWin: () => void, fnLose: () => void) => {
         // this.stateBoxStyle[0].display = 'none';
         this.stateBoxStyle[2].display = true;
@@ -214,10 +219,12 @@ export default class App
             enemy.addPower(levelN * 10);
             enemys.push(enemy);
 
+            for (let j = 0; j < 3; j++) {
+                enemy.equip(makeRandomEquipment(levelN));
+            }
         }
         return enemys;
     }
-    wrapClassName = this.cssClass.key + clsMap.modal;
     render() {
         // tslint:disable-next-line:no-unused-expression
         this.nextTick;
